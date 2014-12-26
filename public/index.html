@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="GoaHack">
+<head>
+  <base href="/">
+  <meta charset="utf-8">
+  <title>Central Homes</title>
+  <link href="favicon.png" rel="icon" type="image/png">
+  <link href="stylesheets/angular-multi-select.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery.ui.autocomplete.min.css" rel="stylesheet">
+  <!-- for chart-->
+  <link href="stylesheets/style.css" rel="stylesheet">
+
+</head>
+<body>
+<div ng-view class="{{pageClass}}">
+
+<script src="vendor/jquery/dist/jquery.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script src="vendor/pace/pace.min.js"></script>
+<script src="vendor/angular/angular.js"></script>
+<script src="vendor/angular-strap/dist/angular-strap.js"></script>
+<script src="vendor/angular-strap/dist/angular-strap.tpl.js"></script>
+<script src="vendor/angular-touch/angular-touch.js"></script>
+<script src="vendor/angular-messages/angular-messages.js"></script>
+<script src="vendor/angular-resource/angular-resource.js"></script>
+<script src="vendor/angular-route/angular-route.js"></script>
+<script src="vendor/angular-animate/angular-animate.js"></script>
+<script src="vendor/moment/moment.min.js"></script>
+<script src="vendor/lodash/dist/lodash.js"></script>
+<script src="vendor/angular-google-maps/dist/angular-google-maps.js"></script>
+
+<script src="app.js"></script>
+<script src="filters/fromNow.js"></script>
+<script src="directives/uniqueEmail.js"></script>
+<script src="controllers/home.js"></script>
+<script src="services/lead.js"></script>
+
+</body>
+</html>
