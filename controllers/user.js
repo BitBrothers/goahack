@@ -136,3 +136,43 @@ exports.hasEmail = function(req, res, next) {
     res.send({ available: !user });
   });
 };
+
+exports.getUserBySlug = function(req,res){
+  User.findOne({slug: req.params.uslug},function(err,user){
+    if (err) res.send(err);
+    else if(!user){
+      res.json({
+        message: 'User not found'
+      });
+    }
+    else{
+      res.json(user);
+    }
+  });
+};
+
+exports.updateProfile = function(req, res){
+  User.findById(req.user._id,function(err, user){
+    if(err) res.send(err);
+
+     
+    user.profile.name = req.body.name;
+    user.profile.nameFull = req.body.nameFull;
+    user.profile.location = req.body.location;
+    user.profile.website = req.body.website;
+    user.profile.occupation = req.body.occupation;
+    user.profile.skills = req.body.skills;
+    user.profile.experience = req.body.experience;
+    user.profile.employers = req.body.employers;
+    user.profile.picture = req.body.picture;
+
+    user.save(function(err){
+      if (err) res.send(err);
+      res.json({
+        message: 'User updTED'
+      });
+    });
+
+  });
+
+};

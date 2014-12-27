@@ -23,27 +23,30 @@ exports.getEvent = function(req, res, next) {
   });
 };
 
-exports.postEvent = function (req, res, next) {
-  var eventName = req.body.eventName
-    .toLowerCase()
-    .replace(/ /g, '_')
-    .replace(/[^\w-]+/g, '');
- 
-    event.save(function (err) {
-      if (err) {
-        if (err.code == 11000) {
-          return res.send(409, { message: event.name + ' already exists.' });
-        }
-        return next(err);
-      }
-      res.send(200);
+exports.postEvent = function (req, res) {
+  var event = new Event();
+  event.name = req.body.name;
+  event.save(function(err){
+    if(err) res.send(err);
+    res.json({
+      message: 'Event added'
     });
+  });
 };
 
 exports.postEventRegister = function(req, res, next) {
   Event.findById(req.params.id, function(err, event) {
     if (err) return next(err);
     event.attendees.push(req.user._id);
+    User.findById(req.user._id, function(err, user){
+      if(err) res.send(err);
+      user.events.push({
+                _id: event._id
+            });
+      user.save(function(err){
+        if (err) res.send(err);
+      });
+    });
     event.save(function(err) {
       if (err) return next(err);
       res.send(200);
@@ -56,6 +59,14 @@ exports.postEventUnregister = function(req, res, next) {
     if (err) return next(err);
     var index = event.attendees.indexOf(req.user._id);
     event.attendees.splice(index, 1);
+    User.findById(req.user._id, function(err, user){
+      user.events.pull({
+        _id:event._id
+      });
+      user.save(function(err){
+        if(err) res.send(err);
+      });
+    });
     event.save(function(err) {
       if (err) return next(err);
       res.send(200);

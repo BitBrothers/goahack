@@ -1,10 +1,14 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
+var Team = require('./Team');
+var Event = require('./Event');
 
 var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true, trim: true },
+  email: { type: String, unique: true, lowercase: true },
   password: String,
+  username : { type: String, unique: true},
+  slug: String,
   facebook: String,
   twitter: String,
   google: String,
@@ -12,18 +16,54 @@ var userSchema = new mongoose.Schema({
   instagram: String,
   linkedin: String,
   tokens: Array,
-  type: String,
+    type: String, //Judge,User,Mentor
+    
+    
   profile: {
     name: { type: String, default: '' },
+    nameFull: { type: String, default: '' },
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
+    occupation: { type: String, default: '' },
+    skills: { type: String, default: '' },
+    experience: { type: String, default: '' },
+    employers: { type: String, default: '' },
     picture: { type: String, default: '' }
   },
+ 
+  events : [{
 
+    _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+
+    team : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+
+    appliedTeams : [{
+      _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+    }],
+    
+    teamInvites : [{
+      _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+    }]
+
+  }],
+  
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
+
+
+//Slug function
+function slugify(text) {
+
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+};
+
 
 /**
  * Hash the password for security.
@@ -32,12 +72,16 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   var user = this;
+
   if (!user.isModified('password')) return next();
-  bcrypt.genSalt(10, function(err, salt) {
+
+  bcrypt.genSalt(5, function(err, salt) {
     if (err) return next(err);
+
     bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) return next(err);
       user.password = hash;
+      this.slug = slugify(user.username);
       next();
     });
   });
