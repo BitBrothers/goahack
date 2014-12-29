@@ -21,3 +21,8 @@ node_modules
 Thumbs.db
 
 config/secrets.js
+config/secrets.js
+public/app.min.js
+public/templates.js
+public/vendor
+public/stylesheets/*.css
