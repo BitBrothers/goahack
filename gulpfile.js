@@ -16,13 +16,15 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('public/stylesheets'));
 });
 
-
+/*
 gulp.task('jade', function() {
   gulp.src('public/templates' + '/*.jade')
   .pipe(jade({pretty: true}))
   .pipe(gulp.dest parameters.web_path)
   .on('error', gutil.log);
   });
+*/
+
 // kjvghlksdfbhvldfbv
 gulp.task('compress', function() {
   gulp.src([

@@ -1,8 +1,5 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
-						'mgcrea.ngStrap', 'multi-select', 'wu.masonry', 
-						'angular-carousel', 'angularFileUpload', 
-						'angular-flexslider', 'googlechart', 'ui.knob', 
-						'angularTypewrite', 'uiGmapgoogle-maps'])
+						'mgcrea.ngStrap'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
