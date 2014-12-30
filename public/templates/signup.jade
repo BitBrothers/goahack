@@ -1,0 +1,36 @@
+.container
+  .row
+    .center-form.panel
+      .panel-body
+        form(method='post', ng-submit='signup()', name='signupForm')
+          h2.text-center Sign up
+          .form-group.has-feedback(ng-class='{ "has-error" : signupForm.fullName.$invalid && signupForm.fullName.$dirty }')
+            input.form-control.input-lg(type='text', name='displayName', ng-model='displayName', placeholder='Name', required='')
+            span.ion-person.form-control-feedback
+            .help-block.text-danger(ng-if='signupForm.fullName.$dirty', ng-messages='signupForm.fullName.$error')
+              div(ng-message='required') You must enter your name.
+          .form-group.has-feedback(ng-class='{ "has-error" : signupForm.email.$invalid && signupForm.email.$dirty }')
+            input#email.form-control.input-lg(unique-email='', type='email', name='email', ng-model='email', placeholder='Email', required='', autofocus='')
+            span.ion-at.form-control-feedback
+            .help-block.text-danger(ng-if='signupForm.email.$dirty', ng-messages='signupForm.email.$error')
+              div(ng-message='required') Your email address is required.
+              div(ng-message='email') Your email address is invalid.
+              div(ng-message='unique')
+                span.ion-looping
+                | Email is already taken.
+          .form-group.has-feedback(ng-class='{ "has-error" : signupForm.password.$invalid && signupForm.password.$dirty }')
+            input.form-control.input-lg(password-strength='', type='password', name='password', ng-model='password', placeholder='Password', required='')
+            span.ion-key.form-control-feedback
+            .help-block.text-danger(ng-if='signupForm.password.$dirty', ng-messages='signupForm.password.$error')
+              div(ng-message='required') Password is required.
+          p.text-center.text-muted
+            small
+              | By clicking on Sign up, you agree to
+              a(href='#') terms & conditions
+              | and
+              a(href='#') privacy policy
+          button.btn.btn-lg.btn-block.btn-primary(type='submit', ng-disabled='signupForm.$invalid') Sign up
+          br
+          p.text-center.text-muted
+            | Already have an account?
+            a(href='/login') Log in now

@@ -6,7 +6,17 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
 var nodemon = require('gulp-nodemon');
+
+var jade = require('jade');
+var gulpJade = require('gulp-jade');
+var katex = require('katex');
+
 var templateCache = require('gulp-angular-templatecache');
+
+jade.filters.katex = katex.renderToString;
+jade.filters.shoutFilter = function (str) {
+  return str + '!!!!';
+}
 
 gulp.task('sass', function() {
   gulp.src('public/stylesheets/style.scss')
@@ -38,17 +48,27 @@ gulp.task('templates', function() {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('jade', function () {
+  return gulp.src('public/templates/*.jade')
+    .pipe(gulpJade({
+      jade: jade,
+      pretty: true
+    }))
+    .pipe(gulp.dest('public/views'))
+})
+
 gulp.task('develop', function () {
   nodemon({ script: 'server.js' })
     .on('restart', function () {
-      console.log('restarted!')
+      console.log('restarting server')
     })
 })
 
 gulp.task('watch', function() {
   gulp.watch('public/stylesheets/*.scss', ['sass']);
+  gulp.watch('public/templates/*.jade', ['jade']);
   gulp.watch('public/views/**/*.html', ['templates']);
   gulp.watch(['public/**/*.js', '!public/app.min.js', '!public/templates.js', '!public/vendor'], ['compress']);
 });
 
-gulp.task('default', ['sass', 'compress', 'templates', 'develop', 'watch']);
+gulp.task('default', ['sass', 'jade', 'compress', 'templates', 'develop', 'watch']);

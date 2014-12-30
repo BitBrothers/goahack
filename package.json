@@ -61,7 +61,6 @@
     "yui": "^3.18.1",
     "jwt-simple": "^0.2.0",
     "moment": "^2.7.0",
-    "gulp-jade": "~0.10.0",
     "crc": "~3.2.1",
     "cookie": "~0.1.2",
     "debug": "~2.1.0",
@@ -83,10 +82,12 @@
     "gulp-plumber": "^0.6.6",
     "gulp-sass": "^1.2.4",
     "gulp-uglify": "^0.3.0",
+    "gulp-jade": "~0.10.0",
     "karma": "^0.12.19",
     "karma-chrome-launcher": "^0.1.4",
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "gulp-nodemon": "^1.0.4"
+    "gulp-nodemon": "^1.0.4",
+    "katex": "^0.1.1"
   }
 }
