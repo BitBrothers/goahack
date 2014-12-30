@@ -48,10 +48,12 @@ exports.isLogin = function (req, res, next) {
 
 exports.signup = function(req, res, next) {
   var user = new User({
-    name: req.body.name,
+    
     email: req.body.email,
     password: req.body.password
   });
+  profile.email = req.body.email;
+  profile.name = req.body.name;
   user.save(function(err) {
     if (err) return next(err);
     res.send(200);
@@ -83,18 +85,16 @@ exports.facebookAuth = function(req, res, next) {
     return res.send(400, 'Invalid Request Signature');
   }
 
-  User.findOne({ facebook : profile.id }, function(err, existingUser) {
+  User.findOne({email:profile.email}, function(err, existingUser) {
     if (existingUser) {
       var token = createJwtToken(existingUser);
       return res.send(token);
     }
-    var user = new User({
-      name: profile.name,
-      facebook: {
-        id: profile.id,
-        email: profile.email
-      }
-    });
+    var user = new User();
+     
+      user.email = profile.email;
+      user.profile.name = profile.name;
+      user.profile.email = profile.email;
     user.save(function(err) {
       if (err) return next(err);
       var token = createJwtToken(user);
@@ -105,18 +105,17 @@ exports.facebookAuth = function(req, res, next) {
 
 exports.googleAuth = function(req, res, next) {
   var profile = req.body.profile;
-  User.findOne({ google: profile.id }, function(err, existingUser) {
+ // console.log(req.body.profile);
+  User.findOne({email:profile.emails[0].value}, function(err, existingUser) {
     if (existingUser) {
+      console.log('heere');
       var token = createJwtToken(existingUser);
-      return res.send(token);
+       res.send(token);
     }
-    var user = new User({
-      name: profile.displayName,
-      google: {
-        id: profile.id,
-        email: profile.emails[0].value
-      }
-    });
+    var user = new User();
+    user.profile.name = profile.displayName;
+    user.email= profile.emails[0].value;
+    user.profile.email =profile.emails[0].value;
     user.save(function(err) {
       if (err) return next(err);
       var token = createJwtToken(user);

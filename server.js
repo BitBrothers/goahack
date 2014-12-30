@@ -116,29 +116,29 @@ app.get('/api/users', userController.hasEmail);
 app.get('/api/events', eventController.getEvents);
 app.get('/api/events/:id', eventController.getEvent);
 app.post('/api/events', eventController.postEvent);
-app.post('/api/events/:id/register', /*userController.isLogin, */
+app.post('/api/events/:id/register', userController.isLogin, 
                   eventController.postEventRegister);
 app.post('/api/events/:id/unregister', userController.isLogin,
                   eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
-app.put('/api/event/:eslug/team/:tslug/apply', teamController.postCreate,teamController.applyTeam);
-app.put('/api/event/:eslug/team/:tslug/approval', teamController.postUpdate,teamController.approveMember);//send member to be approved in req.body.approval
-app.put('/api/event/:eslug/team/:tslug/invite', teamController.postUpdate,teamController.inviteMember);
-app.put('/api/event/:eslug/team/:tslug/accept', teamController.postCreate, teamController.acceptInvite);
+app.put('/api/event/:eslug/team/:tslug/apply', userController.isLogin, teamController.postCreate,teamController.applyTeam);
+app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamController.postUpdate,teamController.approveMember);//send member to be approved in req.body.approval
+app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember);
+app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin, teamController.postCreate, teamController.acceptInvite);
 
 
 
 
 app.get('/api/event/:eslug/teams', teamController.getallTeams);
-app.post('/api/event/:eslug/team', teamController.postCreate, teamController.createTeam);
+app.post('/api/event/:eslug/team', userController.isLogin, teamController.postCreate, teamController.createTeam);
 app.get('/api/event/:eslug/teamsearch',teamController.getTeams);
-app.put('/api/event/:eslug/team/:tslug', teamController.postUpdate, teamController.updateTeam);
+app.put('/api/event/:eslug/team/:tslug', userController.isLogin, teamController.postUpdate, teamController.updateTeam);
 app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
-app.delete('/api/event/:eslug/team/:tslug',teamController.deleteTeam);
+app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamController.deleteTeam);
 
-app.put('/api/user',userController.updateProfile);
-app.get('/api/user/:uslug',userController.getUserBySlug);
+app.put('/api/user', userController.isLogin,userController.updateProfile);
+app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

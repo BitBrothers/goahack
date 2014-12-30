@@ -34,8 +34,8 @@ exports.postCreate = function(req, res, next) {
 
         } else {
 
-          console.log(req.user);
-            User.findOne({ _id: req.user._id }  , function(err, user) {
+          //console.log(req.user);
+            User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
 
                 var isEvent = false;
@@ -383,7 +383,7 @@ exports.postUpdate = function(req, res, next) {
             });
         } else {
             Team.findOne({
-                eslug: req.params.eslug,
+                eventSlug: req.params.eslug,
                 slug: req.params.tslug
             }, function(err, team) {
                 if (err) res.send(err);
@@ -418,7 +418,7 @@ exports.postUpdate = function(req, res, next) {
 exports.updateTeam = function(req, res) {
 
     Team.findOne({
-        eslug:req.params.eslug,
+        eventSlug:req.params.eslug,
         slug:req.params.tslug}, 
         function(err, team) {
 
@@ -446,7 +446,7 @@ exports.updateTeam = function(req, res) {
 exports.approveMember = function(req, res) {
 
     Team.findOne({
-        eslug: req.params.eslug,
+        eventSlug: req.params.eslug,
         slug: req.params.tslug
     }, function(err, team) {
         if (err) {
@@ -518,7 +518,7 @@ exports.approveMember = function(req, res) {
 exports.inviteMember = function(req, res) {
 
     Team.findOne({
-        eslug: req.params.eslug,
+        eventSlug: req.params.eslug,
         slug: req.params.tslug
     }, function(err, team) {
         if (err) res.send(err);
@@ -529,6 +529,7 @@ exports.inviteMember = function(req, res) {
             team.inviteMembers.push({
                 _id: user._id
             });
+            console.log(team.inviteMembers);
             user.events.id(req.eventId).teamInvites.push({
                 _id: team._id
             });
@@ -555,7 +556,7 @@ exports.inviteMember = function(req, res) {
 exports.acceptInvite = function(req, res) {
     
         Team.findOne({
-            eslug:req.params.eslug,
+            eventSlug:req.params.eslug,
             slug:req.params.tslug}
             , function(err, team){
                 if(err) res.send(err);
@@ -622,28 +623,29 @@ exports.acceptInvite = function(req, res) {
 };
 
 exports.getTeams = function(req, res){
-    var query = Team.find({eslug:req.params.eslug,status: 'Un-approved'});
+    var query = Team.find();
     var key = "";
+    console.log(req.headers.keyword);
     if (req.query.keyword instanceof Array) {
         for (var i = 0; i<req.query.keyword.length; i++) {
             key = key + req.query.keyword[i] + " ";
             console.log(key);
         };
     } else {
-        key = req.query.keyword;
+        key = req.headers.keyword;
+        console.log(key);
     }
 
-    if (req.query.keyword) {
-        query = query.find(
-            { $text : { $search : key } },
-            { score : { $meta: 'textScore' } }
-            )
-            .skip(req.query.s)
-            .limit(req.query.l);
+    if (req.headers.keyword) {
+        query = query.find({ $text : { $search : key }}  );
+        query = query.find({'eventSlug': req.params.eslug},{'status':"Un-approved"});
+        console.log(query);
+            // .skip(req.query.s)
+            // .limit(req.query.l);
     };
     query.exec(function(err, teams){
         if(err) res.send(err);
-
+        console.log(teams);
         res.json(teams);
     });
 
@@ -657,7 +659,7 @@ exports.unjoinTeam = function(req, res, next) {
         if (err) res.send(err);
 
         Team.findOne({
-            eslug: req.params.eslug,
+            eventSlug: req.params.eslug,
             slug: req.params.tslug
         }, function(err, team) {
             if (err) res.send(err);
@@ -687,4 +689,3 @@ exports.unjoinTeam = function(req, res, next) {
         });
     });
 };
-
