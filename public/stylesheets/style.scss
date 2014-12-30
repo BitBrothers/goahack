@@ -60,6 +60,13 @@ $font_3: Arial;
 $font_4: sans-serif;
 $font_5: Montserrat;
 
+//colors
+$color_log_cabin_approx: #222;
+$white: #fff;
+$color_sunglow_approx: #fed136;
+$color_pink_swan_approx: #bbb;
+$color_cinnabar_approx: #e74c3c;
+
 @import 'bootstrap/bootstrap';
 
 body {
@@ -414,4 +421,104 @@ section {
 }
 aside.clients img {
   margin: 50px auto;
+}
+
+ul.social-buttons {
+    margin-bottom: 0;
+}
+
+ul.social-buttons li a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    font-size: 20px;
+    line-height: 40px;
+    outline: 0;
+    color: #000;
+    background-color: #fff;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    transition: all .3s;
+}
+
+ul.social-buttons li a:hover,
+ul.social-buttons li a:focus,
+ul.social-buttons li a:active {
+    background-color: #fed136;
+}
+
+
+footer {
+  padding: 25px 0;
+  text-align: center;
+  span.copyright {
+    text-transform: uppercase;
+    text-transform: none;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    line-height: 40px;
+  }
+  ul.quicklinks {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    text-transform: none;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    line-height: 40px;
+  }
+}
+section#contact {
+  background-color: $color_log_cabin_approx;
+  background-image: url(../images/map-image.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  .section-heading {
+    color: $white;
+  }
+  .form-group {
+    margin-bottom: 25px;
+    input {
+      padding: 20px;
+      &.form-control {
+        height: auto;
+      }
+    }
+    textarea {
+      padding: 20px;
+      &.form-control {
+        height: 236px;
+      }
+    }
+  }
+  &::-webkit-input-placeholder {
+    text-transform: uppercase;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    font-weight: 700;
+    color: $color_pink_swan_approx;
+  }
+  &:-moz-placeholder {
+    text-transform: uppercase;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    font-weight: 700;
+    color: $color_pink_swan_approx;
+  }
+  &::-moz-placeholder {
+    text-transform: uppercase;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    font-weight: 700;
+    color: $color_pink_swan_approx;
+  }
+  &:-ms-input-placeholder {
+    text-transform: uppercase;
+    font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+    font-weight: 700;
+    color: $color_pink_swan_approx;
+  }
+  .text-danger {
+    color: $color_cinnabar_approx;
+  }
+  .form-control:focus {
+    border-color: $color_sunglow_approx;
+    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: none;
+  }
 }
