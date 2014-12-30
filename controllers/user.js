@@ -1,6 +1,6 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
-
+var crypto = require('crypto');
 /**
  * Secret Keys and Configurations.
  */
@@ -75,7 +75,7 @@ exports.facebookAuth = function(req, res, next) {
   var encodedSignature = signedRequest.split('.')[0];
   var payload = signedRequest.split('.')[1];
 
-  var appSecret = '298fb6c080fda239b809ae418bf49700';
+  var appSecret = 'fc5a36cb1fa441c60b629ee6bc65bc85';
 
   var expectedSignature = crypto.createHmac('sha256', appSecret).update(payload).digest('base64');
   expectedSignature = expectedSignature.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');

@@ -5,7 +5,7 @@ var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
-var jade = require ('gulp-jade');
+var nodemon = require('gulp-nodemon');
 var templateCache = require('gulp-angular-templatecache');
 
 gulp.task('sass', function() {
@@ -16,16 +16,6 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('public/stylesheets'));
 });
 
-/*
-gulp.task('jade', function() {
-  gulp.src('public/templates' + '/*.jade')
-  .pipe(jade({pretty: true}))
-  .pipe(gulp.dest parameters.web_path)
-  .on('error', gutil.log);
-  });
-*/
-
-// kjvghlksdfbhvldfbv
 gulp.task('compress', function() {
   gulp.src([
     'public/vendor/angular.js',
@@ -48,10 +38,17 @@ gulp.task('templates', function() {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('develop', function () {
+  nodemon({ script: 'server.js' })
+    .on('restart', function () {
+      console.log('restarted!')
+    })
+})
+
 gulp.task('watch', function() {
   gulp.watch('public/stylesheets/*.scss', ['sass']);
   gulp.watch('public/views/**/*.html', ['templates']);
   gulp.watch(['public/**/*.js', '!public/app.min.js', '!public/templates.js', '!public/vendor'], ['compress']);
 });
 
-gulp.task('default', ['sass', 'compress', 'templates', 'watch']);
+gulp.task('default', ['sass', 'compress', 'templates', 'develop', 'watch']);

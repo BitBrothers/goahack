@@ -117,9 +117,9 @@ app.get('/api/events', eventController.getEvents);
 app.get('/api/events/:id', eventController.getEvent);
 app.post('/api/events', eventController.postEvent);
 app.post('/api/events/:id/register', /*userController.isLogin, */
-									eventController.postEventRegister);
+                  eventController.postEventRegister);
 app.post('/api/events/:id/unregister', userController.isLogin,
-									eventController.postEventRegister);
+                  eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
 app.put('/api/event/:eslug/team/:tslug/apply', teamController.postCreate,teamController.applyTeam);

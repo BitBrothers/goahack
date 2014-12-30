@@ -4,18 +4,8 @@ angular.module('GoaHack')
       Auth.signup({
         name: $scope.displayName,
         email: $scope.email,
-        password: $scope.password,
-        phoneNo: $scope.phoneNo
+        password: $scope.password
       });
     };
-    $scope.pageClass = 'fadeZoom';
-    $scope.phoneNumberPattern = (function() {
-      var regexp = /^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/;
-      return {
-          test: function(value) {
-              if( $scope.requireTel === false ) return true;
-              else return regexp.test(value);
-          }
-      };
-    })();
+    $scope.pageClass = 'fadeZoom'
   });

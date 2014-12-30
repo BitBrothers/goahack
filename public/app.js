@@ -1,5 +1,5 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
-						'mgcrea.ngStrap'])
+                           'mgcrea.ngStrap'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
@@ -12,17 +12,9 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-	  .when('/signup', {
+      .when('/signup', {
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
-      })
-	  .when('/teams', {
-        templateUrl: 'views/teams.html',
-        controller: 'TeamsCtrl'
-      })
-	  .when('/teams/:id', {
-        templateUrl: 'views/teamdetails.html',
-        controller: 'TeamDetailsCtrl'
       })
       .otherwise({
         redirectTo: '/'

@@ -9,7 +9,7 @@ angular.module('GoaHack')
     // Asynchronously initialize Facebook SDK
     $window.fbAsyncInit = function() {
       FB.init({
-        appId: '624059410963642',
+        appId: '779129992098375',
         responseType: 'token',
         version: 'v2.0'
       });
