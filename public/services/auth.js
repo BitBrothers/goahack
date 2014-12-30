@@ -48,7 +48,7 @@ angular.module('GoaHack')
             $http.post('/api/auth/facebook', data).success(function(token) {
               var payload = JSON.parse($window.atob(token.split('.')[1]));
               $window.localStorage.token = token;
-              console.log(payload.user);
+              //console.log(payload.user);
               $rootScope.currentUser = payload.user;
               $location.path('/');
               $alert({
@@ -77,8 +77,8 @@ angular.module('GoaHack')
                 var payload = JSON.parse($window.atob(token.split('.')[1]));
                 $window.localStorage.token = token;
                 $rootScope.currentUser = payload.user;
-                console.log('hi');
-                console.log(payload.user);
+               // console.log('hi');
+               // console.log(payload.user);
                 $location.path('/');
                 $alert({
                   title: 'Cheers!',

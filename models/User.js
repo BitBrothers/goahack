@@ -47,25 +47,13 @@ var userSchema = new mongoose.Schema({
   resetPasswordExpires: Date
 });
 
-// var userSchema = new mongoose.Schema({
-//   name: { type: String, trim: true, required: true },
-//   email: { type: String, unique: true, lowercase: true, trim: true },
-//   password: String,
-//   facebook: {
-//     id: String,
-//     email: String
-//   },
-//   google: {
-//     id: String,
-//     email: String
-//   }
-// });
+
 
 
 
 //Slug function
 function slugify(text) {
-
+console.log(text);
   return text.toString().toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
     .replace(/[^\w\-]+/g, '') // Remove all non-word chars
@@ -82,19 +70,21 @@ function slugify(text) {
 
 userSchema.pre('save', function(next) {
   var user = this;
+  user.slug = slugify(user.profile.name+Date.now());
 
   if (!user.isModified('password')) return next();
 
   bcrypt.genSalt(10, function(err, salt) {
     if (err) return next(err);
-
     bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) return next(err);
       user.password = hash;
-      user.slug = slugify(user.profile.name+Date.now());
-      next();
+      
+       next();
     });
   });
+
+
 });
 
 /**

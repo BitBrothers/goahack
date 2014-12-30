@@ -52,8 +52,8 @@ exports.signup = function(req, res, next) {
     email: req.body.email,
     password: req.body.password
   });
-  profile.email = req.body.email;
-  profile.name = req.body.name;
+  user.profile.email = req.body.email;
+  user.profile.name = req.body.name;
   user.save(function(err) {
     if (err) return next(err);
     res.send(200);
