@@ -20,9 +20,9 @@ var tokenSecret = config.sessionSecret;
 
 function createJwtToken(user) {
   var payload = {
-    user: user,
+    user: user.profile,
     iat: new Date().getTime(),
-    exp: moment().add('days', 7).valueOf()
+    exp: moment().add(7, 'days').valueOf()
   };
   return jwt.encode(payload, tokenSecret);
 }
@@ -79,12 +79,11 @@ exports.facebookAuth = function(req, res, next) {
 
   var expectedSignature = crypto.createHmac('sha256', appSecret).update(payload).digest('base64');
   expectedSignature = expectedSignature.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-
   if (encodedSignature !== expectedSignature) {
     return res.send(400, 'Invalid Request Signature');
   }
 
-  User.findOne({ facebook: profile.id }, function(err, existingUser) {
+  User.findOne({ facebook : profile.id }, function(err, existingUser) {
     if (existingUser) {
       var token = createJwtToken(existingUser);
       return res.send(token);

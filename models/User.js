@@ -4,53 +4,63 @@ var crypto = require('crypto');
 var Team = require('./Team');
 var Event = require('./Event');
 
-var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: String,
-  username : { type: String, unique: true},
-  slug: String,
-  facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  instagram: String,
-  linkedin: String,
-  tokens: Array,
-    type: String, //Judge,User,Mentor
+// var userSchema = new mongoose.Schema({
+//   email: { type: String, unique: true, lowercase: true },
+//   password: String,
+//   username : { type: String, unique: true},
+//   slug: String,
+//   facebook: String,
+//   twitter: String,
+//   google: String,
+//   github: String,
+//   instagram: String,
+//   linkedin: String,
+//   tokens: Array,
+//   type: String, //Judge,User,Mentor
     
     
-  profile: {
-    name: { type: String, default: '' },
-    nameFull: { type: String, default: '' },
-    gender: { type: String, default: '' },
-    location: { type: String, default: '' },
-    website: { type: String, default: '' },
-    occupation: { type: String, default: '' },
-    skills: { type: String, default: '' },
-    experience: { type: String, default: '' },
-    employers: { type: String, default: '' },
-    picture: { type: String, default: '' }
-  },
+//   profile: {
+//     name: { type: String, default: '' },
+//     nameFull: { type: String, default: '' },
+//     gender: { type: String, default: '' },
+//     location: { type: String, default: '' },
+//     website: { type: String, default: '' },
+//     occupation: { type: String, default: '' },
+//     skills: { type: String, default: '' },
+//     experience: { type: String, default: '' },
+//     employers: { type: String, default: '' },
+//     picture: { type: String, default: '' }
+//   },
  
-  events : [{
-
-    _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
-
-    team : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
-
-    appliedTeams : [{
-      _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
-    }],
-    
-    teamInvites : [{
-      _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
-    }]
-
-  }],
+//   events : [{
+//     _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+//     team : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+//     appliedTeams : [{
+//       _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+//     }],
+//     teamInvites : [{
+//       _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+//     }]
+//   }],
   
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date
+// });
+
+var userSchema = new mongoose.Schema({
+  name: { type: String, trim: true, required: true },
+  email: { type: String, unique: true, lowercase: true, trim: true },
+  password: String,
+  facebook: {
+    id: String,
+    email: String
+  },
+  google: {
+    id: String,
+    email: String
+  }
 });
+
 
 
 //Slug function
