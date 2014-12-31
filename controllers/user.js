@@ -34,9 +34,10 @@ function createJwtToken(user) {
 }
 
 exports.isLogin = function (req, res, next) {
-  if (req.headers.authorization) {
-    var token = req.headers.authorization;
-    // .split(' ')[1];
+
+  if (req.body.authorization) {
+    var token = req.body.authorization;
+    //.split(' ')[1];
     try {
       var decoded = jwt.decode(token, tokenSecret);
       if (decoded.exp <= Date.now()) {
@@ -147,11 +148,11 @@ exports.getUserBySlug = function(req,res){
   User.findOne({'profile.slug': req.params.uslug},function(err,user){
 
     if (err) res.send(err);
-    else if(!user){
-      res.json({
-        message: 'User not found'
-      });
-    }
+    // else if(!user){
+    //   res.json({
+    //     message: 'User not found'
+    //   });
+    // }
     else{
       var temp ={
         _id:user._id,

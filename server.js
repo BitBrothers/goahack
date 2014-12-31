@@ -138,7 +138,7 @@ app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
 app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamController.deleteTeam);
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
-app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
+app.post('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
