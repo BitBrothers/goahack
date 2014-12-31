@@ -19,8 +19,14 @@ var tokenSecret = config.sessionSecret;
 
 
 function createJwtToken(user) {
+  var temp = {
+    _id:user._id,
+    profile:user.profile
+  };
+  console.log(temp);
   var payload = {
-    user: user.profile,
+    user: temp,
+    //user: user._id,
     iat: new Date().getTime(),
     exp: moment().add(7, 'days').valueOf()
   };
@@ -29,7 +35,8 @@ function createJwtToken(user) {
 
 exports.isLogin = function (req, res, next) {
   if (req.headers.authorization) {
-    var token = req.headers.authorization.split(' ')[1];
+    var token = req.headers.authorization;
+    //.split(' ')[1];
     try {
       var decoded = jwt.decode(token, tokenSecret);
       if (decoded.exp <= Date.now()) {
@@ -48,7 +55,6 @@ exports.isLogin = function (req, res, next) {
 
 exports.signup = function(req, res, next) {
   var user = new User({
-    
     email: req.body.email,
     password: req.body.password
   });
@@ -136,7 +142,10 @@ exports.hasEmail = function(req, res, next) {
 };
 
 exports.getUserBySlug = function(req,res){
-  User.findOne({slug: req.params.uslug},function(err,user){
+  console.log(req.user);
+  if(req.params.uslug == req.user.profile.slug){
+  User.findOne({'profile.slug': req.params.uslug},function(err,user){
+
     if (err) res.send(err);
     else if(!user){
       res.json({
@@ -144,9 +153,38 @@ exports.getUserBySlug = function(req,res){
       });
     }
     else{
-      res.json(user);
+      var temp ={
+        _id:user._id,
+        events:user.events,
+        profile:user.profile
+      };
+      res.json(temp);
     }
   });
+  } 
+  else{
+    User.findOne({'profile.slug': req.params.uslug},function(err,user){
+
+    if (err) res.send(err);
+    else if(!user){
+      res.json({
+        message: 'User not found'
+      });
+    }
+    else{
+      var temp ={
+        _id:user._id,
+        events:[{
+          _id:user.events._id,
+          team:user.events.team
+        }],
+        profile:user.profile
+      };
+      res.json(temp);
+    }
+  });
+
+  }
 };
 
 exports.updateProfile = function(req, res){

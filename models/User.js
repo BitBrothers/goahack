@@ -7,7 +7,6 @@ var Event = require('./Event');
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
-  slug: String,
   facebook: String,
   twitter: String,
   google: String,
@@ -19,7 +18,7 @@ var userSchema = new mongoose.Schema({
     
     
   profile: {
-    email: {type: String},
+    slug: {type: String},
     name: { type: String, default: '' },
     nameFull: { type: String, default: '' },
     gender: { type: String, default: '' },
@@ -70,8 +69,7 @@ console.log(text);
 
 userSchema.pre('save', function(next) {
   var user = this;
-  user.slug = slugify(user.profile.name+Date.now());
-
+  user.profile.slug = slugify(user.profile.name+Date.now());
   if (!user.isModified('password')) return next();
 
   bcrypt.genSalt(10, function(err, salt) {
