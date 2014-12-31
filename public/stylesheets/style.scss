@@ -733,12 +733,7 @@ body
     background-color:#646464; 
 }
 
-.red-bar {
-    height: 6px;
-    background-color:#bf3431;
-    margin: 0px;
-    padding: none;
-}
+
 
 @media screen and (max-width:768px)
 {
@@ -773,10 +768,7 @@ body
         display: none;
     }
     
-    .search-pane {
-        margin-right: 0px;
-        margin-left: 0px;
-    }
+  
     
     .navbar {
     margin-bottom:0px !important;
@@ -784,4 +776,119 @@ body
     padding-right: 5px;
     }
 
+.search-pane {
+    background-color: #e8e8e8;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.team-block {
+    background-color: #2b2b2b;
+    margin-left: 50px;
+    margin-right: 50px;
+    border: 1px solid #7d7d7d;
+    padding:0px;
+}
+
+.team-block img {
+    padding: 5px;
+/*
+    height: 190px;
+    width: 190px;
+*/
+    vertical-align: middle;
+}
+
+.team-block:hover
+{
+    background-color: #646464;
+}
+
+.team-content .title {
+    color: #ffffff;
+    font-family: Humanist777BT;
+    font-size: 35px;
+    margin-bottom: 0px;
+    line-height: 40px;
+    padding-top: 5px;
+    font-weight: 100;
+}
+
+.team-content .place {
+    color: #7d7d7d;
+    font: 18px Humanist777BT;
+}
+
+.team-content {
+    padding-left: 15px;
+    width: 83.333%;
+}
+
+.team-content img {
+    width: 50px; 
+    position: relative;
+    top: 15px;
+}
+
+.membersNumber a{
+    font-family: Humanist777BT;
+    font-size: 18px;
+    color: #e8e8e8;
+    position: relative;
+    top: 21px;
+    text-decoration: none;
+}
+
+.membersNumber a:hover
+{
+    color: #2b2b2b;
+    text-decoration: none;
+}
+
+.search-pane a {
+    margin: 5px;
+    margin-top: 0px;
+}
+
+.desc {
+    color: #ffffff;
+    font-family: Humanist777BT;
+}
+
+.red-bar {
+    height: 6px;
+    background-color:#bf3431;
+    margin: 0px;
+    padding: 40px;
+}
+
+.search-button {
+    background-image: radial-gradient(circle, #2b2b2b 80%, #646464 81%);
+    color: white;
+    border: 1px solid #2b2b2b;
+}
+.search-box {
+/*    margin: 10px;*/
+    height: 40px;
+    width: 70%;
+    margin-top: none;
+    margin-bottom: 10px;
+
+}
+
+.sb-text {
+    margin-left: 15px;
+    color: #2b2b2b;
+    font-family: Humanist777BT;
+    font-size: 18px;
+}
+
+.create-button {
+    background-image: radial-gradient(circle, #e8e8e8 80%, #646464 81%);
+    color:#2b2b2b;
+    border: 1px solid #2b2b2b;
 }
