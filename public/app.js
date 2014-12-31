@@ -16,6 +16,10 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
       })
+      .when('/userprofile/:slug', {
+        templateUrl: 'views/userProfile.html',
+        controller: 'UserProfileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -49,7 +49,7 @@ gulp.task('templates', function() {
 });
 
 gulp.task('jade', function () {
-  return gulp.src('public/templates/*.jade')
+  return gulp.src('public/templates/**/*.jade')
     .pipe(gulpJade({
       jade: jade,
       pretty: true

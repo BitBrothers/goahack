@@ -9,7 +9,7 @@
 
 module.exports = {
 
- db: process.env.MONGODB|| 'mongodb://localhost:27017/goahack',
+ db: process.env.MONGODB|| 'mongodb://warren:warren123@kahana.mongohq.com:10072/test_test',
 
  sessionSecret: process.env.SESSION_SECRET || 'CodejediGameStarts',
 

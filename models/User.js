@@ -25,7 +25,7 @@ var userSchema = new mongoose.Schema({
     location: { type: String, default: '' },
     website: { type: String, default: '' },
     occupation: { type: String, default: '' },
-    skills: { type: String, default: '' },
+    skills: [String],
     experience: { type: String, default: '' },
     employers: { type: String, default: '' },
     picture: { type: String, default: '' }
