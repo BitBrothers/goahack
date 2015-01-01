@@ -14,15 +14,6 @@ $brand-warning: #ffd66a;
 $text-muted: #90939a;
 $link-color: #000;
 
-$navbar-default-link-active-bg: #f7f7f7;
-$navbar-default-link-color: #848484;
-$navbar-default-bg: #fff;
-$navbar-default-border: #e3e9ec;
-
-$navbar-default-brand-color: #333;
-$navbar-default-brand-hover-color: #ffe939;
-$navbar-default-brand-hover-bg: #333;
-
 $btn-success-bg: $brand-success;
 $btn-success-border: darken($btn-success-bg, 3%);
 $btn-primary-bg: $brand-primary;
@@ -875,7 +866,6 @@ body
     border: 1px solid #2b2b2b;
 }
 .search-box {
-/*    margin: 10px;*/
     height: 40px;
     width: 70%;
     margin-top: none;
@@ -894,4 +884,6 @@ body
     background-image: radial-gradient(circle, #e8e8e8 80%, #646464 81%);
     color:#2b2b2b;
     border: 1px solid #2b2b2b;
+}
+
 }

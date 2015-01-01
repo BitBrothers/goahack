@@ -19,6 +19,7 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
       .when('/userprofile/:slug', {
         templateUrl: 'views/userProfile.html',
         controller: 'UserProfileCtrl'
+      })
       .when('/teams', {
         templateUrl: 'views/teams.html',
         controller: 'TeamsCtrl'
