@@ -42,10 +42,12 @@ angular.module('GoaHack')
         FB.login(function(response) {
           FB.api('/me', function(profile) {
             var data = {
+              //accessToken: response.authResponse.signedRequest,
               signedRequest: response.authResponse.signedRequest,
               profile: profile
             };
             $http.post('/api/auth/facebook', data).success(function(token) {
+              console.log(token)
               var payload = JSON.parse($window.atob(token.split('.')[1]));
               $window.localStorage.token = token;
               //console.log(payload.user);

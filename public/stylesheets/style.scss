@@ -51,6 +51,7 @@ $btn-font-weight: bold;
 
 //colors
 $white: #fff;
+$section-inverse-color: #2b2b2b;
 
 //fonts
 $font_0: Droid Serif;
@@ -394,12 +395,14 @@ section {
   text-transform: none;
 }
 
-#team {
-  background-color: #2b2b2b;
-}
-
-#team h2.section-heading {
-  color: #fff;
+section:nth-child(odd) {
+  background-color: $section-inverse-color;
+  h2.section-heading {
+    color: $white;
+  }
+  h4.section-heading {
+    color: $white;
+  }
 }
 
 .team-member {
@@ -411,7 +414,7 @@ section {
   }
   h4 {
     margin-top: 25px;
-    color: #fff;
+    color: $section-inverse-color;
     margin-bottom: 0;
     text-transform: none;
   }
