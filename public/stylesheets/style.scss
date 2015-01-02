@@ -61,6 +61,7 @@ $color_cinnabar_approx: #e74c3c;
 
 @import 'bootstrap/bootstrap';
 
+
 body {
   padding-bottom: 20px;
   background-color: #fff;
@@ -517,10 +518,12 @@ section#contact {
   }
 }
 
+
 body
 {
     background: #f6f6f6;
 }
+
 
 @font-face
 {
@@ -535,6 +538,7 @@ body
 }
 
 @font-face {
+
     font-family: 'SFNewRepublic'; /*a name to be used later*/
     src: url('../fonts/SF New Republic.ttf'); /*URL to font*/
 }
@@ -729,6 +733,393 @@ body
 
 
 
+.navbar-brand {
+    color: #2b2b2b;
+    font-family: SFNewRepublic;
+/*    margin-bottom: none;*/
+}
+
+.navbar {
+    margin-bottom:0px !important;
+    padding-left: 35px;
+    padding-right: 50px;
+}
+
+.login-button{
+    border-width: 1px;
+    bordor-color: black;
+}
+
+.register-button a { 
+    background-color:#e8e8e8;
+    color: #f6f6f6;
+    font-family: Humanist777BT;
+}
+
+.register-button :hover{
+    color: black;
+}
+
+.progress {
+    background-color: #2b2b2b;
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.progress-items {
+    padding-right:50px;
+    padding-left: 50px;
+    padding-top: 20px;
+}
+
+.progress-items .text-center {
+    height: 150px;
+    background-color:#ffffff;
+    margin-top: 10px;
+    border: 5px solid #2b2b2b;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.progress-items .text-center img {
+    padding-top: 20px;
+}
+
+.progress-items .text-center .progress-stat-done {
+    height: 6px;
+    background-color: #bf3431;
+}
+
+.progress-items .text-center .progress-stat-pending {
+    height: 6px;
+    background-color:#646464; 
+}
+
+.red-bar {
+    height: 6px;
+    background-color:#bf3431;
+    margin: 0px;
+    padding: none;
+}
+
+
+.displayPic img
+{
+    width: 300px;
+}
+.section2
+{
+    background: #fff;
+    height:auto;
+    padding: 10px;
+    border-top: #bf3431 5px solid;
+}
+
+.teamName
+{
+    text-align: left;
+/*    margin-left: -20px;*/
+}
+
+.teamName h2
+{
+    color: #2b2b2b;
+    font: 100 40px / 61.727px Humanist777BT;
+    line-height: 0;
+    padding-top: 200px;
+    padding-right: 10px;
+}
+
+.teamName h5
+{
+    color: #7d7d7d;
+    font: 100 20px / 61.727px Humanist777BT;
+}
+
+
+.lock
+{
+/*
+    background: #2b2b2b;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+*/
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+.lock img
+{
+    float:right;
+    width: 45px;
+    margin-left: 175px;
+}
+
+.sec2 
+{
+
+    background: #fff;
+}
+
+.sec2 img
+{
+    height: 125px;
+}
+
+.teamMembers
+{
+/*    text-align: center;*/
+/*    margin-left: -33px;*/
+    width: 140px;
+    padding-bottom: 20px;
+}
+
+.teamMembers h6
+{
+    color: #7d7d7d;
+    font: 300 14px / 61.727px Humanist777BT;
+    line-height: 0px;
+}
+
+.teamMembers small
+{
+    color: #2b2b2b;
+    font: 11px Humanist777BT;
+}
+
+.displayPic
+{
+    width: 310px;
+}
+
+@media screen and (max-width:420px)
+{
+    .teamName h2
+    {
+        font-size:30px;
+         padding-left:10px;
+    }
+    .teamNAme h5
+    {
+        padding-left:10px;
+    }
+}
+    
+@media screen and (min-width:481px) and (max-width:1125px)
+{
+    .teamName h2
+    {
+        padding-top:100px;
+    }
+        
+}
+
+@media screen and (max-width:991px)
+{
+    .section2
+    {
+        padding-top:0px;
+    }
+}
+
+
+.sec3
+{
+    background: #2b2b2b;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.sec3 h4
+{
+    color: #ffffff;
+    font: 30px / 61.727px Humanist777BT;
+}
+
+.sec3 p 
+{
+    color: #ffffff;
+    font: 15px / 25px Humanist777BT;
+    padding-bottom: 20px;
+}
+
+.sec4
+{
+    background: #e8e8e8;
+}
+
+.ps, .desc,.tag1
+{
+    
+    color: #2b2b2b;
+    font: 20px / 61.727px Humanist777BT;
+    padding-left: 15px;
+    line-height: 1em;
+    padding-bottom: 5px;
+}
+.sec4 label
+{
+    color: #2b2b2b;
+    font: 20px / 61.727px Humanist777BT;
+    padding-left: 15px;
+    line-height: 1em;
+    margin-left: 10px;
+}
+
+.custom-remove-padding
+{
+    background: #e8e8e8;
+    padding:0px;
+}
+
+.tag,.bn
+{
+    border-radius: 0px;
+    background: #5c5c5c;
+    color: #f6f6f6;
+    font: 18px Humanist777BT;
+    padding: 5px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+.tag:hover
+{
+    background-color: #bf3431;
+    color: #f6f6f6;
+    font: 18px Humanist777BT;
+}
+
+.sec5
+{
+    background: #2b2b2b;
+    padding: 15px;
+/*    padding-right: 30px;*/
+}
+
+.chatWallHeader 
+{
+    background: #5c5c5c;
+    color: #ffffff;
+    font: 20px Humanist777BT;
+    padding: 10px;
+}
+
+.chats
+{
+/*    padding-top: 20px;*/
+}
+
+.chats p
+{
+    color: #ffffff;
+    font: 14px Humanist777BT;
+}
+
+.chats hr
+{
+    color: #6c6c6c;
+}
+
+.chatRow
+{
+    border-bottom: 1px solid #636363;
+    padding-top: 10px;
+}
+
+.sec6
+{
+    background: #e8e8e8;
+}
+
+.sec6 h5
+{
+    color: #2b2b2b;
+    font: 20px / 61.727px Humanist777BT;
+    padding-left: 15px;
+    line-height: 1em;
+}
+
+@media screen and (max-width:480px)
+{
+    .teamName
+    {
+        margin-left:10px !important ;
+        margin-top: -200px;
+    }
+        
+    .displayPic img
+    {
+        width:150px;
+        padding-left: 10px;
+    }
+}
+
+.control-label
+{
+    text-align: left !important;
+}
+.form-control
+{
+    background-color: white;
+    border-radius: 3px !important;
+}
+
+.form-horizontal
+{
+    background: #e8e8e8;
+    padding-top: 20px;
+    margin-bottom: 0px;
+    text-align: left !important;
+}
+
+
+@media screen and (min-width:481px) and (max-width:768px)
+{
+    .teamName
+    {
+        margin-left:10px !important ;
+        margin-top: -100px;
+    }
+        
+    .displayPic img
+    {
+        width:200px;
+        padding-left: 10px;
+    }
+}
+
+@media screen and (min-width:769px) and (max-width:989px)
+{
+    .teamName
+    {
+/*        margin-left:10px !important ;*/
+        margin-top: 100px;
+    }
+}
+
+@media screen and (min-width:1092px) and (max-width:1126px)
+{
+    .teamName
+    {
+/*        margin-left:10px !important ;*/
+        margin-top: 95px;
+    }
+}
+
+@media screen and (min-width:990px) and (max-width:1090px)
+{
+    .teamName
+    {
+/*        margin-left:10px !important ;*/
+        margin-top: 100px;
+    }
+}
+
+
 @media screen and (max-width:768px)
 {
     .text-center p
@@ -885,5 +1276,9 @@ body
     color:#2b2b2b;
     border: 1px solid #2b2b2b;
 }
-
+.custom_margin
+{
+    margin-left:0px;
+    margin-right: 0px;
+}
 }
