@@ -5,17 +5,19 @@
       .userInfo
         img(src='images/Layer-3.png')
         br
-        h4 {{currentUser.profile.nameFull}}
+        h4 {{currentUser.profile.name}}
         
-        p {{currentUser.occupation}}
-        p {{currentUser.location}}
-        p {{currentUser.email}}
-        p {{currentUser.website}}
+        p {{currentUser.profile.occupation}}
+        p {{currentUser.profile.location}}
+        p {{currentUser.profile.email}}
+        p {{currentUser.profile.website}}
+        p Employers:{{currentUser.profile.employers}}
+        p Experience:{{currentUser.profile.experience}}
       // </div>
       // <div class="row">
       .userSkillSet
         h4  Skills 
-        p(ng-repeat='skill in currentUser.skills') {{skill}}
+        p(ng-repeat='skill in currentUser.profile.skills') {{skill}}
     // SIDEBAR ENDS
     .col-md-9.mainContent
       // MAIN CONTENT
