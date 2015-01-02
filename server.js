@@ -99,14 +99,6 @@ var userController = require('./controllers/user');
 var eventController = require('./controllers/event');
 var teamController = require('./controllers/team');
 
-var app = express();;
-
-app.set('port', process.env.PORT || 3000);
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.post('/api/auth/signup', userController.signup);
 app.post('/api/auth/login', userController.login);
 app.post('/api/auth/facebook', userController.facebookAuth);
@@ -116,9 +108,9 @@ app.get('/api/users', userController.hasEmail);
 app.get('/api/events', eventController.getEvents);
 app.get('/api/events/:id', eventController.getEvent);
 app.post('/api/events', eventController.postEvent);
-app.post('/api/events/:id/register', userController.isLogin, 
+app.post('/api/events/:eslug/register', userController.isLogin, 
                   eventController.postEventRegister);
-app.post('/api/events/:id/unregister', userController.isLogin,
+app.post('/api/events/:eslug/unregister', userController.isLogin,
                   eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
@@ -126,6 +118,7 @@ app.put('/api/event/:eslug/team/:tslug/apply', userController.isLogin, teamContr
 app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamController.postUpdate,teamController.approveMember);//send member to be approved in req.body.approval
 app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember);
 app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin, teamController.postCreate, teamController.acceptInvite);
+app.put('/api/event/:eslug/team/:tslug/unjoin', userController.isLogin, teamController.unjoinTeam);
 
 
 
@@ -138,7 +131,7 @@ app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
 app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamController.deleteTeam);
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
-app.post('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
+app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
@@ -146,7 +139,7 @@ app.get('*', function(req, res) {
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.send(500, { message: err.message });
+  res.status(500).send({ message: err.message });
 });
 
 app.listen(app.get('port'), function() {

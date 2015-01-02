@@ -337,8 +337,8 @@ exports.applyTeam = function(req, res) {
                         _id: team._id
                     });
                     team.appliedMembers.push({
-                        _id: req.body.u
-                    }); /*current user here*/
+                        _id: req.user._id
+                    }); 
 
                     user.save(function(err) {
                         if (err)
@@ -453,50 +453,43 @@ exports.approveMember = function(req, res) {
             res.send(err);
         }
 
-        User.findOne(req.body.approval, function(err, user) {
+        User.findById(req.body.approval, function(err, user) {
             if (err) res.send(err);
-
+            console.log(user);
             if (user.events.id(req.eventId).team) {
                 res.json({
                     message: 'Already in team'
                 });
             } else {
 
-                if (req.body.result == true) {
+                if (team.appliedMembers.id(user._id)) {
 
-                    team.members.push({
-                        _id: user._id
-                    });
                     team.appliedMembers.pull({
                         _id: user._id
                     });
-                    user.events.id(req.eventId).team = team._id;
                     user.events.id(req.eventId).appliedTeams.pull({
                         _id: team._id
                     });
 
-                    team.save(function(err) {
-                        if (err) res.send(err);
-                    });
 
-                    user.save(function(err) {
-                        if (err) res.send(err);
+                    if(req.body.result == 'true'){
+
+                    team.members.push({
+                        _id: user._id
                     });
+                    user.events.id(req.eventId).team = team._id;
 
                     res.json({
                         message: 'Member Approved and Added'
                     });
 
-                } else if (req.body.result == false) {
+                    } else if(req.body.result == 'false') {
 
-                    team.appliedMembers.pull({
-                        _id: req.body.approval
+                    res.json({
+                        message: 'USer unapproved'
                     });
-                    user.events.id(req.eventId).appliedTeams.pull({
-                        _id: team._id
-                    });
-
-                    team.save(function(err) {
+                    }
+                   team.save(function(err) {
                         if (err) res.send(err);
                     });
 
@@ -504,9 +497,10 @@ exports.approveMember = function(req, res) {
                     user.save(function(err) {
                         if (err) res.send(err);
                     });
-
+               }   
+                else{
                     res.json({
-                        message: 'USer unapproved'
+                        message:'User not applied'
                     });
                 }
             }
@@ -525,7 +519,7 @@ exports.inviteMember = function(req, res) {
 
         User.findById(req.body.invite, function(err, user) {
             if (err) res.send(err);
-
+            if(user.events.id(req.eventId)){
             team.inviteMembers.push({
                 _id: user._id
             });
@@ -546,7 +540,12 @@ exports.inviteMember = function(req, res) {
                 message: 'User invited....awaiting confirmation'
             });
 
-
+            }
+            else{
+                    res.json({
+                    message:'User not joined event'
+                });
+            }
         });
     });
 
@@ -570,7 +569,8 @@ exports.acceptInvite = function(req, res) {
                         req.user._id,
                         function(err, user){
                             if(err) res.send(err);
-                            if(req.body.result == true){
+                            if(team.inviteMembers(user._id)){
+                            if(req.body.result == 'true'){
                                 team.members.push({
                                     _id: user._id
                                 });
@@ -596,7 +596,7 @@ exports.acceptInvite = function(req, res) {
                                     message: 'Team joined'
                                 }); 
                             }
-                            else if(req.body.result == false){
+                            else if(req.body.result == 'false'){
                                 team.inviteMembers.pull({
                                     _id: user._id
                                 });
@@ -615,7 +615,12 @@ exports.acceptInvite = function(req, res) {
                                     message: 'Invitation Declined'
                                 });
 
+                            }else{
+                                res.json({
+                                    message: 'Not invited in team'
+                                });
                             }
+                        }
                     });
                 }
         });
@@ -651,7 +656,7 @@ exports.getTeams = function(req, res){
 
 };
 
-exports.unjoinTeam = function(req, res, next) {
+exports.unjoinTeam = function(req, res) {
 
     Event.findOne({
         slug: req.params.eslug
@@ -682,7 +687,17 @@ exports.unjoinTeam = function(req, res, next) {
                         _id: req.user._id
                     });
 
+                        team.save(function(err) {
+                                    if (err) res.send(err);
+                                });
 
+                                user.save(function(err) {
+                                    if (err) res.send(err);
+                                });
+
+                                res.json({
+                                    message: 'team unjoined'
+                                });
 
                 });
             }

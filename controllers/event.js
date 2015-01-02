@@ -1,5 +1,5 @@
 var Event = require('../models/Event');
-var userController = require('./user');
+var User = require('../models/User');
 
 exports.getEvents = function(req, res, next) {
   var query = Event.find();
@@ -35,7 +35,7 @@ exports.postEvent = function (req, res) {
 };
 
 exports.postEventRegister = function(req, res, next) {
-  Event.findById(req.params.id, function(err, event) {
+  Event.findOne({slug:req.params.eslug}, function(err, event) {
     if (err) return next(err);
     event.attendees.push(req.user._id);
     User.findById(req.user._id, function(err, user){

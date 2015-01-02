@@ -23,10 +23,8 @@ function createJwtToken(user) {
     _id:user._id,
     profile:user.profile
   };
-  console.log(temp);
   var payload = {
     user: temp,
-    //user: user._id,
     iat: new Date().getTime(),
     exp: moment().add(7, 'days').valueOf()
   };
@@ -35,22 +33,22 @@ function createJwtToken(user) {
 
 exports.isLogin = function (req, res, next) {
 
-  if (req.body.authorization) {
-    var token = req.body.authorization;
+  if (req.headers.authorization) {
+    var token = req.headers.authorization;
     //.split(' ')[1];
     try {
       var decoded = jwt.decode(token, tokenSecret);
       if (decoded.exp <= Date.now()) {
-        res.send(400, 'Access token has expired');
+        res.status(400).send('Access token has expired');
       } else {
         req.user = decoded.user;
         return next();
       }
     } catch (err) {
-      return res.send(500, 'Error parsing token');
+      return res.status(500).send('Error parsing token');
     }
   } else {
-    return res.send(401);
+    return res.status(401);
   }
 };
 
@@ -117,7 +115,7 @@ exports.googleAuth = function(req, res, next) {
     if (existingUser) {
       console.log('heere');
       var token = createJwtToken(existingUser);
-       res.send(token);
+       return res.send(token);
     }
     var user = new User();
     user.profile.name = profile.displayName;
@@ -148,11 +146,11 @@ exports.getUserBySlug = function(req,res){
   User.findOne({'profile.slug': req.params.uslug},function(err,user){
 
     if (err) res.send(err);
-    // else if(!user){
-    //   res.json({
-    //     message: 'User not found'
-    //   });
-    // }
+    else if(!user){
+      res.json({
+        message: 'User not found'
+      });
+    }
     else{
       var temp ={
         _id:user._id,

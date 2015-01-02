@@ -34,7 +34,7 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
       return {
         request: function(config) {
           if ($window.localStorage.token) {
-            config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
+            config.headers.Authorization = $window.localStorage.token;
           }
           return config;
         },
