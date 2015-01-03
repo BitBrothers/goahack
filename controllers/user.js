@@ -21,7 +21,7 @@ var tokenSecret = config.sessionSecret;
 function createJwtToken(user) {
   var temp = {
     _id:user._id,
-    profile:user.profile
+    slug:user.profile.slug
   };
   var payload = {
     user: temp,
@@ -71,7 +71,10 @@ exports.login = function(req, res, next) {
     user.comparePassword(req.body.password, function(err, isMatch) {
       if (!isMatch) return res.send(401, 'Invalid email and/or password');
       var token = createJwtToken(user);
-      res.send({ token: token });
+      var tempy = {
+        profile:user.profile
+      };
+      res.send({token: token,user: tempy});
     });
   });
 };
@@ -93,7 +96,10 @@ exports.facebookAuth = function(req, res, next) {
   User.findOne({email:profile.email}, function(err, existingUser) {
     if (existingUser) {
       var token = createJwtToken(existingUser);
-      return res.send(token);
+      var tempy = {
+        profile:user.profile
+      };
+      return res.send({token:token,user:tempy});
     }
     var user = new User();
      
@@ -103,7 +109,10 @@ exports.facebookAuth = function(req, res, next) {
     user.save(function(err) {
       if (err) return next(err);
       var token = createJwtToken(user);
-      res.send(token);
+      var tempy = {
+        profile:user.profile
+      };
+      res.send({token: token,user: tempy});
     });
   });
 };
@@ -112,10 +121,15 @@ exports.googleAuth = function(req, res, next) {
   var profile = req.body.profile;
  // console.log(req.body.profile);
   User.findOne({email:profile.emails[0].value}, function(err, existingUser) {
+    if(err) res.send(err);
+      
     if (existingUser) {
       console.log('heere');
       var token = createJwtToken(existingUser);
-       return res.send(token);
+      var tempy = {
+        profile:user.profile
+      };
+       return res.send({token: token,user: tempy});
     }
     var user = new User();
     user.profile.name = profile.displayName;
@@ -124,7 +138,10 @@ exports.googleAuth = function(req, res, next) {
     user.save(function(err) {
       if (err) return next(err);
       var token = createJwtToken(user);
-      res.send(token);
+      var tempy = {
+        profile:user.profile
+      };
+      res.send({token: token,user: tempy});
     });
   });
 };
@@ -141,9 +158,17 @@ exports.hasEmail = function(req, res, next) {
 };
 
 exports.getUserBySlug = function(req,res){
-  console.log(req.user);
-  if(req.params.uslug == req.user.profile.slug){
-  User.findOne({'profile.slug': req.params.uslug},function(err,user){
+  if(req.params.uslug == req.user.slug){
+  User.findOne({'profile.slug': req.params.uslug})
+  .populate({
+    path:'events._id',
+    select:'slug name'
+  })
+  .populate({
+    path:'events.team',
+    select:'slug name'
+  })
+  .exec(function(err,user){
 
     if (err) res.send(err);
     else if(!user){
@@ -152,11 +177,19 @@ exports.getUserBySlug = function(req,res){
       });
     }
     else{
+       // var options = {
+       //  path:'events.appliedTeams'
+       // };
+       // User.populate(user,options,function(err, users){
+       //  res.json(users);
+       // });
       var temp ={
         _id:user._id,
         events:user.events,
         profile:user.profile
       };
+     
+
       res.json(temp);
     }
   });

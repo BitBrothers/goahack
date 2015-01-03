@@ -35,8 +35,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		  <ul class="nav navbar-nav pull-right" ng-if="!currentUser">
-		    <li class="logout" data-match-route="/login"><a href="/login">Login</a></li>
-		    <li data-match-route="/signup"><a href="/signup">Sign up</a></li>
+		    <li class="logout" data-match-route="/login"><a class="logout" href="/login">Login</a></li>
+		    <li data-match-route="/signup"><a class="logout" href="/signup">Sign up</a></li>
 		  </ul>
 		  <ul class="nav navbar-nav pull-right" ng-if="currentUser">
 		    <a href="/userprofile/{{currentUser.profile.slug}}"><li class="navbar-text" ng-bind="currentUser.profile.name"></li></a>

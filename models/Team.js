@@ -5,7 +5,7 @@ var Project = require('./Project')
 
 var teamSchema = new mongoose.Schema({
 
-  name:  { type: String, unique: true },
+  name:  { type: String,unique: true},
 
   description: String,
   status: {type: String, default:'Un-approved'},

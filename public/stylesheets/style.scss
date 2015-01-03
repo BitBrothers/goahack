@@ -578,8 +578,6 @@ body
 .contentContainer
 {
     background: #fff;
-//    padding: 10px;
-    margin-top: 75px;
 }
 
 .dash
@@ -677,7 +675,7 @@ body
 
 .logout
 {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .nav li a:hover
@@ -1281,4 +1279,8 @@ body
     margin-left:0px;
     margin-right: 0px;
 }
+}
+
+.nav.navbar-nav{
+  background: transparent !important;
 }
