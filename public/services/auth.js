@@ -46,12 +46,12 @@ angular.module('GoaHack')
               signedRequest: response.authResponse.signedRequest,
               profile: profile
             };
-            $http.post('/api/auth/facebook', data).success(function(token) {
-              console.log(token)
-              var payload = JSON.parse($window.atob(token.split('.')[1]));
-              $window.localStorage.token = token;
+            $http.post('/api/auth/facebook', data).success(function(data) {
+              console.log(data)
+              // var payload = JSON.parse($window.atob(token.split('.')[1]));
+              $window.localStorage.token = data.token;
               //console.log(payload.user);
-              $rootScope.currentUser = payload.user;
+              $rootScope.currentUser = data.user;
               $location.path('/');
               $alert({
                 title: 'Cheers!',
@@ -75,12 +75,10 @@ angular.module('GoaHack')
               userId: 'me'
             });
             request.execute(function(authData) {
-              $http.post('/api/auth/google', { profile: authData }).success(function(token) {
-                var payload = JSON.parse($window.atob(token.split('.')[1]));
-                $window.localStorage.token = token;
-                $rootScope.currentUser = payload.user;
-               // console.log('hi');
-               // console.log(payload.user);
+              $http.post('/api/auth/google', { profile: authData }).success(function(data) {
+                $window.localStorage.token = data.token;
+                $rootScope.currentUser = data.user;
+                console.log($rootScope.currentUser);
                 $location.path('/');
                 $alert({
                   title: 'Cheers!',
@@ -98,9 +96,7 @@ angular.module('GoaHack')
         return $http.post('/api/auth/login', user)
           .success(function(data) {
             $window.localStorage.token = data.token;
-            var payload = JSON.parse($window.atob(data.token.split('.')[1]));
-            $rootScope.currentUser = payload.user;
-            console.log(user);
+            $rootScope.currentUser = data.user;
             $location.path('/');
             $alert({
               title: 'Cheers!',

@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Team = require('../models/Team');
 var Event = require('../models/Event');
 var User = require('../models/User');
-var Project = require('../models/Project')
+var Project = require('../models/Project');
 var config = require('../config/secrets');
 //var secrets = new config();
 //var emailController = require('./email');
@@ -188,7 +188,10 @@ exports.searchTeamSlug = function(req, res) {
     Team.findOne({
         eventSlug: req.params.eslug,
         slug: req.params.tslug
-    }, function(err, team) {
+    }).populate({
+        path:'members._id appliedMembers._id inviteMembers._id',
+        select:'profile'
+    }).exec(function(err, team) {
         if (err) {
             res.send(err);
         } else if (!team) {
