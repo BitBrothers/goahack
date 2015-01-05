@@ -102,7 +102,7 @@ exports.createTeam = function(req, res) {
     project.name = req.body.projName;
     project.description = req.body.projDesc;
     project.tags = req.body.projectTags; //make sure tags puts single value in single element....p
-
+    project.eventSlug = req.params.eslug;
     team.problemStatement = project._id;
 
     User.findById(req.user._id  , function(err, user) {
@@ -141,8 +141,10 @@ exports.createTeam = function(req, res) {
     team.save(function(err) {
         if (err)
             return res.send(err);
-        else {
-            project.save(function(err) {
+      
+        
+    });
+          project.save(function(err) {
                 if (err)
                     return res.send(err);
 
@@ -153,10 +155,6 @@ exports.createTeam = function(req, res) {
 
 
             });
-
-
-        }
-    });
 
 
 };
@@ -188,10 +186,16 @@ exports.searchTeamSlug = function(req, res) {
     Team.findOne({
         eventSlug: req.params.eslug,
         slug: req.params.tslug
-    }).populate({
+    })
+    .populate({
         path:'members._id appliedMembers._id inviteMembers._id',
         select:'profile'
-    }).exec(function(err, team) {
+    })
+    .populate({
+        path:'problemStatement',
+        select: 'name description eventSlug teamSlug'
+    })
+    .exec(function(err, team) {
         if (err) {
             res.send(err);
         } else if (!team) {
@@ -445,6 +449,8 @@ exports.updateTeam = function(req, res) {
     });
 
 };
+
+
 
 exports.approveMember = function(req, res) {
 

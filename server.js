@@ -98,6 +98,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 var userController = require('./controllers/user');
 var eventController = require('./controllers/event');
 var teamController = require('./controllers/team');
+var projectController = require('./controllers/project');
 
 app.post('/api/auth/signup', userController.signup);
 app.post('/api/auth/login', userController.login);
@@ -108,9 +109,9 @@ app.get('/api/users', userController.hasEmail);
 app.get('/api/events', eventController.getEvents);
 app.get('/api/events/:id', eventController.getEvent);
 app.post('/api/events', eventController.postEvent);
-app.post('/api/events/:eslug/register', userController.isLogin, 
+app.put('/api/events/:eslug/register', userController.isLogin, 
                   eventController.postEventRegister);
-app.post('/api/events/:eslug/unregister', userController.isLogin,
+app.put('/api/events/:eslug/unregister', userController.isLogin,
                   eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
@@ -132,6 +133,8 @@ app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamControlle
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
+
+app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin,projectController.updateProject);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

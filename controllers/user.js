@@ -168,6 +168,10 @@ exports.getUserBySlug = function(req,res){
     path:'events.team',
     select:'slug name'
   })
+  .populate({
+    path:'events.appliedTeams._id events.teamInvites._id',
+    select:'slug name'
+  })
   .exec(function(err,user){
 
     if (err) res.send(err);
@@ -177,12 +181,6 @@ exports.getUserBySlug = function(req,res){
       });
     }
     else{
-       // var options = {
-       //  path:'events.appliedTeams'
-       // };
-       // User.populate(user,options,function(err, users){
-       //  res.json(users);
-       // });
       var temp ={
         _id:user._id,
         events:user.events,
@@ -206,10 +204,6 @@ exports.getUserBySlug = function(req,res){
     else{
       var temp ={
         _id:user._id,
-        events:[{
-          _id:user.events._id,
-          team:user.events.team
-        }],
         profile:user.profile
       };
       res.json(temp);

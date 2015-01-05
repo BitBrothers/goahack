@@ -30,11 +30,11 @@ var teamSchema = new mongoose.Schema({
 
   problemStatement: {type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
   eventSlug: String,
-  chat:{
-  	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  chat:[{
+  	_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   	description: String,
   	date: {type: Date, default: Date.now}
-  }
+  }]
 });
 
 

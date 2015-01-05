@@ -8,7 +8,9 @@ var projectSchema = new mongoose.Schema({
   tags: [String],
   lastUpdated: String,
   star: Number,
-  fork: Number
+  fork: Number,
+  teamSlug: String,
+  eventSlug: String
 });
 
 /**
