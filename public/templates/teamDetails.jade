@@ -1,0 +1,90 @@
+.col-md-10.col-md-offset-1.section2
+  .row
+    .col-md-4.col-sm-6.col-xs-12.displayPic
+      img(src='images/Layer-1.png')
+    .col-md-6.col-sm-6.col-xs-12.teamName
+      h2 Lannister Coders
+      h5 MUMBAI, MAHARASHTRA
+    .col-md-3.col-sm-2.col-xs-1.lock
+      img(src='images/Capture.svg')
+.row
+  .col-md-10.col-md-offset-1.sec2
+    .row
+      .col-md-2.col-sm-2.col-xs-6.teamMembers
+        img(src='images/Layer-4.png')
+        br
+        h6 Ryan Styles
+        small  PHP DEVELOPER
+      .col-md-2.col-sm-2.col-xs-6.teamMembers
+        img(src='images/Layer-3.png')
+        br
+        h6 Michael Phil
+        small WEB DESIGNER
+      .col-md-2.col-sm-2.col-xs-6.teamMembers
+        img(src='images/Layer-5.png')
+        br
+        h6 Gary Rhodes
+        small DOTNET DEVELOPER
+      .col-md-2.col-sm-2.col-xs-6.teamMembers
+        img(src='images/Layer-7.png')
+        br
+        h6 Bruce Wayne
+        small  BUSINESS ANALYST
+      .col-md-2.col-sm-2.col-xs-6.teamMembers
+        img(src='images/addMember.png')
+        br
+.row
+  .col-md-10.col-md-offset-1.sec3
+    h4 Ryan Styles
+    p
+      | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+      | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+      | but also the leap into electronic typesetting, remaining essentially unchanged.
+
+.row
+  div(column='col-md-10 col-md-offset-1')
+    form.form-horizontal.col-md-10.col-md-offset-1
+      .form-group
+        label.col-sm-3.control-label.ps(for='inputEmail3') Problem Statement:
+        .col-sm-9
+          input.form-control(type='text' ng-model='problem.name')
+      .form-group
+        label.col-sm-2.control-label.desc Description: 
+        .col-md-12.col-sm-12.col-xs-12
+          text-angular(ng-model='problem.description', ta-toolbar='[["h3"],["bold","italics","underline"]]')
+
+.row
+  .col-md-10.col-md-offset-1.custom-remove-padding
+    form.form-horizontal.col-md-12
+      .form-group
+        label.col-sm-3.control-label.tag1(for='inputEmail3') Tags :
+        .col-sm-9
+          tags-input(ng-model='problem.tag')
+            auto-complete(source='loadTags($query)')    
+    button.btn.btn-default.tag(ng-click='problemSubmit()') Submit
+.row
+  .col-md-10.col-md-offset-1.sec5
+    .col-md-12.chatWallHeader
+      | Lannister Coders chat wall
+    .col-md-12.chats
+      .chatRow
+        p Gary Rhodes
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+          | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+          | but also the leap into electronic typesetting, remaining essentially unchanged.
+      .chatRow
+        p Ryan Styles
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+          | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      .chatRow
+        p Michael Phil
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+.row
+  .col-md-10.col-md-offset-1.sec6
+    h5  Comment on the wall 
+    form
+    text-angular(ng-model='commentArea', ta-toolbar='[["h3"],["bold","italics","underline"]]')
+    button.btn.btn-default.tag(ng-click='problemSubmit()') Submit

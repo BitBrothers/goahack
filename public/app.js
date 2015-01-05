@@ -1,5 +1,5 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
-                           'mgcrea.ngStrap'])
+                           'mgcrea.ngStrap','ngTagsInput','textAngular'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
@@ -15,6 +15,10 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
       .when('/signup', {
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
+      }) 
+    .when('/team/:tslug', {
+        templateUrl: 'views/teamDetails.html',
+        controller: 'TeamDetailsCtrl'
       })
       .when('/userprofile/:slug', {
         templateUrl: 'views/userProfile.html',
