@@ -1,39 +1,26 @@
 div
-  .search-pane.text-center.col-md-11
-    .red-bar
-    |                 
-    .sb-text
-      | Find a team
-    |  
-    |                 
-    div
-      input.search-box(type='text', placeholder='  Search by team name...')
-      |                     
-      a.btn.btn-default.search-button(href='#') Go
-      |                     
-      a.btn.btn-primary.create-button(href='#') Create Team
-|         
-.team-display(ng-repeat="team in teams")
-  .team-block.col-md-11
-    a(href='#')
-      img.col-md-2.col-sm-2.col-xs-12(src='images/stark.png')
-      |                     
-      .col-md-10.team-content.col-md-2
-        .nameDiv.col-md-9
-          p.title {{team.name}}
-          |                             
-          p.place MUMBAI, MAHARASHTRA
-        |                         
-        .col-md-1
-          img(src='images/members.svg')
-        |                         
-        .col-md-2
-          p.membersNumber
-            a(href='#')   {{team.members.length}}
-        |                         
-        .col-md-12
-          p.desc
-            | {{team.description}}
-  |             
-  |             
- 
+    .search-pane.text-center.col-md-11
+        .red-bar 
+        .sb-text Find a team
+        div
+          input.search-box(type='text', placeholder='  Search by team name...')                       
+          a.btn.btn-default.search-button(href='#') Go                 
+          a.btn.btn-primary.create-button(href='#') Create Team
+      .team-display(ng-repeat='team in teams')
+        .team-block.col-md-11
+          a(href='#')
+            img.col-md-2.col-sm-2.col-xs-12(src='images/stark.png')
+          .col-md-10.team-content.col-md-2
+            .nameDiv.col-md-9
+              p.title {{team.name}}           
+              p.place MUMBAI, MAHARASHTRA                     
+            .col-md-1
+              button#members(ng-click='toggleModal()')
+                img(src='images/members.svg')            
+              modal-dialog(show='modalShown')
+                p Currently, deals do not exist for this project      
+            .col-md-2
+              p.membersNumber
+                a(href='#')   {{team.members.length}}       
+            .col-md-12
+              p.desc {{team.description}}

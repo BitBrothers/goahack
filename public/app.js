@@ -27,7 +27,6 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
       .when('/teams', {
         templateUrl: 'views/teams.html',
         controller: 'TeamsCtrl'
-
       })
       .otherwise({
         redirectTo: '/'
