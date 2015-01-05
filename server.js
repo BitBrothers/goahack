@@ -130,6 +130,7 @@ app.get('/api/event/:eslug/teamsearch',teamController.getTeams);
 app.put('/api/event/:eslug/team/:tslug', userController.isLogin, teamController.postUpdate, teamController.updateTeam);
 app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
 app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamController.deleteTeam);
+app.post('/api/event/:eslug/team/:tslug/chat', userController.isLogin,teamController.postChat);
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);

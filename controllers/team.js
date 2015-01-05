@@ -713,3 +713,23 @@ exports.unjoinTeam = function(req, res) {
         });
     });
 };
+
+exports.postChat = function(req, res){
+    console.log('hi');
+    Team.findOne({eventSlug:req.params.eslug,slug:req.params.tslug},
+        function(err,team){
+            if(err) res.send(err);
+            else if(!team){
+                res.json({
+                    message:'Team not found'
+                });
+            }
+            else{
+                team.chat.push({name:req.user.slug,description:req.body.description});
+                 team.save(function(err) {
+                    if (err) res.send(err);
+                  });
+
+            }
+        });
+};

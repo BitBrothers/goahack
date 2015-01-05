@@ -169,7 +169,7 @@ exports.getUserBySlug = function(req,res){
     select:'slug name'
   })
   .populate({
-    path:'events.appliedTeams._id events.teamInvites._id',
+    path:'events.appliedTeams._id events._id.teamInvites',
     select:'slug name'
   })
   .exec(function(err,user){
@@ -193,7 +193,16 @@ exports.getUserBySlug = function(req,res){
   });
   } 
   else{
-    User.findOne({'profile.slug': req.params.uslug},function(err,user){
+    User.findOne({'profile.slug': req.params.uslug})
+    .populate({
+    path:'events._id',
+    select:'slug name'
+  })
+  .populate({
+    path:'events.team',
+    select:'slug name'
+  })
+  .exec(function(err,user){
 
     if (err) res.send(err);
     else if(!user){
@@ -204,7 +213,8 @@ exports.getUserBySlug = function(req,res){
     else{
       var temp ={
         _id:user._id,
-        profile:user.profile
+        profile:user.profile,
+        events:user.events
       };
       res.json(temp);
     }

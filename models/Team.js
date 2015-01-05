@@ -31,7 +31,7 @@ var teamSchema = new mongoose.Schema({
   problemStatement: {type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
   eventSlug: String,
   chat:[{
-  	_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  	name:String,
   	description: String,
   	date: {type: Date, default: Date.now}
   }]
