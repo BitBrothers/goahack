@@ -25,4 +25,4 @@ public/app.min.js
 public/templates.js
 public/vendor
 public/stylesheets/*.css
-public/views/*.html
+public/views/**/*.html
