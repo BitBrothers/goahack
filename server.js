@@ -115,6 +115,8 @@ app.put('/api/events/:eslug/unregister', userController.isLogin,
                   eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
+
+
 app.put('/api/event/:eslug/team/:tslug/apply', userController.isLogin, teamController.postCreate,teamController.applyTeam);
 app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamController.postUpdate,teamController.approveMember);//send member to be approved in req.body.approval
 app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember);
@@ -131,11 +133,13 @@ app.put('/api/event/:eslug/team/:tslug', userController.isLogin, teamController.
 app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
 app.delete('/api/event/:eslug/team/:tslug', userController.isLogin,teamController.deleteTeam);
 app.post('/api/event/:eslug/team/:tslug/chat', userController.isLogin,teamController.postChat);
+app.get('/api/event/:eslug/status', userController.isLogin, eventController.getStatus);
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
 
-app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin,projectController.updateProject);
+app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin, teamController.postUpdate, projectController.updateProject);
+app.get('/api/event/:eslug/team/:tslug/project',userController.isLogin, projectController.getProject);
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);

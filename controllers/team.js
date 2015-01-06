@@ -85,30 +85,44 @@ exports.postCreate = function(req, res, next) {
 exports.createTeam = function(req, res) {
 
 
+    function slugify(text) {
 
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+        .replace(/-+$/, ''); // Trim - from end of text
+    };
     //add team id in event list....p
     var team = new Team();
     team.name = req.body.name;
     team.description = req.body.description;
     team.eventSlug = req.params.eslug;
-    team.admin = req.user._id; 
+    team.admin = req.user._id;
+    team.slug = slugify(req.body.name); 
 
     team.members.push({
         _id: req.user._id
     }); 
 
-
+    
     var project = new Project();
     project.name = req.body.projName;
+    if(req.body.projDesc !== null || undefined || ''){
+        team.ps_status = true;
+    }
     project.description = req.body.projDesc;
     project.tags = req.body.projectTags; //make sure tags puts single value in single element....p
     project.eventSlug = req.params.eslug;
+    project.teamSlug = slugify(req.body.name);
     team.problemStatement = project._id;
 
     User.findById(req.user._id  , function(err, user) {
         if (err) return res.send(err);
 
         user.events.id(req.eveId).team = team._id;
+        user.events.id(req.eveId).team_status = true;
 
 
         user.save(function(err) {
@@ -126,7 +140,7 @@ exports.createTeam = function(req, res) {
             _id: team._id
         });
 
-        //Update attendies list here also..but not now awaiting confirmation
+        
         event.save(function(err) {
             if (err)
                 return res.send(err);
@@ -144,6 +158,7 @@ exports.createTeam = function(req, res) {
       
         
     });
+    console.log(team);
           project.save(function(err) {
                 if (err)
                     return res.send(err);
@@ -188,8 +203,12 @@ exports.searchTeamSlug = function(req, res) {
         slug: req.params.tslug
     })
     .populate({
-        path:'members._id appliedMembers._id inviteMembers._id',
+        path:'members._id appliedMembers._id inviteMembers._id ',
         select:'profile'
+    })
+    .populate({
+        path:'chat._id',
+        select: 'profile.name'
     })
     .populate({
         path:'problemStatement',
@@ -269,6 +288,7 @@ exports.deleteTeam = function(req, res, next) { //Can the team admin delete an a
                                 if (err) res.send(err);
 
                                 user.events.id(event._id).team = null;
+                                user.events.id(event._id).team_status = false;
                                 user.save(function(err) {
                                     if (err)
                                         res.send(err);
@@ -483,22 +503,27 @@ exports.approveMember = function(req, res) {
 
                     if(req.body.result == 'true'){
 
+                    if(team.members.length >= 5){
+                        res.json({
+                            message:'Team full'
+                        });
+                    }
+
                     team.members.push({
                         _id: user._id
                     });
-                    user.events.id(req.eventId).team = team._id;
 
-                    res.json({
-                        message: 'Member Approved and Added'
-                    });
-
-                    } else if(req.body.result == 'false') {
-
-                    res.json({
-                        message: 'USer unapproved'
-                    });
+                    if(team.members.length >= 3){
+                        team.member_status = true;
                     }
-                   team.save(function(err) {
+                    else{
+                        team.member_status = false;
+                    }
+
+                    user.events.id(req.eventId).team = team._id;
+                    user.events.id(req.eventId).team_status = true;
+
+                    team.save(function(err) {
                         if (err) res.send(err);
                     });
 
@@ -506,6 +531,27 @@ exports.approveMember = function(req, res) {
                     user.save(function(err) {
                         if (err) res.send(err);
                     });
+
+                    res.json({
+                        message: 'Member Approved and Added'
+                    });
+
+                    }
+                    else if(req.body.result == 'false') {
+                    team.save(function(err) {
+                        if (err) res.send(err);
+                    });
+
+
+                    user.save(function(err) {
+                        if (err) res.send(err);
+                    });
+
+                    res.json({
+                        message: 'USer unapproved'
+                    });
+                    }
+                   
                }   
                 else{
                     res.json({
@@ -579,19 +625,32 @@ exports.acceptInvite = function(req, res) {
                         function(err, user){
                             if(err) res.send(err);
                             if(team.inviteMembers(user._id)){
+                                 team.inviteMembers.pull({
+                                    _id: user._id
+                                });
+                                user.events.id(req.eveId).teamInvites.pull({
+                                    _id: team._id
+                                });
                             if(req.body.result == 'true'){
+                                if(team.members.length >= 5){
+                                    res.json({
+                                        message:'Team full'
+                                    });
+                                }
                                 team.members.push({
                                     _id: user._id
                                 });
 
-                                team.inviteMembers.pull({ 
-                                    _id: user._id
-                                });
+                                if(team.members.length >= 3){
+                                    team.member_status = true;
+                                }
+                                else{
+                                    team.member_status = false;
+                                 }
 
                                 user.events.id(req.eveId).team = team._id;
-                                user.events.id(req.eveId).teamInvites.pull({
-                                    _id:team._id
-                                });
+                                user.events.id(req.eveId).team_status = true;
+                             
 
                                 team.save(function(err) {
                                     if (err) res.send(err);
@@ -606,12 +665,7 @@ exports.acceptInvite = function(req, res) {
                                 }); 
                             }
                             else if(req.body.result == 'false'){
-                                team.inviteMembers.pull({
-                                    _id: user._id
-                                });
-                                user.events.id(req.eveId).teamInvites.pull({
-                                    _id: team._id
-                                });
+                               
                                 team.save(function(err) {
                                     if (err) res.send(err);
                                 });
@@ -692,9 +746,15 @@ exports.unjoinTeam = function(req, res) {
                     if (err) res.send(err);
 
                     user.events.id(event._id).team = null;
+                    user.events.id(event._id).team_status = false;
                     team.members.pull({
                         _id: req.user._id
                     });
+                    if(team.members.length >= 3){
+                        team.member_status = true;
+                    }else{
+                        team.member_status = false;
+                    }
 
                         team.save(function(err) {
                                     if (err) res.send(err);
@@ -716,7 +776,9 @@ exports.unjoinTeam = function(req, res) {
 
 exports.postChat = function(req, res){
     console.log('hi');
-    Team.findOne({eventSlug:req.params.eslug,slug:req.params.tslug},
+    Team.findOne({
+        eventSlug:req.params.eslug,
+        slug:req.params.tslug},
         function(err,team){
             if(err) res.send(err);
             else if(!team){
@@ -725,11 +787,18 @@ exports.postChat = function(req, res){
                 });
             }
             else{
-                team.chat.push({name:req.user.slug,description:req.body.description});
+                team.chat.push({name:req.user._id});
                  team.save(function(err) {
                     if (err) res.send(err);
                   });
+                 res.json({
+                    message:'added chat'
+                });
 
             }
         });
+};
+
+exports.removeMember =function(req, res){
+    
 };

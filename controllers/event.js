@@ -1,5 +1,7 @@
 var Event = require('../models/Event');
 var User = require('../models/User');
+var Team = require('../models/Team');
+
 
 exports.getEvents = function(req, res, next) {
   var query = Event.find();
@@ -34,32 +36,34 @@ exports.postEvent = function (req, res) {
   });
 };
 
-exports.postEventRegister = function(req, res, next) {
+exports.postEventRegister = function(req, res) {
   Event.findOne({slug:req.params.eslug}, function(err, event) {
-    if (err) return next(err);
+    if (err)  res.send(err);
     event.attendees.push(req.user._id);
     User.findById(req.user._id, function(err, user){
       if(err) res.send(err);
       user.events.push({
-                _id: event._id
+                _id: event._id,register_status:true
             });
+
       user.save(function(err){
         if (err) res.send(err);
       });
     });
     event.save(function(err) {
-      if (err) return next(err);
+      if (err)  res.send(err);
       res.send(200);
     });
   });
 };
 
-exports.postEventUnregister = function(req, res, next) {
-  Event.findById(req.params.id, function(err, event) {
+exports.postEventUnregister = function(req, res) {
+  Event.findOne({slug:req.params.eslug}, function(err, event) {
     if (err) return next(err);
     var index = event.attendees.indexOf(req.user._id);
     event.attendees.splice(index, 1);
     User.findById(req.user._id, function(err, user){
+      if(err) res.send(err);
       user.events.pull({
         _id:event._id
       });
@@ -72,4 +76,42 @@ exports.postEventUnregister = function(req, res, next) {
       res.send(200);
     });
   });
+};
+
+exports.getStatus = function(req, res){
+  var temp ={
+    register_status:false,
+    team_status:false,
+    ps_status:false,
+    member_status:false,
+    payment_status:false
+  };
+  Event.findOne({slug:req.params.eslug},function(err, event){
+    if(err) res.send(err);
+    else if(!event){
+      res.json({
+        message: 'Event not found'
+      });
+    }
+    User.findById(req.user._id,function(err, user){
+      if(err) res.send(err);
+      if(user.events.id(event._id)){
+
+      temp.register_status = user.events.id(event._id).register_status;
+      temp.team_status = user.events.id(event._id).team_status;
+      temp.payment_status = user.events.id(event._id).payment_status;
+
+      if(user.events.id(event._id).team){
+      Team.findById(user.events.id(event._id).team,function(err, team){
+        if(err) res.send(err);
+        temp.member_status = team.member_status;
+        temp.ps_status = team.ps_status;
+      });
+      }
+      }
+      res.json(temp);
+
+    });
+  });
+  
 };

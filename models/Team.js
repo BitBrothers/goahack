@@ -14,6 +14,8 @@ var teamSchema = new mongoose.Schema({
   slug: String,
   tags : [String],
   admin: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  ps_status: {type: Boolean, default:false},
+  member_status: {type:Boolean, default:false},
 
 
   members: [{
@@ -31,7 +33,7 @@ var teamSchema = new mongoose.Schema({
   problemStatement: {type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
   eventSlug: String,
   chat:[{
-  	name:String,
+  	_id:{type: mongoose.Schema.Types.ObjectId,ref: 'User'},
   	description: String,
   	date: {type: Date, default: Date.now}
   }]
@@ -39,15 +41,15 @@ var teamSchema = new mongoose.Schema({
 
 
 //Slug function
-function slugify(text) {
+// function slugify(text) {
 
-  return text.toString().toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
-};
+//   return text.toString().toLowerCase()
+//     .replace(/\s+/g, '-') // Replace spaces with -
+//     .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+//     .replace(/\-\-+/g, '-') // Replace multiple - with single -
+//     .replace(/^-+/, '') // Trim - from start of text
+//     .replace(/-+$/, ''); // Trim - from end of text
+// };
 
 teamSchema.index({ 
   name : 'text',
@@ -60,7 +62,7 @@ teamSchema.index({
 
 
 teamSchema.pre('save', function(next) {
-  this.slug = slugify(this.name);
+  // this.slug = slugify(this.name);
     next();
 });
 

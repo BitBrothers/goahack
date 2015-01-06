@@ -15,8 +15,8 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   tokens: Array,
   type: String, //Judge,User,Mentor
-    
-    
+
+
   profile: {
     slug: {type: String},
     name: { type: String, default: '' },
@@ -34,6 +34,9 @@ var userSchema = new mongoose.Schema({
   events : [{
     _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     team : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+    register_status: {type : Boolean, default : false},
+    team_status:{type:Boolean,default: false},
+    payment_status:{type:Boolean,default: false},
     appliedTeams : [{
       _id : {type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
     }],
