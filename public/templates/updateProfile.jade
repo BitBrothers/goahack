@@ -1,0 +1,45 @@
+.container.updateProfileContainer
+  .row.first
+    p Profile Picture
+    img.col-md-4.updateProfileDisplayPic(src='images/addMember.PNG')
+    br
+    .col-md-12
+      button.btn.btn-default.bn Browse
+  br
+  .row.second.user_details_container
+    h4 User Details
+    div(column='col-md-10')
+      form.form-horizontal.col-md-10.col-md-offset-1.updateProfileForm
+        .form-group
+          label.col-sm-2.control-label.updateProfileLabel(for='name') Name: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='name', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='full') Full Name: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='nameFull', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='company') Company: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='employers', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='occupation') Occupation: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='occupation', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='location') Location: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='location', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='website') Website: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='website', type='text')
+          label.col-sm-2.control-label.updateProfileLabel(for='exp') Experience: 
+          .col-sm-10
+            input.form-control.updateProfileInputBox(ng-model='experience', type='text')
+          br
+  .row.third.user_details_container
+    h4 Skills
+    div(column='col-md-10')
+      form.form-horizontal.col-md-10.col-md-offset-1.updateProfileForm
+        .form-group
+          label.col-sm-2.control-label.updateProfileLabel(for='skills') Skills: 
+          .col-sm-10
+            tags-input(ng-model='skill', placeholder='Enter your Skills here')
+          button.btn.btn-default.tag(ng-click='update()') Update Profile
+  
