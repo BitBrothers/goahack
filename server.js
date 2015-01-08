@@ -137,6 +137,8 @@ app.get('/api/event/:eslug/status', userController.isLogin, eventController.getS
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
+app.put('/api/user/upload', userController.isLogin, userController.uploadImagesS3);
+
 
 app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin, teamController.postUpdate, projectController.updateProject);
 app.get('/api/event/:eslug/team/:tslug/project',userController.isLogin, projectController.getProject);

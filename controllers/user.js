@@ -1,14 +1,22 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var crypto = require('crypto');
+var AWS = require('aws-sdk');
+
 /**
  * Secret Keys and Configurations.
  */
-//TODO Create a config function in secrets.js
-//var secret = require('../config/secrets');
-//var config = new secret();
+
 
 var config = require('../config/secrets');
+AWS.config.region = config.amazon.region;
+AWS.config.update({accessKeyId: config.amazon.accessKeyId,
+                   secretAccessKey: config.amazon.secretAccessKey
+                  });
+var s3 = new AWS.S3();
+// var bucketParams = {Bucket: 'mybucket'};
+// s3.createBucket(bucketParams);
+//console.log(s3);
 
 /**
  * Model.
@@ -16,6 +24,7 @@ var config = require('../config/secrets');
 var User = require('../models/User');
 
 var tokenSecret = config.sessionSecret;
+
 
 
 function createJwtToken(user) {
@@ -254,4 +263,78 @@ exports.updateProfile = function(req, res){
 
   });
 
+};
+
+exports.uploadImagesS3 = function(req, res){
+  User.findById(req.user._id, function(err, user){
+    if(err) res.send(err);
+
+    var s3Bucket = new AWS.S3( { params: {Bucket: 'myBucket'} } );
+    console.log(s3Bucket);
+
+    // if(user.profile.picture !== null || undefined || ''){
+    //   s3Bucket.deleteObject({ 
+    //     params: {Bucket: 'myBucket',Key: user.profile.slug}},
+    //      function(err, data) {
+    //     if (err) res.send(err); // an error occurred
+    //     else {
+    //         var data = { Bucket:'myBucket',Key: user.profile.slug, Body: req.body.imageFile};
+    //         s3Bucket.putObject(data, function(err, data){
+    //           if(err){
+    //             res.send(err);
+    //           }else{
+    //               console.log('succesfully uploaded the image!');
+    //                var urlParams = {Bucket: 'myBucket', Key: user.profile.slug};
+    //                s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+    //                   if(err) res.send(err);
+    //                     console.log('the url of the image is', url);
+    //                     user.profile.picture = url;
+    //                      user.save(function(err){
+    //                       if(err) res.send(err);
+    //                       res.json({
+    //                         message: 'Upload done'
+    //                       });
+    //                 });
+    //                 });
+                   
+                          
+    //                     }
+    //                 });
+    //             }
+    //           });
+    //      }
+    //      else{
+          var data = { Bucket:'goahack',Key: user.profile.slug, Body: req.body.imageFile,ACL: 'public-read'};
+            s3Bucket.putObject(data, function(err, data){
+              if(err){
+                res.send(err);
+              }else{
+                  console.log('succesfully uploaded the image!');
+                   var urlParams = {Bucket: 'goahack', Key: user.profile.slug};
+                   s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
+                      if(err) res.send(err);
+                      else{
+                          console.log('the url of the image is', url);
+                         user.profile.picture = url;
+                         user.save(function(err){
+                          if(err) res.send(err);
+                          res.json({
+                            message: 'Upload done'
+                          });
+                         });
+                      }
+                
+                    });
+                   
+                          
+                        }
+                    });
+             
+         // }
+          console.log(user.profile.slug);
+
+
+   
+
+  });
 };
