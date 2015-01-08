@@ -20,6 +20,10 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
         templateUrl: 'views/teamDetails.html',
         controller: 'TeamDetailsCtrl'
       })
+      .when('/userprofile/edit', {
+        templateUrl: 'views/updateProfile.html',
+        controller: 'UpdateProfileCtrl'
+      })
       .when('/userprofile/:slug', {
         templateUrl: 'views/userProfile.html',
         controller: 'UserProfileCtrl'

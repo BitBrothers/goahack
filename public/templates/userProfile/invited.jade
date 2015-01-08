@@ -1,38 +1,12 @@
 .row.dashContent
-  .row.dashContentTeam
-    a(href='#')
-      .col-md-1.teamPhoto
-        img(src='images/stark.png')
-      .col-md-10
-        h4 Stark Badgers
-      .col-md-1
-        h4 x
-  hr
-  .row.dashContentTeam
-    a(href='#')
-      .col-md-1.teamPhoto
+  div.row.dashContentTeam(ng-repeat='invited in user.events[0].teamInvites')
+    a(href='/team/{{invited._id.slug}}')
+      .col-md-1.col-xs-2.teamPhoto
         img(src='images/lannister.png')
-      .col-md-10
-        h4 Lannister Coders
-      .col-md-1
+      .col-md-10.col-xs-8
+        h4 {{invited._id.name}}
+      .col-md-1.col-xs-2
         h4 x
-  hr
-  .row.dashContentTeam
-    a(href='#')
-      .col-md-1.teamPhoto
-        img(src='images/stark.png')
-      .col-md-10
-        h4 Stark Badgers
-      .col-md-1
-        h4 x
-  hr
-  .row.dashContentTeam
-    a(href='#')
-      .col-md-1.teamPhoto
-        img(src='images/lannister.png')
-      .col-md-10
-        h4 Lannister Coders
-      .col-md-1
-        h4 x
+      br
   
 // dashContent ENDS

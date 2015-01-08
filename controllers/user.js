@@ -169,7 +169,7 @@ exports.getUserBySlug = function(req,res){
     select:'slug name'
   })
   .populate({
-    path:'events.appliedTeams._id events._id.teamInvites',
+    path:'events.appliedTeams._id events.teamInvites._id',
     select:'slug name'
   })
   .exec(function(err,user){
@@ -227,16 +227,23 @@ exports.updateProfile = function(req, res){
   User.findById(req.user._id,function(err, user){
     if(err) res.send(err);
 
-     
+     console.log(user);
     user.profile.name = req.body.name;
     user.profile.nameFull = req.body.nameFull;
     user.profile.location = req.body.location;
     user.profile.website = req.body.website;
     user.profile.occupation = req.body.occupation;
-    user.profile.skills = req.body.skills;
+    //user.profile.skills.push(req.body.skills);
     user.profile.experience = req.body.experience;
     user.profile.employers = req.body.employers;
     user.profile.picture = req.body.picture;
+    user.profile.skills.splice(0,user.profile.skills.length);
+    console.log(req.body.skills);
+    for (var i = 0; i <= req.body.skills.length -1; i++) {
+      user.profile.skills.push(req.body.skills[i].text);
+    };
+          console.log(user.profile.skills);
+
 
     user.save(function(err){
       if (err) res.send(err);

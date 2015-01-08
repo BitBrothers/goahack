@@ -1,47 +1,44 @@
 .container.contentContainer
-    .row
-        .col-md-3.sidebar
-          // SIDEBAR
-          .userInfo.col-md-12.col-sm-6
-            a(href='/userprofile/edit')
-              img.editIcon(src='images/edit-icon.svg')
-            br
-            img(src='images/Layer-3.png')
-            br
-            |         
-            h4 {{user.profile.nameFull}}
-            |         
-            p
-              img.userInfoIcon(src='images/occupation-icon.svg')
-              | {{user.profile.occupation}}
-            |         
-            p
-              img.userInfoIcon(src='images/location-icon.svg')
-              | {{user.profile.location}}
-            |         
-            p
-              img.userInfoIcon(src='images/website-icon.svg')
-              | {{user.profile.website}}
-            |         
-            p
-              img.userInfoIcon(src='images/company-icon.svg')
-              | {{user.profile.employers}}
-            |         
-            p
-              img.userInfoIcon(src='images/experience-icon.svg')
-              | {{user.profile.experience}}
-          // </div>
-          // <div class="row">
-          .userSkillSet.col-md-12.col-sm-6
-            h4  Skills 
-            |         
-            p(ng-repeat='skill in user.profile.skills')  - {{skill}}
-        // SIDEBAR ENDS
-        .col-md-9.mainContent
-          // MAIN CONTENT
-          div(bs-active-pane='tabs.activeTab', bs-tabs='')
-            div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')
-            |         
-            div(ng-include='', src='tabs[tabs.activeTab].page')
-        // MAIN CONTENT ENDS
-    // ng-if="currentUser.slug == user.profile.slug"
+  .row
+    .col-md-3.sidebar
+      // SIDEBAR
+      .userInfo.col-md-12.col-sm-6
+        a(href="/userprofile/edit")
+          img.editIcon(src='images/edit-icon.svg')
+        br
+        img(src='images/Layer-3.png')
+        br
+        h4 {{user.profile.nameFull}}
+        
+        p 
+          img.userInfoIcon(src='images/occupation-icon.svg')
+          | {{user.profile.occupation}}
+        p 
+          img.userInfoIcon(src='images/location-icon.svg')
+          | {{user.profile.location}}
+        p 
+          img.userInfoIcon(src='images/website-icon.svg') 
+          | {{user.profile.website}}
+        p
+          img.userInfoIcon(src='images/company-icon.svg')
+          | {{user.profile.employers}}
+        p 
+          img.userInfoIcon(src='images/experience-icon.svg')
+          | {{user.profile.experience}}
+      // </div>
+      // <div class="row">
+      .userSkillSet.col-md-12.col-sm-6
+        h4  Skills 
+        p(ng-repeat='skill in user.profile.skills')  - {{skill}}
+    // SIDEBAR ENDS
+    .col-md-9.mainContent
+      // MAIN CONTENT
+      div(bs-active-pane='tabs.activeTab', bs-tabs='')
+        div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')
+        div(ng-include='', src='tabs[tabs.activeTab].page')
+        
+
+      
+
+    // MAIN CONTENT ENDS
+//    ng-if="currentUser.slug == user.profile.slug"

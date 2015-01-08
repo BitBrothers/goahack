@@ -557,7 +557,8 @@ body
 
 .userInfo img
 {
-    border-radius: 50% !important;
+    border-radius: 50%;
+    border: 0px;
     width: 120px;
 }
 
@@ -571,8 +572,9 @@ body
     color: #e8e8e8;
     margin-top: -10px;
     text-align: left;
-    width: 80%;
+    width: 85%;
     margin: auto;
+    margin-top: 5px;
 }
 
 .contentContainer
@@ -1486,5 +1488,74 @@ body
 }
 .nav.navbar-nav{
   background: transparent !important;
+}
+
+.userInfoIcon {
+  width: 20px !important;
+  position: relative;
+  top: -1px;
+  margin-right: 3px;
+  border-radius: 0px !important;
+}
+
+.editIcon {
+  border-radius: 0px !important;
+  width: 20px !important;
+  position: absolute;
+  right: 10px;
+}
+
+@media screen and (min-width:769px)
+  and (max-width:990px)
+{
+  .userSkillSet
+  {
+    height: 317px !important;
+  }
+  
+  .editIcon
+  {
+    position: absolute;
+    right: -350px;
+    top: 275px;
+    z-index: 2;
+  }
+}
+
+
+
+
+
+.updateProfileContainer
+{
+  background-color: #fff;
+}
+
+.user_details_container
+{
+//  background-color: #2b2b2b;
+  padding: 10px;
+}
+
+.updateProfileInputBox
+{
+  margin-bottom: 10px;
+  background-color: #e8e8e8;
+}
+
+.updateProfileLabel
+{
+  color: #e8e8e8;
+}
+
+.updateProfileForm
+{
+  background-color: #2b2b2b;
+}
+
+.updateProfileDisplayPic
+{
+  width: 200px;
+  margin-bottom: 10px;
 }
 
