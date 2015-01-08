@@ -28,20 +28,18 @@ exports.postCreate = function(req, res, next) {
             res.send(err);
 
         } else if (!event) {
-            res.json({
-                message: 'Event not found'
-            });
+            res.status(404).send('event not found');
 
         } else {
 
-          //console.log(req.user);
+            //console.log(req.user);
             User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
+                else {
+                    var isEvent = false;
+                    var isTeam = false;
+                    console.log(user.events);
 
-                var isEvent = false;
-                var isTeam = false;
-                console.log(user.events);
-            
                     if (user.events.id(event._id)) {
                         isEvent = true;
                         if (user.events.id(event._id).team == null || undefined) {
@@ -49,28 +47,23 @@ exports.postCreate = function(req, res, next) {
                             req.eveId = event._id;
                         }
                     }
-                  
+
 
                     console.log(isEvent);
                     console.log(isTeam);
 
                     if (isEvent == false) {
-                        res.json({
-                            message: 'Event not joined'
-                        });
+                        res.status(404).send('Event not joined');
 
 
                     } else if (isTeam == true && isEvent == true) {
                         next();
                     } else if (isEvent == true && isTeam == false) {
-                        res.json({
-                            message: 'Team already exsists'
-                        });
+                        res.status(404).send('team already joined');
                     }
+                }
 
 
-
-                
 
 
             });
@@ -87,12 +80,12 @@ exports.createTeam = function(req, res) {
 
     function slugify(text) {
 
-      return text.toString().toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with -
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        .replace(/\-\-+/g, '-') // Replace multiple - with single -
-        .replace(/^-+/, '') // Trim - from start of text
-        .replace(/-+$/, ''); // Trim - from end of text
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-') // Replace spaces with -
+            .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+            .replace(/\-\-+/g, '-') // Replace multiple - with single -
+            .replace(/^-+/, '') // Trim - from start of text
+            .replace(/-+$/, ''); // Trim - from end of text
     };
     //add team id in event list....p
     var team = new Team();
@@ -100,16 +93,16 @@ exports.createTeam = function(req, res) {
     team.description = req.body.description;
     team.eventSlug = req.params.eslug;
     team.admin = req.user._id;
-    team.slug = slugify(req.body.name); 
+    team.slug = slugify(req.body.name);
 
     team.members.push({
         _id: req.user._id
-    }); 
+    });
 
-    
+
     var project = new Project();
     project.name = req.body.projName;
-    if(req.body.projDesc !== null || undefined || ''){
+    if (req.body.projDesc !== null || undefined || '') {
         team.ps_status = true;
     }
     project.description = req.body.projDesc;
@@ -118,58 +111,70 @@ exports.createTeam = function(req, res) {
     project.teamSlug = slugify(req.body.name);
     team.problemStatement = project._id;
 
-    User.findById(req.user._id  , function(err, user) {
+    User.findById(req.user._id, function(err, user) {
         if (err) return res.send(err);
-
-        user.events.id(req.eveId).team = team._id;
-        user.events.id(req.eveId).team_status = true;
-
-
-        user.save(function(err) {
-            if (err)
-                return res.send(err);
-        });
-
-    });
+        else {
+            user.events.id(req.eveId).team = team._id;
+            user.events.id(req.eveId).team_status = true;
 
 
-    Event.findOne({
-        slug: req.params.eslug
-    }, function(err, event) {
-        event.teamList.push({
-            _id: team._id
-        });
+            user.save(function(err) {
+                if (err) return res.send(err);
+                else {
+                    Event.findOne({
+                        slug: req.params.eslug
+                    }, function(err, event) {
 
-        
-        event.save(function(err) {
-            if (err)
-                return res.send(err);
-        });
-
-
-    });
+                        if (err) res.send(err);
+                        else {
+                            event.teamList.push({
+                                _id: team._id
+                            });
 
 
+                            event.save(function(err) {
+                                if (err) return res.send(err);
+                                else {
+                                    team.save(function(err) {
+                                        if (err) return res.send(err);
+                                        else {
+                                            project.save(function(err) {
+                                                if (err)
+                                                    return res.send(err);
+                                                else {
+                                                    res.json({
+                                                        message: 'project and team created and user plus event data saved'
+                                                    });
+                                                }
 
 
-    team.save(function(err) {
-        if (err)
-            return res.send(err);
-      
-        
-    });
-    console.log(team);
-          project.save(function(err) {
-                if (err)
-                    return res.send(err);
 
 
-                res.json({
-                    message: 'project and team created and user plus event data saved'
-                });
+                                            });
+                                        }
 
 
+                                    });
+                                }
+                            });
+
+                        }
+
+
+                    });
+
+
+
+
+                }
             });
+
+        }
+
+
+    });
+
+
 
 
 };
@@ -183,14 +188,16 @@ exports.getallTeams = function(req, res) {
         eventSlug: req.params.eslug,
         status: 'Un-approved' /*member count search filter???maybe hide in angular*/
     }).populate({
-        path:'members._id',
-        select:'profile'
-    }) .exec(function(err, team) {
+        path: 'members._id',
+        select: 'profile'
+    }).exec(function(err, team) {
         if (err)
             res.send(err);
 
+        else {
 
-        res.json(team);
+            res.json(team);
+        }
     });
 
 
@@ -202,33 +209,31 @@ exports.searchTeamSlug = function(req, res) {
 
 
     Team.findOne({
-        eventSlug: req.params.eslug,
-        slug: req.params.tslug
-    })
-    .populate({
-        path:'members._id appliedMembers._id inviteMembers._id ',
-        select:'profile'
-    })
-    .populate({
-        path:'chat._id',
-        select: 'profile.name'
-    })
-    .populate({
-        path:'problemStatement',
-        select: 'name description eventSlug teamSlug'
-    })
-    .exec(function(err, team) {
-        if (err) {
-            res.send(err);
-        } else if (!team) {
-            res.json({
-                message: 'Team not found'
-            });
-        } else {
+            eventSlug: req.params.eslug,
+            slug: req.params.tslug
+        })
+        .populate({
+            path: 'members._id appliedMembers._id inviteMembers._id ',
+            select: 'profile'
+        })
+        .populate({
+            path: 'chat._id',
+            select: 'profile.name'
+        })
+        .populate({
+            path: 'problemStatement',
+            select: 'name description eventSlug teamSlug'
+        })
+        .exec(function(err, team) {
+            if (err) {
+                res.send(err);
+            } else if (!team) {
+                res.status(404).send('team not found');
+            } else {
 
-            res.json(team);
-        }
-    });
+                res.json(team);
+            }
+        });
 
 
 
@@ -249,9 +254,7 @@ exports.deleteTeam = function(req, res, next) { //Can the team admin delete an a
             res.send(err);
 
         } else if (!event) {
-            res.json({
-                message: 'Event not found'
-            });
+            res.status(404).send('Event not found');
         } else {
 
             Team.findOne({
@@ -264,55 +267,51 @@ exports.deleteTeam = function(req, res, next) { //Can the team admin delete an a
                         message: 'Team not found'
                     });
                 } else if (team.status == 'Approved') {
-                    res.json({
-                        message: 'Team already approved cant delete'
-                    });
+                    res.status(404).send('team already approved cant delete');
                 } else {
-                    if (team.admin == req.user._id ) {
+                    if (team.admin == req.user._id) {
                         event.teamList.pull({
                             _id: team._id
                         });
                         event.save(function(err) {
-                            if (err)
-                                res.send(err);
-                        });
+                            if (err) res.send(err);
+                            else {
+                                Project.remove({
+                                    _id: team.problemStatement
+                                }, function(err, team) {
+                                    if (err) res.send(err);
+                                    else {
+                                        for (var i = team.members.length - 1; i >= 0; i--) {
 
-                        Project.remove({
-                            _id: team.problemStatement
-                        }, function(err, team) {
-                            if (err)
-                                res.send(err);
-                        });
+                                            User.findById(team.members[i]._id, function(err, user) {
 
-                        for (var i = team.members.length - 1; i >= 0; i--) {
+                                                if (err) res.send(err);
 
-                            User.findById(team.members[i]._id, function(err, user) {
+                                                user.events.id(event._id).team = null;
+                                                user.events.id(event._id).team_status = false;
+                                                user.save(function(err) {
+                                                    if (err) res.send(err);
+                                                });
 
-                                if (err) res.send(err);
+                                            });
 
-                                user.events.id(event._id).team = null;
-                                user.events.id(event._id).team_status = false;
-                                user.save(function(err) {
-                                    if (err)
-                                        res.send(err);
+                                        };
+
+                                        team.remove();
+                                        res.json({
+                                            message: 'Successfully deleted'
+                                        });
+
+                                    }
                                 });
-
-                            });
-
-                        };
-
-                        team.remove();
-
-
-
-
-                        res.json({
-                            message: 'Successfully deleted'
+                            }
                         });
+
+
+
+
                     } else {
-                        res.json({
-                            message: 'Not team admin'
-                        });
+                        res.status(404).send('Not team admin');
                     }
                 }
             });
@@ -328,31 +327,47 @@ exports.applyTeam = function(req, res) {
     }, function(err, team) {
         if (err) res.send(err);
         else if (!team) {
-            res.json({
-                message: 'Team not found'
-            });
+            res.status(404).send('team not found');
         } else if (team.status == 'Approved') {
-            res.json({
-                message: 'Team already approved cant apply'
-            });
+            res.status(404).send('team already approved cant apply ');
         } else if (team.members.length >= 5) {
-            res.json({
-                message: 'Team already full'
-            });
+            res.status(404).send('team already full');
         } else {
-            User.findById(req.user._id , function(err, user) {
+            User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
-                var isTeam = true;
-                var index = 0;
 
                 if (user.events.id(req.eveId).appliedTeams.length >= 5) {
-                    res.json({
-                        message: 'Cant apply for more teams'
-                    });
+                    res.status(404).send('Cant apply for more teams');
                 } else {
 
                     if (user.events.id(req.eveId).appliedTeams.id(team._id)) {
-                        isTeam = false;
+
+                        res.status(404).send('Already applied for team');
+                    } else {
+
+                        user.events.id(req.eveId).appliedTeams.push({
+                            _id: team._id
+                        });
+                        team.appliedMembers.push({
+                            _id: req.user._id
+                        });
+
+                        user.save(function(err) {
+                            if (err) return res.send(err);
+                            else {
+                                team.save(function(err) {
+                                    if (err) return res.send(err);
+                                    else {
+                                        res.json({
+                                            message: 'Successfully applied'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+
+
 
                     }
 
@@ -361,33 +376,7 @@ exports.applyTeam = function(req, res) {
                 }
 
 
-                if (isTeam == true) {
 
-                    user.events.id(req.eveId).appliedTeams.push({
-                        _id: team._id
-                    });
-                    team.appliedMembers.push({
-                        _id: req.user._id
-                    }); 
-
-                    user.save(function(err) {
-                        if (err)
-                            return res.send(err);
-                    });
-
-                    team.save(function(err) {
-                        if (err)
-                            return res.send(err);
-                    });
-
-                    res.json({
-                        message: 'Successfully applied'
-                    });
-                } else if (isTeam == false) {
-                    res.json({
-                        message: 'Already applied for team'
-                    });
-                }
             });
 
         }
@@ -408,9 +397,7 @@ exports.postUpdate = function(req, res, next) {
         if (err) res.send(err);
 
         else if (!event) {
-            res.json({
-                message: 'Event not found'
-            });
+            res.status(404).send('Event not found');
         } else {
             Team.findOne({
                 eventSlug: req.params.eslug,
@@ -418,23 +405,18 @@ exports.postUpdate = function(req, res, next) {
             }, function(err, team) {
                 if (err) res.send(err);
                 else if (!team) {
-                    res.json({
-                        message: 'Team not found'
-                    });
+                    res.status(404).send('Team not found');
+
                 } else {
                     if (team.members.id(req.user._id)) {
                         if (team.admin.equals(req.user._id)) {
                             req.eventId = event._id;
                             next();
                         } else {
-                            res.json({
-                                message: 'Not the admin'
-                            });
+                            res.status(404).send('Not the admin');
                         }
                     } else {
-                        res.json({
-                            message: 'Not a member'
-                        });
+                        res.status(404).send('Not a member');
                     }
 
                 }
@@ -448,28 +430,33 @@ exports.postUpdate = function(req, res, next) {
 exports.updateTeam = function(req, res) {
 
     Team.findOne({
-        eventSlug:req.params.eslug,
-        slug:req.params.tslug}, 
+            eventSlug: req.params.eslug,
+            slug: req.params.tslug
+        },
         function(err, team) {
 
-        if (err) res.send(err);
+            if (err) res.send(err);
+            else {
+                team.name = req.body.name;
+                team.description = req.body.description;
+                //Add here whatever fields should be updated
 
 
-        team.name = req.body.name;
-        team.description = req.body.description;
-        //Add here whatever fields should be updated
+                team.save(function(err) {
+                    if (err) res.send(err);
+                    else {
+                        res.json({
+                            message: 'Team updated!'
+                        });
+                    }
+
+                });
+            }
 
 
-        team.save(function(err) {
-            if (err)
-                res.send(err);
 
-            res.json({
-                message: 'Team updated!'
-            });
+
         });
-
-    });
 
 };
 
@@ -483,86 +470,90 @@ exports.approveMember = function(req, res) {
     }, function(err, team) {
         if (err) {
             res.send(err);
+        } else {
+
+            User.findById(req.body.approval, function(err, user) {
+                if (err) res.send(err);
+                else {
+                    if (user.events.id(req.eventId).team) {
+                        res.status(404).send('Already in team');
+                    } else {
+
+                        if (team.appliedMembers.id(user._id)) {
+
+                            team.appliedMembers.pull({
+                                _id: user._id
+                            });
+                            user.events.id(req.eventId).appliedTeams.pull({
+                                _id: team._id
+                            });
+
+
+                            if (req.body.result == 'true') {
+
+                                if (team.members.length >= 5) {
+                                    res.status(404).send('Team already full');
+                                }
+
+                                team.members.push({
+                                    _id: user._id
+                                });
+
+                                if (team.members.length >= 3) {
+                                    team.member_status = true;
+                                } else {
+                                    team.member_status = false;
+                                }
+
+                                user.events.id(req.eventId).team = team._id;
+                                user.events.id(req.eventId).team_status = true;
+
+                                team.save(function(err) {
+                                    if (err) res.send(err);
+                                    else {
+                                        user.save(function(err) {
+                                            if (err) res.send(err);
+                                            else {
+                                                res.json({
+                                                    message: 'Member Approved and Added'
+                                                });
+                                            }
+                                        });
+
+
+                                    }
+                                });
+
+
+
+
+                            } else if (req.body.result == 'false') {
+                                team.save(function(err) {
+                                    if (err) res.send(err);
+                                    else {
+                                        user.save(function(err) {
+                                            if (err) res.send(err);
+                                            else {
+                                                res.status(404).send('User unapproved');
+                                            }
+                                        });
+                                    }
+                                });
+
+
+
+
+                            }
+
+                        } else {
+                            res.status(404).send('User not applied');
+                        }
+                    }
+                }
+
+            });
         }
 
-        User.findById(req.body.approval, function(err, user) {
-            if (err) res.send(err);
-            console.log(user);
-            if (user.events.id(req.eventId).team) {
-                res.json({
-                    message: 'Already in team'
-                });
-            } else {
-
-                if (team.appliedMembers.id(user._id)) {
-
-                    team.appliedMembers.pull({
-                        _id: user._id
-                    });
-                    user.events.id(req.eventId).appliedTeams.pull({
-                        _id: team._id
-                    });
-
-
-                    if(req.body.result == 'true'){
-
-                    if(team.members.length >= 5){
-                        res.json({
-                            message:'Team full'
-                        });
-                    }
-
-                    team.members.push({
-                        _id: user._id
-                    });
-
-                    if(team.members.length >= 3){
-                        team.member_status = true;
-                    }
-                    else{
-                        team.member_status = false;
-                    }
-
-                    user.events.id(req.eventId).team = team._id;
-                    user.events.id(req.eventId).team_status = true;
-
-                    team.save(function(err) {
-                        if (err) res.send(err);
-                    });
-
-
-                    user.save(function(err) {
-                        if (err) res.send(err);
-                    });
-
-                    res.json({
-                        message: 'Member Approved and Added'
-                    });
-
-                    }
-                    else if(req.body.result == 'false') {
-                    team.save(function(err) {
-                        if (err) res.send(err);
-                    });
-
-
-                    user.save(function(err) {
-                        if (err) res.send(err);
-                    });
-
-                    res.json({
-                        message: 'USer unapproved'
-                    });
-                    }
-                   
-               }   
-                else{
-                    res.json({
-                        message:'User not applied'
-                    });
-                }
-            }
-        });
     });
 };
 
@@ -574,131 +565,153 @@ exports.inviteMember = function(req, res) {
         slug: req.params.tslug
     }, function(err, team) {
         if (err) res.send(err);
+        else {
 
-        User.findById(req.body.invite, function(err, user) {
-            if (err) res.send(err);
-            if(user.events.id(req.eventId)){
-            team.inviteMembers.push({
-                _id: user._id
-            });
-            console.log(team.inviteMembers);
-            user.events.id(req.eventId).teamInvites.push({
-                _id: team._id
-            });
-
-            team.save(function(err) {
+            User.findOne({
+                email: req.body.invite
+            }, function(err, user) {
                 if (err) res.send(err);
-            });
+                else {
+                    if(team.inviteMembers.id(user._id)){
+                        res.status(400).send('Already invited');
+                    }
+                    else{
+                            if (user.events.id(req.eventId)) {
+                        team.inviteMembers.push({
+                            _id: user._id
+                        });
+                        user.events.id(req.eventId).teamInvites.push({
+                            _id: team._id
+                        });
 
-            user.save(function(err) {
-                if (err) res.send(err);
-            });
+                        team.save(function(err) {
+                            if (err) res.send(err);
+                            else {
+                                user.save(function(err) {
+                                    if (err) res.send(err);
+                                    else {
+                                        res.json({
+                                            message: 'User invited....awaiting confirmation'
+                                        });
+                                    }
+                                });
 
-            res.json({
-                message: 'User invited....awaiting confirmation'
-            });
+                            }
+                        });
 
-            }
-            else{
-                    res.json({
-                    message:'User not joined event'
-                });
-            }
-        });
+
+
+
+                    } else {
+                        res.status(404).send('Event not joined');
+                    }
+                    }
+                
+                }
+
+            });
+        }
+
+
     });
 
 
 };
 
 exports.acceptInvite = function(req, res) {
-    
-        Team.findOne({
-            eventSlug:req.params.eslug,
-            slug:req.params.tslug}
-            , function(err, team){
-                if(err) res.send(err);
-                else if(!team){
-                    res.json({
-                        message:'Team not found'
-                    });
-                }
-                else{
-                    User.findById(
-                        req.user._id,
-                        function(err, user){
-                            if(err) res.send(err);
-                            if(team.inviteMembers(user._id)){
-                                 team.inviteMembers.pull({
-                                    _id: user._id
-                                });
-                                user.events.id(req.eveId).teamInvites.pull({
-                                    _id: team._id
-                                });
-                            if(req.body.result == 'true'){
-                                if(team.members.length >= 5){
-                                    res.json({
-                                        message:'Team full'
-                                    });
+
+    Team.findOne({
+        eventSlug: req.params.eslug,
+        slug: req.params.tslug
+    }, function(err, team) {
+        if (err) res.send(err);
+        else if (!team) {
+            res.status(404).send('Team not found');
+        } else {
+            User.findById(
+                req.user._id,
+                function(err, user) {
+                    if (err) res.send(err);
+                    else {
+                        if (team.inviteMembers(user._id)) {
+                            team.inviteMembers.pull({
+                                _id: user._id
+                            });
+                            user.events.id(req.eveId).teamInvites.pull({
+                                _id: team._id
+                            });
+                            if (req.body.result == 'true') {
+                                if (team.members.length >= 5) {
+                                    res.status(404).send('Team full');
                                 }
                                 team.members.push({
                                     _id: user._id
                                 });
 
-                                if(team.members.length >= 3){
+                                if (team.members.length >= 3) {
                                     team.member_status = true;
-                                }
-                                else{
+                                } else {
                                     team.member_status = false;
-                                 }
+                                }
 
                                 user.events.id(req.eveId).team = team._id;
                                 user.events.id(req.eveId).team_status = true;
-                             
+
 
                                 team.save(function(err) {
                                     if (err) res.send(err);
+                                    else {
+                                        user.save(function(err) {
+                                            if (err) res.send(err);
+                                            else {
+                                                res.json({
+                                                    message: 'Team joined'
+                                                });
+                                            }
+                                        });
+                                    }
                                 });
 
-                                user.save(function(err) {
-                                    if (err) res.send(err);
-                                });
 
-                                res.json({
-                                    message: 'Team joined'
-                                }); 
-                            }
-                            else if(req.body.result == 'false'){
-                               
+
+
+                            } else if (req.body.result == 'false') {
+
                                 team.save(function(err) {
                                     if (err) res.send(err);
+                                    else {
+                                        user.save(function(err) {
+                                            if (err) res.send(err);
+                                            else {
+                                                res.status(404).send('Invitation Declined');
+
+                                            }
+                                        });
+                                    }
                                 });
 
-                                user.save(function(err) {
-                                    if (err) res.send(err);
-                                });
 
-                                res.json({
-                                    message: 'Invitation Declined'
-                                });
 
-                            }else{
-                                res.json({
-                                    message: 'Not invited in team'
-                                });
+
                             }
+                        } else {
+                            res.status(404).send('Not invited to team');
                         }
-                    });
-                }
-        });
-    
+
+                    }
+
+                });
+        }
+    });
+
 };
 
-exports.getTeams = function(req, res){
+exports.getTeams = function(req, res) {
     var query = Team.find();
     var key = "";
     console.log(req.headers.keyword);
     if (req.query.keyword instanceof Array) {
-        for (var i = 0; i<req.query.keyword.length; i++) {
+        for (var i = 0; i < req.query.keyword.length; i++) {
             key = key + req.query.keyword[i] + " ";
             console.log(key);
         };
@@ -708,14 +721,22 @@ exports.getTeams = function(req, res){
     }
 
     if (req.headers.keyword) {
-        query = query.find({ $text : { $search : key }}  );
-        query = query.find({'eventSlug': req.params.eslug},{'status':"Un-approved"});
+        query = query.find({
+            $text: {
+                $search: key
+            }
+        });
+        query = query.find({
+            'eventSlug': req.params.eslug
+        }, {
+            'status': "Un-approved"
+        });
         console.log(query);
-            // .skip(req.query.s)
-            // .limit(req.query.l);
+        // .skip(req.query.s)
+        // .limit(req.query.l);
     };
-    query.exec(function(err, teams){
-        if(err) res.send(err);
+    query.exec(function(err, teams) {
+        if (err) res.send(err);
         console.log(teams);
         res.json(teams);
     });
@@ -728,80 +749,92 @@ exports.unjoinTeam = function(req, res) {
         slug: req.params.eslug
     }, function(err, event) {
         if (err) res.send(err);
+        else {
+            Team.findOne({
+                eventSlug: req.params.eslug,
+                slug: req.params.tslug
+            }, function(err, team) {
+                if (err) res.send(err);
 
-        Team.findOne({
-            eventSlug: req.params.eslug,
-            slug: req.params.tslug
-        }, function(err, team) {
-            if (err) res.send(err);
-
-            else if (!team) {
-                res.json({
-                    message: 'Team not found'
-                });
-            } else if (team.admin == req.user._id) {
-                res.json({
-                    message: 'Admin cant unjoin team ....only delete'
-                });
-            } else {
-
-                User.findById(req.user._id, function(err, user) {
-                    if (err) res.send(err);
-
-                    user.events.id(event._id).team = null;
-                    user.events.id(event._id).team_status = false;
-                    team.members.pull({
-                        _id: req.user._id
+                else if (!team) {
+                    res.json({
+                        message: 'Team not found'
                     });
-                    if(team.members.length >= 3){
-                        team.member_status = true;
-                    }else{
-                        team.member_status = false;
-                    }
+                } else if (team.admin == req.user._id) {
+                    res.status(404).send('Admin cant unjoin....only delete');
+                } else {
 
-                        team.save(function(err) {
-                                    if (err) res.send(err);
-                                });
+                    User.findById(req.user._id, function(err, user) {
+                        if (err) res.send(err);
+                        else {
+                            user.events.id(event._id).team = null;
+                            user.events.id(event._id).team_status = false;
+                            team.members.pull({
+                                _id: req.user._id
+                            });
+                            if (team.members.length >= 3) {
+                                team.member_status = true;
+                            } else {
+                                team.member_status = false;
+                            }
 
-                                user.save(function(err) {
-                                    if (err) res.send(err);
-                                });
+                            team.save(function(err) {
+                                if (err) res.send(err);
+                                else {
+                                    user.save(function(err) {
+                                        if (err) res.send(err);
+                                        else {
+                                            res.json({
+                                                message: 'team unjoined'
+                                            });
+                                        }
+                                    });
+                                }
+                            });
 
-                                res.json({
-                                    message: 'team unjoined'
-                                });
 
-                });
-            }
-        });
+
+
+                        }
+
+
+                    });
+                }
+            });
+        }
+
+
     });
 };
 
-exports.postChat = function(req, res){
+exports.postChat = function(req, res) {
     console.log('hi');
     Team.findOne({
-        eventSlug:req.params.eslug,
-        slug:req.params.tslug},
-        function(err,team){
-            if(err) res.send(err);
-            else if(!team){
-                res.json({
-                    message:'Team not found'
+            eventSlug: req.params.eslug,
+            slug: req.params.tslug
+        },
+        function(err, team) {
+            if (err) res.send(err);
+            else if (!team) {
+                res.status(404).send('Team not found');
+            } else {
+                team.chat.push({
+                    name: req.user._id
                 });
-            }
-            else{
-                team.chat.push({name:req.user._id});
-                 team.save(function(err) {
+                team.save(function(err) {
                     if (err) res.send(err);
-                  });
-                 res.json({
-                    message:'added chat'
+                    else {
+                        res.json({
+                            message: 'added chat'
+                        });
+                    }
                 });
+
 
             }
         });
 };
 
-exports.removeMember =function(req, res){
-    
+exports.removeMember = function(req, res) {
+
 };
