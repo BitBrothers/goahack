@@ -100,7 +100,7 @@ var eventController = require('./controllers/event');
 var teamController = require('./controllers/team');
 var projectController = require('./controllers/project');
 
-app.post('/api/auth/signup', userController.signup);
+app.post('/api/auth/signup', userController.signup,eventController.postEventRegister);
 app.post('/api/auth/login', userController.login);
 app.post('/api/auth/facebook', userController.facebookAuth);
 app.post('/api/auth/google', userController.googleAuth);
@@ -137,7 +137,7 @@ app.get('/api/event/:eslug/status', userController.isLogin, eventController.getS
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
-app.put('/api/user/upload', userController.isLogin, userController.uploadImagesS3);
+app.put('/api/user/upload', userController.isLogin, userController.deleteImagesS3, userController.uploadImagesS3);
 
 
 app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin, teamController.postUpdate, projectController.updateProject);

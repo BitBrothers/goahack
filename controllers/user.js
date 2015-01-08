@@ -69,8 +69,11 @@ exports.signup = function(req, res, next) {
   user.profile.email = req.body.email;
   user.profile.name = req.body.name;
   user.save(function(err) {
-    if (err) return next(err);
-    res.send(200);
+    if (err) res.send(err);
+    else{
+      next();
+    }
+    
   });
 };
 
@@ -264,47 +267,38 @@ exports.updateProfile = function(req, res){
   });
 
 };
+exports.deleteImagesS3 = function(req, res, next){
+  User.findById(req.user._id, function(err, user){
+    if(err) res.send(err);
+
+    var s3Bucket = new AWS.S3( { params: {Bucket: 'goahack'} } );
+    //console.log(s3Bucket);
+
+    if(user.profile.picture !== null || undefined || ''){
+      console.log(user.profile.slug);
+      var params = {Bucket: 'goahack',Key: user.profile.slug};
+
+      s3Bucket.deleteObject(params,function(err, data) {
+        if (err) res.send(err); // an error occurred
+        else {
+           next();
+                }
+              });
+         }
+         else{
+          next();
+         }
+
+  });
+};
 
 exports.uploadImagesS3 = function(req, res){
   User.findById(req.user._id, function(err, user){
     if(err) res.send(err);
 
-    var s3Bucket = new AWS.S3( { params: {Bucket: 'myBucket'} } );
-    console.log(s3Bucket);
 
-    // if(user.profile.picture !== null || undefined || ''){
-    //   s3Bucket.deleteObject({ 
-    //     params: {Bucket: 'myBucket',Key: user.profile.slug}},
-    //      function(err, data) {
-    //     if (err) res.send(err); // an error occurred
-    //     else {
-    //         var data = { Bucket:'myBucket',Key: user.profile.slug, Body: req.body.imageFile};
-    //         s3Bucket.putObject(data, function(err, data){
-    //           if(err){
-    //             res.send(err);
-    //           }else{
-    //               console.log('succesfully uploaded the image!');
-    //                var urlParams = {Bucket: 'myBucket', Key: user.profile.slug};
-    //                s3Bucket.getSignedUrl('getObject', urlParams, function(err, url){
-    //                   if(err) res.send(err);
-    //                     console.log('the url of the image is', url);
-    //                     user.profile.picture = url;
-    //                      user.save(function(err){
-    //                       if(err) res.send(err);
-    //                       res.json({
-    //                         message: 'Upload done'
-    //                       });
-    //                 });
-    //                 });
-                   
-                          
-    //                     }
-    //                 });
-    //             }
-    //           });
-    //      }
-    //      else{
-          var data = { Bucket:'goahack',Key: user.profile.slug, Body: req.body.imageFile,ACL: 'public-read'};
+         var s3Bucket = new AWS.S3( { params: {Bucket: 'goahack'} } );
+          var data = { Bucket:'goahack',Key: user.profile.slug, Body: req.body.imageFile, ACL: 'public-read'};
             s3Bucket.putObject(data, function(err, data){
               if(err){
                 res.send(err);
@@ -330,8 +324,8 @@ exports.uploadImagesS3 = function(req, res){
                         }
                     });
              
-         // }
-          console.log(user.profile.slug);
+          
+          
 
 
    

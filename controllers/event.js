@@ -37,10 +37,10 @@ exports.postEvent = function (req, res) {
 };
 
 exports.postEventRegister = function(req, res) {
-  Event.findOne({slug:req.params.eslug}, function(err, event) {
+  Event.findOne({slug:'goa-hack'}, function(err, event) {
     if (err)  res.send(err);
-    event.attendees.push(req.user._id);
-    User.findById(req.user._id, function(err, user){
+    //event.attendees.push(req.user._id);
+    User.findOne({email: req.body.email}, function(err, user){
       if(err) res.send(err);
       user.events.push({
                 _id: event._id,register_status:true
@@ -52,7 +52,7 @@ exports.postEventRegister = function(req, res) {
     });
     event.save(function(err) {
       if (err)  res.send(err);
-      res.send(200);
+      res.sendStatus(200);
     });
   });
 };
