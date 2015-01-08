@@ -182,7 +182,10 @@ exports.getallTeams = function(req, res) {
     Team.find({
         eventSlug: req.params.eslug,
         status: 'Un-approved' /*member count search filter???maybe hide in angular*/
-    }, function(err, team) {
+    }).populate({
+        path:'members._id',
+        select:'profile'
+    }) .exec(function(err, team) {
         if (err)
             res.send(err);
 

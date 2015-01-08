@@ -1,26 +1,44 @@
-div
-    .search-pane.text-center.col-md-11
-        .red-bar 
-        .sb-text Find a team
-        div
-          input.search-box(type='text', placeholder='  Search by team name...')                       
-          a.btn.btn-default.search-button(href='#') Go                 
-          a.btn.btn-primary.create-button(href='#') Create Team
-      .team-display(ng-repeat='team in teams')
-        .team-block.col-md-11
-          a(href='#')
-            img.col-md-2.col-sm-2.col-xs-12(src='images/stark.png')
-          .col-md-10.team-content.col-md-2
-            .nameDiv.col-md-9
-              p.title {{team.name}}           
-              p.place MUMBAI, MAHARASHTRA                     
-            .col-md-1
-              button#members(ng-click='toggleModal()')
-                img(src='images/members.svg')            
-              modal-dialog(show='modalShown')
-                p Currently, deals do not exist for this project      
-            .col-md-2
-              p.membersNumber
-                a(href='#')   {{team.members.length}}       
-            .col-md-12
-              p.desc {{team.description}}
+include partials/progress-bar.jade
+
+div.row
+  .search-pane.text-center.col-md-11
+    .red-bar
+    |                 
+    .sb-text
+      | Find a team
+    |  
+    |                 
+    div
+      input.search-box(type='text', placeholder='  Search by team name...', ng-model='team')
+      |                     
+      a.btn.btn-default.search-button(href='#') Go
+      |                     
+      a.btn.btn-primary.create-button(href='#') Create Team
+
+div.row.team-display(ng-repeat='team in teams | filter: team')
+  .row.team-block
+    .col-md-2.col-sm-2
+      img.teamPic(src='images/stark.png')  
+    .col-md-10.col-sm-10.team-details
+      .row
+        .col-md-8.col-sm-8.title
+          | {{team.name}}
+        |       
+        .col-md-4.col-sm-4.members-button
+          button
+            img(src='images/group.svg')
+            | {{team.members.length}}  Member(s)
+      |     
+      .row
+        .col-md-12.col-sm-12.desc
+          | {{team.description | characters:200 }}
+      |     
+      .row
+        .col-md-12.col-sm-12.tags
+          .tags.col-md-1(ng-repeat='tag in team.tags')
+            a.btn.btn-default(href='#') {{tag}}
+
+
+  modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='80%')
+    .team-members(ng-repeat='member in team.members')
+      p {{member._id.profile.name}}

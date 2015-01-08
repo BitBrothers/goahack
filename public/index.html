@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="/">Goa Hack</a>
+            <a class="navbar-brand page-scroll" href="/">GOA HACK</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,68 +46,6 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-<div class="progress">
-  <div class="progress-items">
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-done"></div>
-          <div ng-click='registerEvent()'>
-              <div>
-                <img src="images/register.png">
-              </div>
-              <div>
-                <p>Register</p>
-              </div>
-          </div>
-        
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-pending"></div>
-          <div>
-              <img src="images/create-team.png">
-          </div>
-          <div>
-              <p>Join/Create team</p>
-          </div>
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-pending"></div>
-          <div>
-              <img src="images/prob-statement.png">
-          </div>
-          <div>
-              <p>Problem Statement</p>
-          </div>
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-pending"></div>
-          <div>
-              <img src="images/3-5-members.png">
-          </div>
-          <div>
-              <p>3-5 team members</p>
-          </div>
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-pending"></div>
-          <div>
-              <img src="images/payment.png">
-          </div>
-          <div>
-              <p>Make payment</p>
-          </div>
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-6 text-center">
-          <div class="progress-stat-pending"></div>
-          <div>
-              <img src="images/ready.png">
-          </div>
-          <div>
-              <p>Ready</p>
-          </div>
-      </div>
-  </div>
-</div>
-
 <div ng-view class="{{pageClass}}"></div>
 
 <script src="vendor/jquery/dist/jquery.js"></script>
@@ -125,12 +63,16 @@
 <script src='/vendor/textAngular/dist/textAngular-sanitize.min.js'></script>
 <script src='/vendor/textAngular/dist/textAngular.min.js'></script>
 <script src="vendor/moment/moment.min.js"></script>
+<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
 
 <script src="app.js"></script>
+  <!-- Directives -->
 <script src="directives/uniqueEmail.js"></script>
 <script src="directives/passwordStrength.js"></script>
 <script src="directives/simpleModal.js"></script>
+<script src="directives/truncate.js"></script>
+
 <script src="controllers/home.js"></script>
 <script src="controllers/detail.js"></script>
 <script src="controllers/add.js"></script>
