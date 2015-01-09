@@ -5,33 +5,34 @@ include partials/progress-bar.jade
     .col-md-3.sidebar
       // SIDEBAR
       .userInfo.col-md-12.col-sm-6
-        a(href="/userprofile/edit")
-          img.editIcon(src='images/edit-icon.svg')
+        a(href="{{path}}/edit")
+          img.editIcon(src='images/edit-icon.svg', ng-show='{{editIcon}}')
         br
         img(src='images/Layer-3.png')
         br
         h4 {{user.profile.nameFull}}
         
         p 
-          img.userInfoIcon(src='images/occupation-icon.svg')
+          img.userInfoIcon(src='images/occupation-icon.svg', ng-show='user.profile.occupation')
           | {{user.profile.occupation}}
         p 
-          img.userInfoIcon(src='images/location-icon.svg')
+          img.userInfoIcon(src='images/location-icon.svg', ng-show='user.profile.location')
           | {{user.profile.location}}
         p 
-          img.userInfoIcon(src='images/website-icon.svg') 
+          img.userInfoIcon(src='images/website-icon.svg', ng-show='user.profile.website') 
           | {{user.profile.website}}
         p
-          img.userInfoIcon(src='images/company-icon.svg')
+          img.userInfoIcon(src='images/company-icon.svg', ng-show='user.profile.employers')
           | {{user.profile.employers}}
         p 
-          img.userInfoIcon(src='images/experience-icon.svg')
+          img.userInfoIcon(src='images/experience-icon.svg', ng-show='user.profile.experience')
           | {{user.profile.experience}}
       // </div>
       // <div class="row">
       .userSkillSet.col-md-12.col-sm-6
         h4  Skills 
         p(ng-repeat='skill in user.profile.skills')  - {{skill}}
+
     // SIDEBAR ENDS
     .col-md-9.mainContent
       // MAIN CONTENT

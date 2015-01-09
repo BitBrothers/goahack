@@ -3,47 +3,40 @@ include partials/progress-bar.jade
 .col-md-10.col-md-offset-1.section2
   .row
     .col-md-4.col-sm-6.col-xs-12.displayPic
-      img(src='images/Layer-1.png')
+      img(src='images/dummy-team-photo.svg')
     .col-md-6.col-sm-6.col-xs-12.teamName
-      h2 Lannister Coders
+      h2 {{name}}
       h5 MUMBAI, MAHARASHTRA
     .col-md-3.col-sm-2.col-xs-1.lock
       img(src='images/Capture.svg')
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
-      .col-md-2.col-sm-2.col-xs-6.teamMembers
+      .col-md-2.col-sm-2.col-xs-6.teamMembers(ng-repeat='member in team.members')
         img(src='images/Layer-4.png')
         br
-        h6 Ryan Styles
-        small  PHP DEVELOPER
+        h6 {{member._id.profile.nameFull}}
+        small {{member._id.profile.occupation}}
       .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img(src='images/Layer-3.png')
+        img.addMemberImage(src='images/add-member.svg')
         br
-        h6 Michael Phil
-        small WEB DESIGNER
-      .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img(src='images/Layer-5.png')
-        br
-        h6 Gary Rhodes
-        small DOTNET DEVELOPER
-      .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img(src='images/Layer-7.png')
-        br
-        h6 Bruce Wayne
-        small  BUSINESS ANALYST
-      .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img(src='images/addMember.png')
-        br
+        
+.row(ng-show='currentUser._id == admin')
+  .col-md-10.col-md-offset-1
+    div.teamPageTabs(bs-active-pane='tabs.activeTab', bs-tabs='')
+      div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')
+      div(ng-include='', src='tabs[tabs.activeTab].page')
+        
 .row
   .col-md-10.col-md-offset-1.sec3
     h4 Ryan Styles
+    img.editProblemStatementIcon(src='images/edit-icon.svg', ng-show='currentUser._id == admin', ng-click='edit()')
     p
       | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
       | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
       | but also the leap into electronic typesetting, remaining essentially unchanged.
 
-.row
+.row(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
     form.form-horizontal.col-md-10.col-md-offset-1
       .form-group
@@ -55,7 +48,7 @@ include partials/progress-bar.jade
         .col-md-12.col-sm-12.col-xs-12
           text-angular(ng-model='problem.description', ta-toolbar='[["h3"],["bold","italics","underline"]]')
 
-.row
+.row(ng-show='editStatus')
   .col-md-10.col-md-offset-1.custom-remove-padding
     form.form-horizontal.col-md-12
       .form-group

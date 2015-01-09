@@ -5,10 +5,12 @@ angular.module('GoaHack')
   
    var init = function()
    {
-     User.get({ uslug: $routeParams.slug },                 function(user)
+     User.get({ uslug: $routeParams.slug },
+      function(user)
         {
           $scope.user = user;
           console.log(user);
+       
         });
    };
    
@@ -17,6 +19,8 @@ angular.module('GoaHack')
   console.log($rootScope.currentUser.slug + " " + $routeParams.slug);
   if($rootScope.currentUser.slug == $routeParams.slug)
   {
+    
+    console.log("hELLO");
      $scope.tabs = [
       {title:'Team', page: '../views/userProfile/team.html'},
       {title:'Applied', page: '../views/userProfile/applied.html'},
@@ -24,6 +28,8 @@ angular.module('GoaHack')
       {title:'Notifications', page: '../views/userProfile/applied.html'}
     ];
     $scope.tabs.activeTab = 0;
+    
+    $scope.editIcon = true;
   }
   else
   {
@@ -31,12 +37,21 @@ angular.module('GoaHack')
       {title:'Team', page: '../views/userProfile/team.html'},
     ];
     $scope.tabs.activeTab = 0;
+    
+    $scope.editIcon = false;
   }
-//  console.log($scope.tabs);
-//  console.log($rootScope.currentUser);
+
   
- 
+ $scope.path = $location.path();
+  console.log($scope.path);
   
-//  console.log($window.localStorage.token);
+  if($rootScope.currentUser.slug == $routeParams.slug)
+  {
+     
+  }
+  else
+  {
+     
+  }
   
 });

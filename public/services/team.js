@@ -1,4 +1,4 @@
 angular.module('GoaHack')
-  .factory('Teams', function($resource) {
-    return $resource('/api/event/:eslug/teams');
+  .factory('Team', function($resource) {
+    return $resource('/api/event/:eslug/team/:tslug');
   });

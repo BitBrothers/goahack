@@ -1,11 +1,11 @@
 angular.module('GoaHack')
-  .controller('UpdateProfileCtrl', function($scope, $rootScope, User, $alert, $location) {
+  .controller('UpdateProfileCtrl', function($scope, $rootScope, User, $alert, $location, $routeParams) {
   
     $scope.skill = [String];
-  
-     User.get({ uslug: $rootScope.currentUser.slug },              
+     User.get({ uslug: $routeParams.slug },              
       function(user)
         {
+       
 //          $scope.user = user;
           $scope.name = user.profile.name;
           $scope.nameFull = user.profile.nameFull;
@@ -15,9 +15,9 @@ angular.module('GoaHack')
           $scope.experience = user.profile.experience;
           $scope.occupation = user.profile.occupation;
           $scope.skill = user.profile.skills;
-          console.log(user);
+//          console.log(user);
         });
-  console.log($rootScope.currentUser.slug);
+  console.log($routeParams.slug);
   console.log($scope.skill);
   //$scope.employers=$scope.user.profile.employers;
   $scope.update = function()

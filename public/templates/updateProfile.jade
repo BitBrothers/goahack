@@ -1,3 +1,4 @@
+include partials/progress-bar.jade
 .container.updateProfileContainer
   .row.first
     p Profile Picture
@@ -38,7 +39,7 @@
     div(column='col-md-10')
       form.form-horizontal.col-md-10.col-md-offset-1.updateProfileForm
         .form-group
-          label.col-sm-2.control-label.updateProfileLabel(for='skills') Skills: 
+          label.col-sm-2.control-label.updateProfileLabel Skills: 
           .col-sm-10
             tags-input(ng-model='skill', placeholder='Enter your Skills here')
           button.btn.btn-default.tag(ng-click='update()') Update Profile
