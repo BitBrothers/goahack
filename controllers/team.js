@@ -16,7 +16,8 @@ var config = require('../config/secrets');
 
 //Export Functons
 exports.postCreate = function(req, res, next) {
-
+    isTeam = false;
+    isEvent = false;
 //console.log("hello");
     Event.findOne({
         slug: req.params.eslug

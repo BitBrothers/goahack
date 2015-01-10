@@ -69,9 +69,12 @@ exports.signup = function(req, res, next) {
     });
     user.profile.email = req.body.email;
     user.profile.name = req.body.name;
-    user.save(function(err) {
+    user.save(function(err, user, numberAffected) {
         if (err) res.send(err);
         else {
+          /*added by warren to store user before join event */
+          req.user = {};
+          req.user._id = user._id;
             next();
         }
 

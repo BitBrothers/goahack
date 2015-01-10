@@ -3000,6 +3000,15 @@ body {
   color: #e8e8e8;
 }
 
+body > .right {
+  display: block;
+  width: 30vw;
+  position: fixed;
+  z-index: 10000;
+  bottom: 0px;
+  right: 0px;
+}
+
 @media screen and (max-width:768px)
 {
     .text-center p

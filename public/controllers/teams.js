@@ -42,9 +42,28 @@ angular.module('GoaHack')
         name : teamName
       }
     }).success(function(data, status, headers, config){
-    console.log("team added");
+          console.log("team added");
+          console.log(status);
+          console.log(headers);
+
+          $alert({
+                content: "Your team was successfuly posted.",
+                placement: 'right',
+                type: 'success',
+                duration: 5
+              });
+//      $location.path('/team/'+);
+            return;
+
     }).error(function(data, status, headers, config){
-    console.log("failed");
+            console.log("failed");
+            console.log(data);
+            $alert({
+                content: data,
+                placement: 'right',
+                type: 'danger',
+                duration: 5
+              });
     });
   };
  });
