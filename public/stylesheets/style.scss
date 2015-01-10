@@ -765,19 +765,18 @@ body
     background-color: #e8e8e8;
     margin-left: 50px;
     margin-right: 50px;
-    
-        padding-left: 0px;
+    padding-left: 0px;
     padding-right: 0px;
-    position:relative;
-    top:-75px;
 }
 
 .team-block {
-    background-color: #333 !important;
+    background-color: #333;
     margin-left: 50px;
     margin-right: 50px;
     border: 1px solid #7d7d7d;
     padding:0px;
+    z-index: -10;
+
 }
 
 .team-block img {
@@ -890,7 +889,7 @@ body
 
 .ng-modal-overlay {
   /* A dark translucent div that covers the whole screen */
-  position:absolute;
+  position:fixed;
   z-index:9999;
   top:0;
   left:0;
@@ -902,7 +901,7 @@ body
 .ng-modal-dialog {
   /* A centered div above the overlay with a box shadow. */
   z-index:10000;
-  position: absolute;
+  position: fixed;
   width: 50%; /* Default */
 
   /* Center the dialog */
@@ -1153,7 +1152,7 @@ body
 {
     
     color: #2b2b2b;
-    font: 20px / 61.727px Humanist777BT;
+    font: 20px Humanist777BT;
     padding-left: 15px;
     line-height: 1em;
     padding-bottom: 5px;
@@ -1363,11 +1362,13 @@ body
 }
 
 .team-block {
-    background-color: #333 !important;
+    background-color: #333;
     margin-left: 50px;
     margin-right: 50px;
     border: 1px solid #7d7d7d;
     padding:0px;
+    z-index: -10;
+
 }
 
 .team-block img {
@@ -2315,6 +2316,8 @@ body
     padding:0px;
     height: auto;
     margin-bottom: 6px;
+    z-index: -10;
+
 }
 
 .team-block:hover
@@ -2414,49 +2417,6 @@ body
 
 .nav.navbar-nav{
   background: transparent !important;
-}
-
-.ng-modal-overlay {
-  /* A dark translucent div that covers the whole screen */
-  position:absolute;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.8;
-}
-.ng-modal-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
-  position: absolute;
-  width: 50%; /* Default */
-
-  /* Center the dialog */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-
-  background-color: #fff;
-  box-shadow: 4px 4px 80px #000;
-}
-.ng-modal-dialog-content {
-  padding:10px;
-  text-align: left;
-}
-.ng-modal-close {
-  position: absolute;
-  top: 3px;
-  right: 5px;
-  padding: 5px;
-  cursor: pointer;
-  font-size: 120%;
-  display: inline-block;
-  font-weight: bold;
-  font-family: 'arial', 'sans-serif';
 }
 
 .navbar-brand {
@@ -2899,6 +2859,9 @@ body
         float: left;
         padding-right: 0px;
     }
+.team-block a{
+  text-decoration: none;
+}
 
 .search-pane {
     background-color: #e8e8e8;
@@ -2947,8 +2910,9 @@ body
 .members-button {
     font-family : Humanist777BT;
     font-size: 15px;
-    z-index: 5;
+    z-index: 999 !important;
     margin-top: 20px;
+    
 }
 
 #members {
@@ -2965,6 +2929,71 @@ body
 
 .team-details{
   padding-left: 0px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.team-members {
+  height : 50px;
+  width : 50px;
+  border-radius : 50%;
+//  margin: 10px;
+}
+
+.createTeamModal
+{
+  text-align: center;
+//  margin-top: 100px;
+  color: #e8e8e8;
+}
+
+.modalMemberName
+{
+  position: absolute;
+  top: 8px;
+//  color: #e8e8e8;
+}
+
+.ng-modal-dialog
+{
+  background: #e8e8e8;
+}
+
+.modalTeamMembersContent
+{
+  border: 1px solid #2b2b2b;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.modalTeamMembersContent:hover
+{
+  background-color: #2b2b2b;
+  color: #e8e8e8 !important;
+  cursor: pointer;
+}
+
+.createTeamInputBox
+{
+  height: 20px;
+}
+
+.createTeamButton
+{
+  background: #2b2b2b;
+  color: #e8e8e8;
+  position: relative;
+  left: -15px;
+}
+
+.createTeamButton:hover
+{
+  background: #bf3431;
+  color: #e8e8e8;
 }
 
 @media screen and (max-width:768px)
@@ -3006,13 +3035,14 @@ body
     }
 
     .team-block {
-        background-color: #333 !important;
+        background-color: #333;
         margin-left: 0px;
         margin-right: 0px;
         border: 1px solid #7d7d7d;
         padding:0px;
         height: 85px;
         margin-bottom: 5px;
+        z-index: -10;
     }
 
     .team-block:hover

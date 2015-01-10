@@ -17,7 +17,7 @@ var config = require('../config/secrets');
 //Export Functons
 exports.postCreate = function(req, res, next) {
 
-
+//console.log("hello");
     Event.findOne({
         slug: req.params.eslug
     }, function(err, event) {
@@ -36,10 +36,11 @@ exports.postCreate = function(req, res, next) {
             User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
                 else {
-                    var isEvent = false;
-                    var isTeam = false;
-                    console.log(user.events);
+//                console.log(user.events);
+//                console.log(event._id);
+                console.log(user.events[0].id);
 
+                
                     if (user.events.id(event._id)) {
                         isEvent = true;
                         if (user.events.id(event._id).team == null || undefined) {
@@ -49,8 +50,8 @@ exports.postCreate = function(req, res, next) {
                     }
 
 
-                    console.log(isEvent);
-                    console.log(isTeam);
+//                    console.log(isEvent);
+//                    console.log(isTeam);
 
                     if (isEvent == false) {
                         res.status(404).send('Event not joined');

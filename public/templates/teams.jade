@@ -13,32 +13,47 @@ div.row
       |                     
       a.btn.btn-default.search-button(href='#') Go
       |                     
-      a.btn.btn-primary.create-button(href='#') Create Team
+      a.btn.btn-primary.create-button(ng-click="toggleCreateModal()") Create Team
 
-div.row.team-display(ng-repeat='team in teams | filter: team')
+div.row.team-display(ng-repeat='team in teams | filter: team',)
   .row.team-block
-    .col-md-2.col-sm-2
+    a.col-md-2.col-sm-2(href='/team/{{team.slug}}')
       img.teamPic(src='images/stark.png')  
     .col-md-10.col-sm-10.team-details
       .row
-        .col-md-8.col-sm-8.title
+        a.col-md-8.col-sm-8.title(href='/team/{{team.slug}}')
           | {{team.name}}
         |       
         .col-md-4.col-sm-4.members-button
-          button
+          button(ng-click="toggleModal(team.members)")
             img(src='images/group.svg')
             | {{team.members.length}}  Member(s)
       |     
       .row
         .col-md-12.col-sm-12.desc
-          | {{team.description | characters:200 }}
+          | {{team.description | characters:150 }}
       |     
       .row
         .col-md-12.col-sm-12.tags
           .tags.col-md-1(ng-repeat='tag in team.tags')
-            a.btn.btn-default(href='#') {{tag}}
+            .btn.btn-default(ng-click="filter(tag)") {{tag}}
 
 
-  modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='80%')
-    .team-members(ng-repeat='member in team.members')
-      p {{member._id.profile.name}}
+modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='400px')
+  div.teamMembersModal
+    .row.modalTeamMembersContent(ng-repeat='member in teamMembers')
+      .col-md-3.col-md-offset-1
+        a(href='/userprofile/{{member._id.profile.slug}}')
+          img.team-members(src='../images/stark.png')
+      .col-md-8  
+        p.modalMemberName {{member._id.profile.name}}
+        
+        
+modal-dialog(show='createModalShown', dialog-title='Create a Team', height='175px', width='400px')
+  div.createTeamModal
+    h3 No team yet?? Create one NOW!
+    .row
+      .col-md-9
+        input.form-control(type='text', placeholder='Enter new team name...' ng-model='teamName')
+      .col-md-2
+        button.btn.btn-md.createTeamButton(ng-click='createTeam(teamName)') Create!
