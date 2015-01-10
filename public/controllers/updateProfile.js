@@ -6,32 +6,40 @@ angular.module('GoaHack')
       function(user)
         {
        
-//          $scope.user = user;
-          $scope.name = user.profile.name;
-          $scope.nameFull = user.profile.nameFull;
-          $scope.employers = user.profile.employers;
-          $scope.location = user.profile.location;
-          $scope.website = user.profile.website;
-          $scope.experience = user.profile.experience;
-          $scope.occupation = user.profile.occupation;
-          $scope.skill = user.profile.skills;
-//          console.log(user);
+          $scope.user = user;
+          console.log($scope.user);
         });
-  console.log($routeParams.slug);
-  console.log($scope.skill);
+  
+//  console.log($routeParams.slug);
+//  console.log($scope.skill);
   //$scope.employers=$scope.user.profile.employers;
+  
   $scope.update = function()
   {
 //    $("input").tagsinput('items');
-    User.update({name : $scope.name,
-                nameFull: $scope.nameFull,
-                employers: $scope.employers,
-                location: $scope.location,
-                website: $scope.website,
-                experience: $scope.experience,
-                occupation: $scope.occupation,
-                skills: $scope.skill
-                });
+    console.log($scope.user);
+//    var temp= $scope.user.profile;
+    User.update({
+                name : $scope.user.profile.name,
+                nameFull: $scope.user.profile.nameFull,
+                employers: $scope.user.profile.employers,
+                location: $scope.user.profile.location,
+                website: $scope.user.profile.website,
+                experience: $scope.user.profile.experience,
+                occupation: $scope.user.profile.occupation,
+                skills: $scope.user.profile.skills
+                }
+//                 , function(){
+//                    $alert({
+//                      content: "Success",
+//                      placement: 'right',
+//                      type: 'success',
+//                      duration: 5
+//                      });
+//                }, function(){
+//                  console.log('error');
+//                }
+                );
 
   }
 

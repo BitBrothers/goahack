@@ -12,27 +12,27 @@ include partials/progress-bar.jade
     div(column='col-md-10')
       form.form-horizontal.col-md-10.col-md-offset-1.updateProfileForm
         .form-group
-          label.col-sm-2.control-label.updateProfileLabel(for='name') Name: 
+          label.col-sm-2.control-label.updateProfileLabel(for='name') Name:
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='name', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.name', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='full') Full Name: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='nameFull', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.nameFull', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='company') Company: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='employers', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.employers', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='occupation') Occupation: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='occupation', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.occupation', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='location') Location: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='location', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.location', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='website') Website: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='website', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.website', type='text')
           label.col-sm-2.control-label.updateProfileLabel(for='exp') Experience: 
           .col-sm-10
-            input.form-control.updateProfileInputBox(ng-model='experience', type='text')
+            input.form-control.updateProfileInputBox(ng-model='user.profile.experience', type='text')
           br
   .row.third.user_details_container
     h4 Skills
@@ -41,6 +41,6 @@ include partials/progress-bar.jade
         .form-group
           label.col-sm-2.control-label.updateProfileLabel Skills: 
           .col-sm-10
-            tags-input(ng-model='skill', placeholder='Enter your Skills here')
+            tags-input(ng-model='user.profile.skills', placeholder='Enter your Skills here')
           button.btn.btn-default.tag(ng-click='update()') Update Profile
   

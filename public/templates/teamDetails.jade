@@ -18,7 +18,7 @@ include partials/progress-bar.jade
         h6 {{member._id.profile.nameFull}}
         small {{member._id.profile.occupation}}
       .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img.addMemberImage(src='images/add-member.svg')
+        img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser._id == admin')
         br
         
 .row(ng-show='currentUser._id == admin')
@@ -29,18 +29,16 @@ include partials/progress-bar.jade
         
 .row
   .col-md-10.col-md-offset-1.sec3
-    h4 Ryan Styles
+    h4(ng-show='!team.ps_status') Enter A problem statement and description
+    h4(ng-show='team.ps_status') {{team.problemStatement.name}}
     img.editProblemStatementIcon(src='images/edit-icon.svg', ng-show='currentUser._id == admin', ng-click='edit()')
-    p
-      | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-      | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-      | but also the leap into electronic typesetting, remaining essentially unchanged.
+    p(ng-show='team.ps_status') {{team.problemStatement.description}}
 
 .row(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
     form.form-horizontal.col-md-10.col-md-offset-1
       .form-group
-        label.col-sm-3.control-label.ps(for='inputEmail3') Problem Statement:
+        label.col-sm-3.control-label.ps Problem Statement:
         .col-sm-9
           input.form-control(type='text' ng-model='problem.name')
       .form-group
@@ -56,30 +54,27 @@ include partials/progress-bar.jade
         .col-sm-9
           tags-input(ng-model='problem.tag')
             auto-complete(source='loadTags($query)')    
-    button.btn.btn-default.tag(ng-click='problemSubmit()') Submit
+    button.btn.btn-default.tag(ng-click='update()') Update
 .row
   .col-md-10.col-md-offset-1.sec5
     .col-md-12.chatWallHeader
-      | Lannister Coders chat wall
+      | {{name}} chat wall
     .col-md-12.chats
-      .chatRow
-        p Gary Rhodes
-        p
-          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-          | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-          | but also the leap into electronic typesetting, remaining essentially unchanged.
-      .chatRow
-        p Ryan Styles
-        p
-          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-          | 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-      .chatRow
-        p Michael Phil
-        p
-          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+      .chatRow(ng-repeat='comnt in comment')
+        h4 {{user.profile.nameFull}}
+        p {{ comnt }} 
+          a(style='float: right;', href='', ng-click='remItem($index)') x
+      .chatRow(ng-show = 'comnt in comment')
+        p No comments yet. Be the first to post one!
+
 .row
   .col-md-10.col-md-offset-1.sec6
     h5  Comment on the wall 
     form
-    text-angular(ng-model='commentArea', ta-toolbar='[["h3"],["bold","italics","underline"]]')
-    button.btn.btn-default.tag(ng-click='problemSubmit()') Submit
+      textarea(ng-model='txtcomment', placeholder='Post a comment...', style='width:100%')
+      button.btn.btn-md.btn-default(ng-click='btn_add();', style='margin-top:10px; margin-bottom:10px; float:right;') Post Comment
+    
+modal-dialog(show='showModal', dialog-title='Add Member', height='400px', width='80%')
+  input(type='email', placeholder='enter member email-id', ng-model='memberEmail')
+  br
+  h3(ng-click='addMemberEmail(memberEmail)') Add member

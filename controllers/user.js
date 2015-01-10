@@ -263,8 +263,9 @@ exports.getUserBySlug = function(req, res) {
 exports.updateProfile = function(req, res) {
     User.findById(req.user._id, function(err, user) {
         if (err) res.send(err);
-
+        
         else {
+          console.log(req.body);
             user.profile.name = req.body.name;
             user.profile.nameFull = req.body.nameFull;
             user.profile.location = req.body.location;
@@ -275,11 +276,11 @@ exports.updateProfile = function(req, res) {
             user.profile.employers = req.body.employers;
             user.profile.picture = req.body.picture;
             user.profile.skills.splice(0, user.profile.skills.length);
-            console.log(req.body.skills);
+//            console.log(req.body.skills);
             for (var i = 0; i <= req.body.skills.length - 1; i++) {
                 user.profile.skills.push(req.body.skills[i].text);
             };
-            console.log(user.profile.skills);
+//            console.log(user.profile.skills);
 
 
             user.save(function(err) {

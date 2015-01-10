@@ -567,12 +567,13 @@ exports.inviteMember = function(req, res) {
     }, function(err, team) {
         if (err) res.send(err);
         else {
-
+          console.log(req.body.invite);
             User.findOne({
                 email: req.body.invite
             }, function(err, user) {
                 if (err) res.send(err);
                 else {
+                  console.log(user);
                     if(team.inviteMembers.id(user._id)){
                         res.status(400).send('Already invited');
                     }
