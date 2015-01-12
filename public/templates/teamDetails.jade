@@ -29,7 +29,7 @@ include partials/progress-bar.jade
         
 .row
   .col-md-10.col-md-offset-1.sec3
-    h4(ng-show='!team.ps_status') Enter A problem statement and description
+    h4(ng-show='!team.problemStatement.name') No Problem Statement / Description yet
     h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
     img.editProblemStatementIcon(src='images/edit-icon.svg', ng-show='currentUser._id == admin', ng-click='edit()')
     p(ng-show='team.ps_status', ng-model='displayDesc') {{team.problemStatement.description}}

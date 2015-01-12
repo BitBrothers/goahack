@@ -1,6 +1,7 @@
 angular.module('GoaHack')
   .controller('TeamDetailsCtrl', function($scope, $alert, $location, $http, $routeParams, Team, User, Project, $rootScope, $window) {
-  
+        console.log($rootScope.currentUser.slug);
+
   $scope.admin;
   $scope.team;
   $scope.teamSlug;
@@ -37,6 +38,7 @@ angular.module('GoaHack')
       ];
       $scope.tabs.activeTab = 0;
 
+  console.log($rootScope.currentUser._id);
 //      console.log($scope.teamSlug);
 
 
