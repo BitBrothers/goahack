@@ -194,6 +194,7 @@ exports.hasEmail = function(req, res, next) {
         email: req.query.email
     }, function(err, user) {
         if (err) return next(err);
+            console.log(user);
         res.send({
             available: !user
         });

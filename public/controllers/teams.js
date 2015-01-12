@@ -44,7 +44,7 @@ angular.module('GoaHack')
     }).success(function(data, status, headers, config){
           console.log("team added");
           console.log(status);
-          console.log(headers);
+          console.log(data);
 
           $alert({
                 content: "Your team was successfuly posted.",
@@ -52,8 +52,18 @@ angular.module('GoaHack')
                 type: 'success',
                 duration: 5
               });
-//      $location.path('/team/'+);
-            return;
+          $location.path('/team/'+ data.team.slug);
+          $scope.teams = Teams.query({eslug:"goa-hack"},
+              function(teams) {
+              angular.forEach(teams, function(value, key) {
+                    var fullName = value.name + ' ';
+                    angular.forEach(value.tags, function(tag,key){
+                      fullName += tag + ' ';
+                    })
+                    $scope.teams[key].searchTerm = fullName;
+             });
+          });
+          return;
 
     }).error(function(data, status, headers, config){
             console.log("failed");

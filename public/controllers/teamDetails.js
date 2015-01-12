@@ -114,7 +114,7 @@ angular.module('GoaHack')
       url: urlData,
       method: 'PUT',
       data: {
-        invite : "f@f"
+        invite : $scope.memberEmail
       }
     }).success(function(data, status, headers, config) {
     console.log("added");

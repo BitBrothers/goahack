@@ -29,7 +29,7 @@ exports.postCreate = function(req, res, next) {
             res.send(err);
 
         } else if (!event) {
-            res.status(404).send('event not found');
+            res.status(404).send('Event not found');
 
         } else {
 
@@ -37,17 +37,12 @@ exports.postCreate = function(req, res, next) {
             User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
                 else {
-//                console.log(user.events);
-//                console.log(event._id);
-                console.log(user.events[0].id);
-
-                
-                    if (user.events.id(event._id)) {
-                        isEvent = true;
-                        if (user.events.id(event._id).team == null || undefined) {
-                            isTeam = true;
-                            req.eveId = event._id;
-                        }
+                  if (user.events.id(event._id)) {
+                    isEvent = true;
+                      if (user.events.id(event._id).team == null || undefined) {
+                        isTeam = true;
+                        req.eveId = event._id;
+                      }
                     }
 
 
@@ -59,9 +54,14 @@ exports.postCreate = function(req, res, next) {
 
 
                     } else if (isTeam == true && isEvent == true) {
-                        next();
+                      Team.findOne({name : req.body.name}, function(err, team){
+                        if(err) res.send(err);
+                        else if(team){
+                          res.status(500).send('Team with same name already exists');
+                        } else next();
+                      });
                     } else if (isEvent == true && isTeam == false) {
-                        res.status(404).send('team already joined');
+                        res.status(404).send('Team already joined');
                     }
                 }
 
@@ -137,14 +137,18 @@ exports.createTeam = function(req, res) {
                             event.save(function(err) {
                                 if (err) return res.send(err);
                                 else {
-                                    team.save(function(err) {
-                                        if (err) return res.send(err);
+                                    team.save(function(err, newTeam) {
+                                        if (err)
+                                          return res.send(err);
                                         else {
                                             project.save(function(err) {
-                                                if (err)
+                                                if (err) {
+                                                    console.log(err);
                                                     return res.send(err);
+                                                }
                                                 else {
                                                     res.json({
+                                                        team: newTeam,
                                                         message: 'project and team created and user plus event data saved'
                                                     });
                                                 }

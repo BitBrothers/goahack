@@ -97,7 +97,7 @@ angular.module('GoaHack')
           .success(function(data) {
             $window.localStorage.token = data.token;
             $rootScope.currentUser = data.user;
-            $location.path('/');
+            $location.path('/teams');
             $alert({
               title: 'Cheers!',
               content: 'You have successfully logged in.',
