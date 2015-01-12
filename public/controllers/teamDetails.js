@@ -5,26 +5,22 @@ angular.module('GoaHack')
   $scope.admin;
   $scope.team;
   $scope.teamSlug;
-  var init = function(){
-    Team.get({tslug: $routeParams.tslug, eslug: 'goa-hack'},
-      function(team)
-        {
-          $scope.team = team;
-          console.log(team);
-          $scope.name = team.name;
-          $scope.admin = team.admin;
-          $scope.team.ps_status = team.ps_status;
-          $scope.team.problemStatement = team.problemStatement;
-          $scope.team.problemStatement.id = team.problemStatement._id;
-          $scope.teamSlug = team.slug;
-          $scope.eventSlug = team.eventSlug;
-          
-          $scope.problem.name = team.problemStatement.name;
-          $scope.problem.description = team.problemStatement.description;
-        });
-    
-  };
-  init();
+  Team.get({tslug: $routeParams.tslug, eslug: 'goa-hack'},
+    function(team)
+      {
+        $scope.team = team;
+        console.log(team);
+        $scope.name = team.name;
+        $scope.admin = team.admin;
+        $scope.team.ps_status = team.ps_status;
+        $scope.team.problemStatement = team.problemStatement;
+        $scope.team.problemStatement.id = team.problemStatement._id;
+        $scope.teamSlug = team.slug;
+        $scope.eventSlug = team.eventSlug;
+
+        $scope.problem.name = team.problemStatement.name;
+        $scope.problem.description = team.problemStatement.description;
+      });
   
   User.get({ uslug: $rootScope.currentUser.slug },
     function(user)

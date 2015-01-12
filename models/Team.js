@@ -12,7 +12,6 @@ var teamSchema = new mongoose.Schema({
   github: String,
   teamPic: String,
   slug: String,
-  tags : [String],
   admin: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   ps_status: {type: Boolean, default:false},
   member_status: {type:Boolean, default:false},

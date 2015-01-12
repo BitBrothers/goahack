@@ -35,7 +35,7 @@ div.row.team-display(ng-repeat='team in teams | filter: team',)
       |     
       .row
         .col-md-12.col-sm-12.tags
-          .tags.col-md-1(ng-repeat='tag in team.tags')
+          .tags.col-md-1(ng-repeat='tag in team.problemstatement.tags')
             .btn.btn-default(ng-click="filter(tag)") {{tag}}
 
 

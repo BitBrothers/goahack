@@ -103,12 +103,6 @@ exports.createTeam = function(req, res) {
 
 
     var project = new Project();
-    project.name = req.body.projName;
-    if (req.body.projDesc !== null || undefined || '') {
-        team.ps_status = true;
-    }
-    project.description = req.body.projDesc;
-    project.tags = req.body.projectTags; //make sure tags puts single value in single element....p
     project.eventSlug = req.params.eslug;
     project.teamSlug = slugify(req.body.name);
     team.problemStatement = project._id;
