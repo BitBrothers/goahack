@@ -1,5 +1,6 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
-                           'mgcrea.ngStrap','ngTagsInput','textAngular','truncate'])
+                           'mgcrea.ngStrap','ngTagsInput','textAngular','truncate',
+                           'angularFileUpload'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 

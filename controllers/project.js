@@ -24,7 +24,7 @@ exports.updateProject = function(req,res){
             console.log(req.params.tslug);
             console.log(req.params.eslug);
 				project.name = req.body.name;
-		if(req.body.description !== null || undefined || ''){
+		if(req.body.description){
 			ps_status = true;
 			project.description = req.body.description;
 		}

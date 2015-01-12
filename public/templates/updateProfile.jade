@@ -5,7 +5,10 @@ include partials/progress-bar.jade
     img.col-md-4.updateProfileDisplayPic(src='images/addMember.PNG')
     br
     .col-md-12
-      button.btn.btn-default.bn Browse
+      button(ng-file-select='', ng-model='files', multiple='true') Attach Any File
+        .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*')
+          | Drop Images or PDFs files here
+        div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
   br
   .row.second.user_details_container
     h4 User Details

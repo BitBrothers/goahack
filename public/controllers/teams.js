@@ -10,12 +10,12 @@ angular.module('GoaHack')
 	          $scope.teams[key].searchTerm = fullName;
 	   });
 	});
-    console.log($scope.teams);
+    //console.log($scope.teams);
 
     $scope.modalShown = false;
   	$scope.toggleModal = function(members) {
     	$scope.modalShown = !$scope.modalShown;
-      console.log(members);
+
       $scope.teamMembers = members;
 	};
   
@@ -30,7 +30,7 @@ angular.module('GoaHack')
   };
   
   $scope.createTeam = function(teamName) {
-    console.log(teamName);
+    //console.log(teamName);
 //    Team.save({
 //      name: teamName,
 //      eslug: 'goa-hack'
@@ -42,9 +42,7 @@ angular.module('GoaHack')
         name : teamName
       }
     }).success(function(data, status, headers, config){
-          console.log("team added");
-          console.log(status);
-          console.log(data);
+          
 
           $alert({
                 content: "Your team was successfuly posted.",
@@ -66,8 +64,7 @@ angular.module('GoaHack')
           return;
 
     }).error(function(data, status, headers, config){
-            console.log("failed");
-            console.log(data);
+    
             $alert({
                 content: data,
                 placement: 'right',

@@ -2,7 +2,9 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var crypto = require('crypto');
 var AWS = require('aws-sdk');
-
+var _ = require('underscore');
+var path = require('path');
+var fs = require('fs');
 /**
  * Secret Keys and Configurations.
  */
@@ -73,8 +75,7 @@ exports.signup = function(req, res, next) {
         if (err) res.send(err);
         else {
           /*added by warren to store user before join event */
-          req.user = {};
-          req.user._id = user._id;
+          req._id = user._id;
             next();
         }
 
@@ -120,7 +121,7 @@ exports.facebookAuth = function(req, res, next) {
         if (existingUser) {
             var token = createJwtToken(existingUser);
             var tempy = {
-                profile: user.profile
+                profile: existingUser.profile
             };
             return res.send({
                 token: token,
@@ -134,14 +135,17 @@ exports.facebookAuth = function(req, res, next) {
         user.profile.email = profile.email;
         user.save(function(err) {
             if (err) return next(err);
-            var token = createJwtToken(user);
-            var tempy = {
+            else{
+                var token = createJwtToken(user);
+                var tempy = {
                 profile: user.profile
-            };
-            res.send({
-                token: token,
-                user: tempy
-            });
+                };
+                req._id = user._id;
+                req.user = tempy;
+                req.token = token;
+                next();
+            }
+            
         });
     });
 };
@@ -158,7 +162,7 @@ exports.googleAuth = function(req, res, next) {
             console.log('heere');
             var token = createJwtToken(existingUser);
             var tempy = {
-                profile: user.profile
+                profile: existingUser.profile
             };
             return res.send({
                 token: token,
@@ -171,14 +175,17 @@ exports.googleAuth = function(req, res, next) {
         user.profile.email = profile.emails[0].value;
         user.save(function(err) {
             if (err) return next(err);
-            var token = createJwtToken(user);
-            var tempy = {
-                profile: user.profile
-            };
-            res.send({
-                token: token,
-                user: tempy
-            });
+            else{
+                var token = createJwtToken(user);
+                var tempy = {
+                    profile: user.profile
+                };
+                req._id = user._id;
+                req.user = tempy;
+                req.token = token;
+                next();
+            }
+            
         });
     });
 };
@@ -310,12 +317,13 @@ exports.deleteImagesS3 = function(req, res, next) {
         });
         //console.log(s3Bucket);
 
-        if (user.profile.picture !== null || undefined || '') {
+        if (user.profile.picture) {
             console.log(user.profile.slug);
             var params = {
                 Bucket: 'goahack',
                 Key: user.profile.slug
             };
+            
 
             s3Bucket.deleteObject(params, function(err, data) {
                 if (err) res.send(err); // an error occurred
@@ -333,22 +341,30 @@ exports.deleteImagesS3 = function(req, res, next) {
 exports.uploadImagesS3 = function(req, res) {
     User.findById(req.user._id, function(err, user) {
         if (err) res.send(err);
-
+        var data2 = _.pick(req.body, 'type')
+        , uploadPath = path.normalize('/uploads')
+        , file = req.files.file;
+        console.log(uploadPath);
 
         var s3Bucket = new AWS.S3({
             params: {
                 Bucket: 'goahack'
             }
         });
-        var data = {
+        fs.readFile(file.path,function(err,image){
+            if(err) res.send(err);
+            else{
+                  var data = {
             Bucket: 'goahack',
             Key: user.profile.slug,
-            Body: req.body.imageFile,
-            ACL: 'public-read'
+            Body: image,
+            ACL: 'public-read',
+            ContentType: file.type
         };
+        console.log(data);
         s3Bucket.putObject(data, function(err, data) {
             if (err) {
-                res.send(err);
+                res.status(500).send(err);
             } else {
                 console.log('succesfully uploaded the image!');
                 var urlParams = {
@@ -362,9 +378,11 @@ exports.uploadImagesS3 = function(req, res) {
                         user.profile.picture = url;
                         user.save(function(err) {
                             if (err) res.send(err);
+                            else{
                             res.json({
                                 message: 'Upload done'
                             });
+                        }
                         });
                     }
 
@@ -373,6 +391,9 @@ exports.uploadImagesS3 = function(req, res) {
 
             }
         });
+            }
+        });
+      
 
 
 

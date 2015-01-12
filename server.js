@@ -22,7 +22,7 @@ var connectAssets = require('connect-assets');
 //TODO Create a config function in secrets.js
 //var secret = require('./config/secrets');
 //var config = new secret();
-
+var multipart = require('connect-multiparty');
 var config = require('./config/secrets');
 
 /**
@@ -74,6 +74,11 @@ app.use(function(req, res, next) {
   csrf(req, res, next);
 });
 */
+
+app.use(multipart({
+    uploadDir: path.join(__dirname, 'uploads')
+}));
+var multipartMiddleWare = multipart();
 app.use(function(req, res, next) {
   // Make user object available in templates.
   res.locals.user = req.user;
@@ -102,17 +107,17 @@ var projectController = require('./controllers/project');
 
 app.post('/api/auth/signup', userController.signup,eventController.postEventRegister);
 app.post('/api/auth/login', userController.login);
-app.post('/api/auth/facebook', userController.facebookAuth);
-app.post('/api/auth/google', userController.googleAuth);
+app.post('/api/auth/facebook', userController.facebookAuth,eventController.postEventRegister);
+app.post('/api/auth/google', userController.googleAuth,eventController.postEventRegister);
 app.get('/api/users', userController.hasEmail);
 
 app.get('/api/events', eventController.getEvents);
 app.get('/api/events/:id', eventController.getEvent);
 app.post('/api/events', eventController.postEvent);
-app.put('/api/events/:eslug/register', userController.isLogin, 
-                  eventController.postEventRegister);
-app.put('/api/events/:eslug/unregister', userController.isLogin,
-                  eventController.postEventRegister);
+// app.put('/api/events/:eslug/register', userController.isLogin, 
+//                   eventController.postEventRegister);
+// app.put('/api/events/:eslug/unregister', userController.isLogin,
+//                   eventController.postEventRegister);
 
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
 
@@ -138,7 +143,8 @@ app.get('/api/event/:eslug/status', userController.isLogin, eventController.getS
 
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
-app.put('/api/user/upload', userController.isLogin, userController.deleteImagesS3, userController.uploadImagesS3);
+app.put('/api/user/upload', userController.isLogin, multipartMiddleWare, userController.deleteImagesS3, userController.uploadImagesS3);
+//
 
 
 app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin, teamController.postUpdate, projectController.updateProject);

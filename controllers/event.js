@@ -47,10 +47,10 @@ exports.postEventRegister = function(req, res) {
         if (err) res.send(err);
 
         else {
-            event.attendees.push(req.user._id);
-            User.findOne({
-                email: req.body.email
-            }, function(err, user) {
+            event.attendees.push(req._id);
+            User.findById(
+                req._id
+            , function(err, user) {
                 if (err) res.send(err);
                 else {
                     user.events.push({
@@ -63,6 +63,12 @@ exports.postEventRegister = function(req, res) {
                         else {
                             event.save(function(err) {
                                 if (err) res.send(err);
+                                else if(req.user && req.token){
+                                    res.json({
+                                        user: req.user,
+                                        token: req.token
+                                    });
+                                }
                                 else {
                                     res.sendStatus(200);
                                 }

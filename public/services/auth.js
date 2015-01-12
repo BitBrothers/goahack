@@ -1,9 +1,9 @@
 angular.module('GoaHack')
   .factory('Auth', function($http, $location, $rootScope, $alert, $window) {
     var token = $window.localStorage.token;
-    if (token) {
-      var payload = JSON.parse($window.atob(token.split('.')[1]));
-      $rootScope.currentUser = payload.user;
+    var user = $window.localStorage.user;
+    if (user) {
+      $rootScope.currentUser = JSON.parse(user);
     }
 
     // Asynchronously initialize Facebook SDK
@@ -51,6 +51,7 @@ angular.module('GoaHack')
               // var payload = JSON.parse($window.atob(token.split('.')[1]));
               $window.localStorage.token = data.token;
               //console.log(payload.user);
+              $window.localStorage.user = JSON.stringify(data.user);
               $rootScope.currentUser = data.user;
               $location.path('/');
               $alert({
@@ -77,6 +78,7 @@ angular.module('GoaHack')
             request.execute(function(authData) {
               $http.post('/api/auth/google', { profile: authData }).success(function(data) {
                 $window.localStorage.token = data.token;
+                $window.localStorage.user = JSON.stringify(data.user);
                 $rootScope.currentUser = data.user;
                 console.log($rootScope.currentUser);
                 $location.path('/');
@@ -96,6 +98,8 @@ angular.module('GoaHack')
         return $http.post('/api/auth/login', user)
           .success(function(data) {
             $window.localStorage.token = data.token;
+            console.log(data);
+            $window.localStorage.user = JSON.stringify(data.user);
             $rootScope.currentUser = data.user;
             $location.path('/teams');
             $alert({
@@ -141,6 +145,7 @@ angular.module('GoaHack')
       },
       logout: function() {
         delete $window.localStorage.token;
+        delete $window.localStorage.user;
         $rootScope.currentUser = null;
         $alert({
           content: 'You have been logged out.',
