@@ -122,6 +122,7 @@ app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamCo
 app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember);
 app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin, teamController.postCreate, teamController.acceptInvite);
 app.put('/api/event/:eslug/team/:tslug/unjoin', userController.isLogin, teamController.unjoinTeam);
+app.put('/api/event/:eslug/team/:tslug/remove', userController.isLogin, teamController.postUpdate, teamController.removeMember);
 
 
 
