@@ -56,17 +56,24 @@ angular.module('GoaHack')
         description : $scope.problem.description, 
         tags : $scope.problem.tag,
         id : $scope.team.problemStatement.id
-      }, function(){
+      }, function(err, data){
                     $alert({
                       content: "Success",
-                      placement: 'left',
+                      placement: 'right',
                       type: 'success',
-                      duration: 50
+                      duration: 5
                       });
-                }, function(){
-                  console.log('error');
-                });
-    }
+        Team.get({tslug: $routeParams.tslug, eslug: 'goa-hack'}, function(team)
+        {
+          $scope.team = team;
+           $scope.displayName = team.problemStatement.name;
+           $scope.displayDesc = team.problemStatement.description;
+        });
+        
+        });
+      $scope.editStatus = false;
+    };
+                     
     
       
 
@@ -133,16 +140,41 @@ angular.module('GoaHack')
 //  $scope.name = $routeParams.tslug;
 //  console.log($scope.name);
   
-    $scope.comment = [];
+//    $scope.comment = [];
     $scope.btn_add = function() {
         if($scope.txtcomment !=''){
-        $scope.comment.push($scope.txtcomment);
+//        $scope.comment.push($scope.txtcomment);
+          pushChat($scope.txtcomment);
         $scope.txtcomment = "";
+          Team.get({tslug: $routeParams.tslug, eslug: 'goa-hack'}, function(team)
+        {
+          $scope.team = team;
+          $scope.team.chat = team.chat;
+        });
         }
     }
 
-    $scope.remItem = function($index) {
-        $scope.comment.splice($index, 1);
-    }
+//    $scope.remItem = function($index) {
+//        $scope.comment.splice($index, 1);
+//    }
+    
+  var pushChat = function (abc){
+  $http({
+      url : '/api/event/goa-hack/team/' + $routeParams.tslug +'/chat',
+      method : 'POST',
+      data : {
+        description : abc
+      }
+    }).success(function(data, status, headers, config) {
+    console.log("added");
+    console.log(abc);
 
+  }).
+  error(function(data, status, headers, config) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+          console.log("failed");
+
+  });
+  };
 });

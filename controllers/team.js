@@ -196,6 +196,9 @@ exports.getallTeams = function(req, res) {
     }).populate({
         path: 'members._id',
         select: 'profile'
+    }).populate({
+            path: 'problemStatement',
+            select: 'name description tags'
     }).exec(function(err, team) {
         if (err)
             res.send(err);
@@ -228,7 +231,7 @@ exports.searchTeamSlug = function(req, res) {
         })
         .populate({
             path: 'problemStatement',
-            select: 'name description eventSlug teamSlug'
+            select: 'name description eventSlug teamSlug tags'
         })
         .exec(function(err, team) {
             if (err) {
@@ -832,8 +835,12 @@ exports.postChat = function(req, res) {
             else if (!team) {
                 res.status(404).send('Team not found');
             } else {
+                console.log(req.user._id);
+                console.log(req.params.description);
+                console.log(req.body.description);
                 team.chat.push({
-                    name: req.user._id
+                    _id : req.user._id, 
+                    description : req.body.description
                 });
                 team.save(function(err) {
                     if (err) res.send(err);

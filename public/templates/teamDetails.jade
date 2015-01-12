@@ -30,9 +30,9 @@ include partials/progress-bar.jade
 .row
   .col-md-10.col-md-offset-1.sec3
     h4(ng-show='!team.ps_status') Enter A problem statement and description
-    h4(ng-show='team.ps_status') {{team.problemStatement.name}}
+    h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
     img.editProblemStatementIcon(src='images/edit-icon.svg', ng-show='currentUser._id == admin', ng-click='edit()')
-    p(ng-show='team.ps_status') {{team.problemStatement.description}}
+    p(ng-show='team.ps_status', ng-model='displayDesc') {{team.problemStatement.description}}
 
 .row(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
@@ -60,11 +60,10 @@ include partials/progress-bar.jade
     .col-md-12.chatWallHeader
       | {{name}} chat wall
     .col-md-12.chats
-      .chatRow(ng-repeat='comnt in comment')
-        h4 {{user.profile.nameFull}}
-        p {{ comnt }} 
-          a(style='float: right;', href='', ng-click='remItem($index)') x
-      .chatRow(ng-show = 'comnt in comment')
+      .chatRow(ng-repeat='comnt in team.chat')
+        h4 {{comnt._id.profile.name}}
+        p {{ comnt.description }} 
+      .chatRow(ng-hide = 'team.chat')
         p No comments yet. Be the first to post one!
 
 .row

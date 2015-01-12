@@ -28,6 +28,8 @@ exports.updateProject = function(req,res){
 			ps_status = true;
 			project.description = req.body.description;
 		}
+        project.tags.splice(0, project.tags.length);
+
         for (var i = 0; i <= req.body.tags.length - 1; i++) {
             project.tags.push(req.body.tags[i].text);
         };
