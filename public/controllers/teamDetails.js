@@ -12,6 +12,7 @@ angular.module('GoaHack')
         console.log(team);
         $scope.name = team.name;
         $scope.admin = team.admin;
+        $scope.description = team.description;
         $scope.team.ps_status = team.ps_status;
         $scope.team.problemStatement = team.problemStatement;
         $scope.team.problemStatement.id = team.problemStatement._id;
@@ -95,8 +96,14 @@ angular.module('GoaHack')
 
     
   $scope.edit = function(){
-    console.log('click');
+//    console.log('click');
         $scope.editStatus = !$scope.editStatus;
+
+  }
+  
+  $scope.editTeam = function(){
+//    console.log('click');
+        $scope.editTeamStatus = !$scope.editTeamStatus;
 
   }
     

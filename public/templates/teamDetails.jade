@@ -7,8 +7,29 @@ include partials/progress-bar.jade
     .col-md-6.col-sm-6.col-xs-12.teamName
       h2 {{name}}
       h5 MUMBAI, MAHARASHTRA
+      p {{description}}
     .col-md-3.col-sm-2.col-xs-1.lock
       img(src='images/Capture.svg')
+      img.editTeam(src='images/edit-icon-dark.svg', ng-show='userId == admin', ng-click='editTeam()')
+.row
+  .col-md-10.col-md-offset-1.sec2
+    .row
+      .col-md-4
+        img.editDisplayPicture(src='#')
+      .col-md-8
+        button.btn-md.btn-default.tag.teamPageBrowseButton Browse...
+      div.col-md-12
+        form.form-horizontal.col-md-12
+          .form-group
+            label.col-sm-3.control-label Description:
+            .col-sm-9
+              input.form-control(type='text')
+          .form-group
+            label.col-sm-3.control-label Tags:
+            .col-sm-9
+              tags-input(ng-model='')
+                auto-complete(source='loadTags($query)')
+        button.btn.btn-default.tag(ng-click='') Update Team Details
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
