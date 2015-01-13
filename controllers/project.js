@@ -21,11 +21,15 @@ exports.updateProject = function(req,res){
 	Project.findOne({ teamSlug: req.params.tslug, eventSlug: req.params.eslug }, function(err, project){
 		if (err) res.send(err);
 		else{
-            console.log(req.params.tslug);
-            console.log(req.params.eslug);
-				project.name = req.body.name;
+          Team.findOne({slug:req.params.tslug, eventSlug:req.params.eslug},
+                      function(err, team){
+            if(err) res.send(err);
+            else{
+              // console.log(req.params.tslug);
+           // console.log(req.params.eslug);
+		project.name = req.body.name;
 		if(req.body.description){
-			ps_status = true;
+			team.ps_status = true;
 			project.description = req.body.description;
 		}
         project.tags.splice(0, project.tags.length);
@@ -35,16 +39,27 @@ exports.updateProject = function(req,res){
         };
 		
 		//console.log(project);
-		project.save(function(err){
+		project.save(function(err,updatedProject){
 			if(err) res.send(err);
 			else{
-				res.json({
+              team.save(function(err){
+                if(err) res.send(err);
+                else{
+                  res.json({
+                    project: updatedProject,
 				message:'Updated project'
 			});
+                }
+              })
+				
 			}
 			
 
 		});
+            }
+            
+          });
+           
 		}
 
 	

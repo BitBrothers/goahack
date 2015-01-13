@@ -67,6 +67,7 @@ angular.module('GoaHack')
           $scope.team = team;
            $scope.displayName = team.problemStatement.name;
            $scope.displayDesc = team.problemStatement.description;
+           $scope.displayTags = team.problemStatement.tags;
         });
         
         });
