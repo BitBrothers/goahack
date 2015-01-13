@@ -86,7 +86,7 @@ exports.login = function(req, res, next) {
     User.findOne({
         email: req.body.email
     }, function(err, user) {
-        if (!user) return res.send(401, 'User does not exist');
+        if (!user) return res.status(401).send('User does not exist');
         user.comparePassword(req.body.password, function(err, isMatch) {
             if (!isMatch) return res.send(401, 'Invalid email and/or password');
             var token = createJwtToken(user);

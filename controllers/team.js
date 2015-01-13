@@ -393,6 +393,7 @@ exports.postUpdate = function(req, res, next) {
                 } else {
                     if (team.members.id(req.user._id)) {
                         if (team.admin.equals(req.user._id)) {
+                          console.log(event._id);
                             req.eventId = event._id;
                             next();
                         } else {
@@ -556,7 +557,7 @@ exports.inviteMember = function(req, res) {
             }, function(err, user) {
                 if (err) res.send(err);
                 else {
-                  console.log(user);
+                  console.log(user._id);
                     if(team.inviteMembers.id(user._id)){
                         res.status(500).send('Already invited');
                     }

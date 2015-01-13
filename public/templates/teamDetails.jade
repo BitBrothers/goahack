@@ -41,6 +41,11 @@ include partials/progress-bar.jade
           small {{member._id.profile.occupation}}
       .col-md-2.col-sm-2.col-xs-6.teamMembers
         img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='userId == admin')
+        img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
+        img.addMemberImage(src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
+        p(ng-show='userId == admin') Add member
+        p(ng-show='joinButton') Apply
+        p(ng-show='acceptButton') Accept Invitation
         br
         
 .row(ng-show='userId == admin')

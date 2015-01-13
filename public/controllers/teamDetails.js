@@ -1,10 +1,12 @@
 angular.module('GoaHack')
-  .controller('TeamDetailsCtrl', function($scope, $alert, $location, $http, $routeParams, Team, User, Project, $rootScope, $window) {
+  .controller('TeamDetailsCtrl', function($scope, $alert, $location, $http, $routeParams, Team, User, Project, $rootScope, $window, Apply, Invite, Approve, Accept, Unjoin, Remove) {
         console.log($rootScope.currentUser.profile.slug);
 
   $scope.admin;
   $scope.team;
   $scope.teamSlug;
+//  $scope.joinButton = true;
+//  $scope.acceptButton = false;
   Team.get({tslug: $routeParams.tslug, eslug: 'goa-hack'},
     function(team)
       {
@@ -21,6 +23,36 @@ angular.module('GoaHack')
 
         $scope.problem.name = team.problemStatement.name;
         $scope.problem.description = team.problemStatement.description;
+
+        $scope.joinButton = true;
+
+        for(var i=0; i<team.members.length; i++)
+        {
+          if($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
+            $scope.joinButton = false;
+          console.log($rootScope.currentUser.profile.slug);
+          console.log(team.members[i]._id);
+
+        }
+
+        for(var i=0; i<team.appliedMembers.length; i++)
+        {
+          if($scope.$rootScope.currentUser.profile.slug == team.appliedMembers[i]._id.profile.slug)
+            $scope.joinButton = false;
+        }
+
+        for(var i=0; i<team.inviteMembers.length; i++)
+        {
+          if($rootScope.currentUser.profile.slug == team.inviteMembers[i]._id.profile.slug){
+            $scope.joinButton = false;
+            $scope.acceptButton = true;
+          }
+        }
+
+        if($rootScope.currentUser.profile.slug == team.admin._id.profile.slug){
+              $scope.joinButton = false;
+              $scope.acceptButton = false;
+        }
       });
   
   User.get({ uslug: $rootScope.currentUser.profile.slug },
@@ -74,25 +106,8 @@ angular.module('GoaHack')
         });
       $scope.editStatus = false;
     };
-                     
-    
-      
-
-   
-    
-//    $scope.problemSubmit = function() 
-//    {
-//       console.log($scope.commentArea); 
-//    };
-    
-//    $scope.lTags = ["warren" , "sobin" , "orville"];
-//    $scope.loadTags = function(query) {
-//        console.log($scope.lTags);
-//        return $http.get('tags.json');
-//    };
-  
-  
-        $scope.editStatus = false;
+        
+  $scope.editStatus = false;
 
     
   $scope.edit = function(){
@@ -116,39 +131,21 @@ angular.module('GoaHack')
   
  
   $scope.addMemberEmail = function(memberEmail){
-//    Team.update({
-//      eslug: 'goa-hack',
-//      tslug: $routeParams.tslug,
-//      invite: $scope.memberEmail
-//    });
-    
-    console.log(memberEmail);
-    var urlData = '/api/event/goa-hack/team/'+$routeParams.tslug+'/invite';
-    $http({
-      url: urlData,
-      method: 'PUT',
-      data: {
-        invite : $scope.memberEmail
-      }
-    }).success(function(data, status, headers, config) {
-    console.log("added");
-  }).
-  error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-          console.log("failed");
-
-  });
+//        console.log)($sc);
+    Invite.update({
+        eslug: 'goa-hack',
+        tslug: $routeParams.tslug
+      },
+      {
+        invite: memberEmail
+      }, function(object){
+        console.log(object);
+    });
+  
   }
   
-  //$scope.isProblemPresent = false;
-//  console.log($routeParams.tslug);
   
-//  $scope.name = $routeParams.tslug;
-//  console.log($scope.name);
-  
-//    $scope.comment = [];
-    $scope.btn_add = function() {
+  $scope.btn_add = function() {
         if($scope.txtcomment !=''){
 //        $scope.comment.push($scope.txtcomment);
           pushChat($scope.txtcomment);
@@ -161,10 +158,6 @@ angular.module('GoaHack')
         }
     }
 
-//    $scope.remItem = function($index) {
-//        $scope.comment.splice($index, 1);
-//    }
-    
   var pushChat = function (abc){
   $http({
       url : '/api/event/goa-hack/team/' + $routeParams.tslug +'/chat',
@@ -184,4 +177,18 @@ angular.module('GoaHack')
 
   });
   };
+        
+  $scope.applyToTeam = function(){
+        console.log("HEllo");
+        Apply.update({
+        tslug : $routeParams.tslug,
+        eslug : 'goa-hack'
+        },{_id : $scope.userId}, function(object){
+        $scope.joinButton = false;
+        });
+  };
+        
+  $scope.acceptTeam = function(){
+        console.log("HEllo");
+};        
 });
