@@ -18,7 +18,6 @@ var config = require('../config/secrets');
 exports.postCreate = function(req, res, next) {
     isTeam = false;
     isEvent = false;
-//console.log("hello");
     Event.findOne({
         slug: req.params.eslug
     }, function(err, event) {
@@ -33,7 +32,7 @@ exports.postCreate = function(req, res, next) {
 
         } else {
 
-            //console.log(req.user);
+         
             User.findById(req.user._id, function(err, user) {
                 if (err) res.send(err);
                 else {
@@ -45,9 +44,6 @@ exports.postCreate = function(req, res, next) {
                       }
                     }
 
-
-//                    console.log(isEvent);
-//                    console.log(isTeam);
 
                     if (isEvent == false) {
                         res.status(404).send('Event not joined');
@@ -73,7 +69,7 @@ exports.postCreate = function(req, res, next) {
 
         }
 
-        //Initial verification
+        
     });
 };
 
@@ -173,10 +169,6 @@ exports.createTeam = function(req, res) {
 
 
     });
-
-
-
-
 };
 
 
@@ -202,8 +194,6 @@ exports.getallTeams = function(req, res) {
             res.json(team);
         }
     });
-
-
 };
 
 
@@ -237,10 +227,6 @@ exports.searchTeamSlug = function(req, res) {
                 res.json(team);
             }
         });
-
-
-
-
 };
 
 
@@ -249,7 +235,7 @@ exports.searchTeamSlug = function(req, res) {
 exports.deleteTeam = function(req, res, next) { 
         Event.findOne({
         slug: req.params.eslug
-    }, function(err, event) {
+        }, function(err, event) {
 
 
         if (err) {
@@ -316,7 +302,7 @@ exports.deleteTeam = function(req, res, next) {
                 }
             });
         }
-    });
+     });
 };
 
 
@@ -383,10 +369,6 @@ exports.applyTeam = function(req, res) {
         }
 
     });
-
-
-
-
 };
 
 
@@ -459,7 +441,6 @@ exports.updateTeam = function(req, res) {
 
 
         });
-
 };
 
 
@@ -619,8 +600,6 @@ exports.inviteMember = function(req, res) {
 
 
     });
-
-
 };
 
 exports.acceptInvite = function(req, res) {
@@ -715,7 +694,6 @@ exports.acceptInvite = function(req, res) {
                 });
         }
     });
-
 };
 
 exports.getTeams = function(req, res) {
@@ -752,7 +730,6 @@ exports.getTeams = function(req, res) {
         console.log(teams);
         res.json(teams);
     });
-
 };
 
 exports.unjoinTeam = function(req, res) {
@@ -892,5 +869,106 @@ exports.removeMember = function(req, res) {
             });
         }
     });
+};
 
+exports.deleteImagesS3 = function(req, res, next) {
+    Team.findOne({eventSlug:req.params.eslug, slug: req.params.tslug}, 
+        function(err, team) {
+        if (err) res.send(err);
+
+        var s3Bucket = new AWS.S3({
+            params: {
+                Bucket: 'goahack'
+            }
+        });
+        if (team.teamPic) {
+            console.log(team.teamPic);
+            var params = {
+                Bucket: 'goahack',
+                Key: team.eventSlug + team.slug
+            };
+            
+
+            s3Bucket.deleteObject(params, function(err, data) {
+                if (err) res.send(err); 
+                else {
+                    next();
+                }
+            });
+        } else {
+            next();
+        }
+
+    });
+};
+
+exports.uploadImagesS3 = function(req, res) {
+    Team.findOne({eventSlug:req.params.eslug, slug: req.params.tslug}
+        , function(err, team) {
+        if (err) res.send(err);
+        var data2 = _.pick(req.body, 'type')
+        , uploadPath = path.normalize('/uploads')
+        , file = req.files.file;
+        console.log(uploadPath);
+
+        var s3Bucket = new AWS.S3({
+            params: {
+                Bucket: 'goahack'
+            }
+        });
+        fs.readFile(file.path,function(err,image){
+            if(err) res.send(err);
+            else{
+                  var data = {
+            Bucket: 'goahack',
+            Key: team.eventSlug + team.slug,
+            Body: image,
+            ACL: 'public-read',
+            ContentType: file.type
+        };
+        console.log(data);
+        s3Bucket.putObject(data, function(err, data) {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                console.log('succesfully uploaded the image!');
+                var urlParams = {
+                    Bucket: 'goahack',
+                    Key: team.eventSlug + team.slug
+                };
+                s3Bucket.getSignedUrl('getObject', urlParams, function(err, url) {
+                    if (err) res.send(err);
+                    else {
+                        console.log('the url of the image is', url);
+                        team.teamPic = url;
+                        team.save(function(err,updatedTeam) {
+                            if (err) res.send(err);
+                            else{
+                                fs.unlink(file.path,function(err){
+                                    if(err) res.send(err);
+                                    else{
+                                        res.json({
+                                            team: updatedTeam,
+                                            message: 'Upload done'
+                                        });
+                                    }
+                                });
+                            
+                        }
+                        });
+                    }
+
+                });
+
+
+            }
+        });
+            }
+        });
+      
+
+
+
+
+    });
 };

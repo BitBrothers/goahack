@@ -152,7 +152,6 @@ exports.facebookAuth = function(req, res, next) {
 
 exports.googleAuth = function(req, res, next) {
     var profile = req.body.profile;
-    // console.log(req.body.profile);
     User.findOne({
         email: profile.emails[0].value
     }, function(err, existingUser) {
@@ -282,16 +281,13 @@ exports.updateProfile = function(req, res) {
             user.profile.location = req.body.location;
             user.profile.website = req.body.website;
             user.profile.occupation = req.body.occupation;
-            //user.profile.skills.push(req.body.skills);
             user.profile.experience = req.body.experience;
             user.profile.employers = req.body.employers;
             user.profile.picture = req.body.picture;
             user.profile.skills.splice(0, user.profile.skills.length);
-//            console.log(req.body.skills);
             for (var i = 0; i <= req.body.skills.length - 1; i++) {
                 user.profile.skills.push(req.body.skills[i].text);
             };
-//            console.log(user.profile.skills);
 
 
             user.save(function(err) {
@@ -315,8 +311,6 @@ exports.deleteImagesS3 = function(req, res, next) {
                 Bucket: 'goahack'
             }
         });
-        //console.log(s3Bucket);
-
         if (user.profile.picture) {
             console.log(user.profile.slug);
             var params = {
@@ -326,7 +320,7 @@ exports.deleteImagesS3 = function(req, res, next) {
             
 
             s3Bucket.deleteObject(params, function(err, data) {
-                if (err) res.send(err); // an error occurred
+                if (err) res.send(err); 
                 else {
                     next();
                 }
@@ -376,12 +370,19 @@ exports.uploadImagesS3 = function(req, res) {
                     else {
                         console.log('the url of the image is', url);
                         user.profile.picture = url;
-                        user.save(function(err) {
+                        user.save(function(err,updatedUser) {
                             if (err) res.send(err);
                             else{
-                            res.json({
-                                message: 'Upload done'
-                            });
+                                fs.unlink(file.path,function(err){
+                                    if(err) res.send(err);
+                                    else{
+                                        res.json({
+                                            user: updatedUser,
+                                            message: 'Upload done'
+                                        });
+                                    }
+                                });
+                            
                         }
                         });
                     }

@@ -128,6 +128,7 @@ app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamCont
 app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin, teamController.postCreate, teamController.acceptInvite);
 app.put('/api/event/:eslug/team/:tslug/unjoin', userController.isLogin, teamController.unjoinTeam);
 app.put('/api/event/:eslug/team/:tslug/remove', userController.isLogin, teamController.postUpdate, teamController.removeMember);
+app.put('/api/event/:eslug/team/:tslug/upload', userController.isLogin, multipartMiddleWare, teamController.deleteImagesS3, teamController.uploadImagesS3);
 
 
 
