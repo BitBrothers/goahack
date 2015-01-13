@@ -1,6 +1,6 @@
 angular.module('GoaHack')
   .controller('TeamDetailsCtrl', function($scope, $alert, $location, $http, $routeParams, Team, User, Project, $rootScope, $window) {
-        console.log($rootScope.currentUser.slug);
+        console.log($rootScope.currentUser.profile.slug);
 
   $scope.admin;
   $scope.team;
@@ -22,10 +22,11 @@ angular.module('GoaHack')
         $scope.problem.description = team.problemStatement.description;
       });
   
-  User.get({ uslug: $rootScope.currentUser.slug },
+  User.get({ uslug: $rootScope.currentUser.profile.slug },
     function(user)
       {
         $scope.user = user;
+        $scope.userId = user._id;
       });
 
       $scope.tabs = [
@@ -34,7 +35,7 @@ angular.module('GoaHack')
       ];
       $scope.tabs.activeTab = 0;
 
-  console.log($rootScope.currentUser._id);
+//  console.log($rootScope.currentUser._id);
 //      console.log($scope.teamSlug);
 
 

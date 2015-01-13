@@ -1554,6 +1554,7 @@ body
 .addMemberImage
 {
   padding: 20px !important;
+  cursor: pointer;
 }
 
 .editProblemStatementIcon
@@ -1603,6 +1604,11 @@ body
   font-family: Humanist777BT;
 }
 
+.chatRow small
+{
+  color: #646464;
+  float: right;
+}
 
 
 
