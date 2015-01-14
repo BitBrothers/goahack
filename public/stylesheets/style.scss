@@ -1172,24 +1172,6 @@ body
     padding:0px;
 }
 
-.tag,.bn
-{
-    border-radius: 0px;
-    background: #5c5c5c;
-    color: #f6f6f6;
-    font: 18px Humanist777BT;
-    padding: 5px;
-    margin-left: 30px;
-    margin-bottom: 10px;
-}
-
-.tag:hover
-{
-    background-color: #bf3431;
-    color: #f6f6f6;
-    font: 18px Humanist777BT;
-}
-
 .sec5
 {
     background: #2b2b2b;
@@ -1564,6 +1546,7 @@ body
   position: absolute;
   top: 30px;
   right: 20px;
+  cursor: pointer;
 }
 
 .approval
@@ -1627,10 +1610,44 @@ body
 
 .teamPageBrowseButton
 {
-  margin-top: 75px;
+//  margin-top: 75px;
 }
 
+.editDisplayPictureDiv
+{
+  text-align: center;
+}
 
+.addMemberModalDiv
+{
+  text-align: center;
+  margin-top: 40px;
+}
+
+.addMemberModalButton
+{
+  background: #2b2b2b;
+  color: #e8e8e8;
+  position: relative;
+  left: -15px;
+}
+
+.addMemberModalButton:hover
+{
+  background: #bf3431;
+  color: #e8e8e8;
+}
+
+.tagSpan
+{
+  border: 1px solid #e8e8e8;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #B3B3B3;
+  color: #2b2b2b;
+  margin-left: 5px;
+  cursor: default;
+}
 
 body {
   padding-bottom: 20px;
@@ -2718,18 +2735,18 @@ body
 .tag,.bn
 {
     border-radius: 0px;
-    background: #5c5c5c;
-    color: #f6f6f6;
+    background: #2b2b2b;
+    color: #e8e8e8;
     font: 18px Humanist777BT;
     padding: 5px;
-    margin-left: 30px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
 .tag:hover
 {
     background-color: #bf3431;
-    color: #f6f6f6;
+    color: #e8e8e8;
     font: 18px Humanist777BT;
 }
 

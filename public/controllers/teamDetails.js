@@ -53,6 +53,8 @@ angular.module('GoaHack')
               $scope.joinButton = false;
               $scope.acceptButton = false;
         }
+
+
       });
   
   User.get({ uslug: $rootScope.currentUser.profile.slug },
@@ -177,6 +179,7 @@ angular.module('GoaHack')
 
   });
   };
+
         
   $scope.applyToTeam = function(){
         console.log("HEllo");
@@ -191,4 +194,5 @@ angular.module('GoaHack')
   $scope.acceptTeam = function(){
         console.log("HEllo");
 };        
+
 });

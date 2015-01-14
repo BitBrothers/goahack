@@ -14,10 +14,10 @@ include partials/progress-bar.jade
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
-      .col-md-4
+      .col-md-12.editDisplayPictureDiv
         img.editDisplayPicture(src='#')
-      .col-md-8
-        button.btn-md.btn-default.tag.teamPageBrowseButton Browse...
+        br
+        button.btn-md.tag.teamPageBrowseButton Browse...
       div.col-md-12
         form.form-horizontal.col-md-12
           .form-group
@@ -29,7 +29,7 @@ include partials/progress-bar.jade
             .col-sm-9
               tags-input(ng-model='')
                 auto-complete(source='loadTags($query)')
-        button.btn.btn-default.tag(ng-click='') Update Team Details
+        button.btn.btn-default.tag.updateProbStatementButton(ng-click='') Update Team Details
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
@@ -53,15 +53,18 @@ include partials/progress-bar.jade
     div.teamPageTabs(bs-active-pane='tabs.activeTab', bs-tabs='')
       div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')
       div(ng-include='', src='tabs[tabs.activeTab].page')
-        
+      
+script(type='text/ng-template', id='/tpl.html').
+  {{problem.description}} 
+  
 .row
   .col-md-10.col-md-offset-1.sec3
     h4(ng-show='!team.problemStatement.name') No Problem Statement / Description yet
     h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
     img.editProblemStatementIcon(src='images/edit-icon.svg', ng-show='userId == admin', ng-click='edit()')
-    p(ng-show='team.ps_status', ng-model='displayDesc') {{team.problemStatement.description}} 
+    p#tpl-content(ng-show='team.ps_status', ng-include='', src="'/tpl.html'") 
     p(ng-show='team.ps_status', ng-model='displayTags') Tags : 
-      span(ng-repeat='tag in team.problemStatement.tags') {{tag}} 
+      span.tagSpan(ng-repeat='tag in team.problemStatement.tags') {{tag}} 
 
 .row(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
@@ -103,7 +106,11 @@ include partials/progress-bar.jade
       textarea(ng-model='txtcomment', placeholder='Post a comment...', style='width:100%')
       button.btn.btn-md.btn-default(ng-click='btn_add();', style='margin-top:10px; margin-bottom:10px; float:right;') Post Comment
     
-modal-dialog(show='showModal', dialog-title='Add Member', height='400px', width='80%')
-  input(type='email', placeholder='enter member email-id', ng-model='memberEmail')
-  br
-  h3(ng-click='addMemberEmail(memberEmail)') Add member
+modal-dialog(show='showModal', dialog-title='Add Member', height='200px', width='480px')
+  div.addMemberModalDiv.col-md-12
+    h3 Add a member to your team
+    div.col-md-8
+      input.form-control(type='email', placeholder='Enter member email-id', ng-model='memberEmail')
+    div.col-md-3
+      button.btn.btn-md.addMemberModalButton(ng-click='addMemberEmail(memberEmail)') Add member
+      

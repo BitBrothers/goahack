@@ -17,7 +17,7 @@ angular.module('GoaHack')
    init();
   
   console.log($rootScope.currentUser.slug + " " + $routeParams.slug);
-  if($rootScope.currentUser.slug == $routeParams.slug)
+  if($rootScope.currentUser.profile.slug == $routeParams.slug)
   {
     
     console.log("hELLO");
