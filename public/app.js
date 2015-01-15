@@ -1,6 +1,6 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
                            'mgcrea.ngStrap','ngTagsInput','textAngular','truncate',
-                           'angularFileUpload'])
+                           'angularFileUpload', 'ngProgress'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
@@ -17,7 +17,7 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
       }) 
-    .when('/team/:tslug', {
+      .when('/team/:tslug', {
         templateUrl: 'views/teamDetails.html',
         controller: 'TeamDetailsCtrl'
       })

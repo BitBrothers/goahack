@@ -18,7 +18,7 @@ div.row
 div.row.team-display(ng-repeat='team in teams | filter: team',)
   .row.team-block
     a.col-md-2.col-sm-2(href='/team/{{team.slug}}')
-      img.teamPic(src='images/stark.png')  
+      img.teamPic(src='{{team.teamPic}}')  
     .col-md-10.col-sm-10.team-details
       .row
         a.col-md-8.col-sm-8.title(href='/team/{{team.slug}}')
@@ -44,7 +44,7 @@ modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', wid
     .row.modalTeamMembersContent(ng-repeat='member in teamMembers')
       .col-md-3.col-md-offset-1
         a(href='/userprofile/{{member._id.profile.slug}}')
-          img.team-members(src='../images/stark.png')
+          img.team-members(ng-src='{{member._id.profile.picture}}')
       .col-md-8  
         p.modalMemberName {{member._id.profile.name}}
         

@@ -5,21 +5,18 @@ var AWS = require('aws-sdk');
 var _ = require('underscore');
 var path = require('path');
 var fs = require('fs');
+var config = require('../config/secrets');
 /**
  * Secret Keys and Configurations.
  */
 
 
-var config = require('../config/secrets');
 AWS.config.region = config.amazon.region;
 AWS.config.update({
     accessKeyId: config.amazon.accessKeyId,
     secretAccessKey: config.amazon.secretAccessKey
 });
-var s3 = new AWS.S3();
-// var bucketParams = {Bucket: 'mybucket'};
-// s3.createBucket(bucketParams);
-//console.log(s3);
+
 
 /**
  * Model.
@@ -283,7 +280,6 @@ exports.updateProfile = function(req, res) {
             user.profile.occupation = req.body.occupation;
             user.profile.experience = req.body.experience;
             user.profile.employers = req.body.employers;
-            user.profile.picture = req.body.picture;
             user.profile.skills.splice(0, user.profile.skills.length);
             for (var i = 0; i <= req.body.skills.length - 1; i++) {
                 user.profile.skills.push(req.body.skills[i].text);
@@ -308,13 +304,13 @@ exports.deleteImagesS3 = function(req, res, next) {
 
         var s3Bucket = new AWS.S3({
             params: {
-                Bucket: 'goahack'
+                Bucket: 'codejedi'
             }
         });
         if (user.profile.picture) {
             console.log(user.profile.slug);
             var params = {
-                Bucket: 'goahack',
+                Bucket: 'codejedi/users',
                 Key: user.profile.slug
             };
             
@@ -342,51 +338,41 @@ exports.uploadImagesS3 = function(req, res) {
 
         var s3Bucket = new AWS.S3({
             params: {
-                Bucket: 'goahack'
+                Bucket: 'codejedi'
             }
         });
         fs.readFile(file.path,function(err,image){
             if(err) res.send(err);
             else{
                   var data = {
-            Bucket: 'goahack',
+            Bucket: 'codejedi/users',
             Key: user.profile.slug,
             Body: image,
             ACL: 'public-read',
             ContentType: file.type
         };
         console.log(data);
-        s3Bucket.putObject(data, function(err, data) {
+        s3Bucket.putObject(data, function(err) {
             if (err) {
+                console.log("ERRORRRRRR");
                 res.status(500).send(err);
             } else {
                 console.log('succesfully uploaded the image!');
-                var urlParams = {
-                    Bucket: 'goahack',
-                    Key: user.profile.slug
-                };
-                s3Bucket.getSignedUrl('getObject', urlParams, function(err, url) {
+                user.profile.picture = "https://s3-us-west-2.amazonaws.com/"+ data.Bucket + "/" + user.profile.slug;
+                user.save(function(err,updatedUser) {
                     if (err) res.send(err);
-                    else {
-                        console.log('the url of the image is', url);
-                        user.profile.picture = url;
-                        user.save(function(err,updatedUser) {
-                            if (err) res.send(err);
+                    else{
+                        fs.unlink(file.path,function(err){
+                            if(err) res.send(err);
                             else{
-                                fs.unlink(file.path,function(err){
-                                    if(err) res.send(err);
-                                    else{
-                                        res.json({
-                                            user: updatedUser,
-                                            message: 'Upload done'
-                                        });
-                                    }
+                                res.json({
+                                    user: updatedUser,
+                                    message: 'Upload done'
                                 });
-                            
-                        }
+                            }
                         });
+                    
                     }
-
                 });
 
 

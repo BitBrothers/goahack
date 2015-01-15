@@ -8,7 +8,7 @@ include partials/progress-bar.jade
         a(href="{{path}}/edit")
           img.editIcon(src='images/edit-icon.svg', ng-show='{{editIcon}}')
         br
-        img(src='images/Layer-3.png')
+        img(ng-src='{{user.profile.picture}}')
         br
         h4 {{user.profile.nameFull}}
         

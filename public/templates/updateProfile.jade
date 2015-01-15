@@ -2,7 +2,7 @@ include partials/progress-bar.jade
 .container.updateProfileContainer
   .row.first
     p Profile Picture
-    img.col-md-4.updateProfileDisplayPic(src='images/addMember.PNG')
+    img.col-md-4.updateProfileDisplayPic(ng-src='{{user.profile.picture}}')
     br
     .col-md-12
       button(ng-file-select='', ng-model='files', multiple='true') Attach Any File

@@ -2,14 +2,14 @@
   div.row.dashContentTeam(ng-repeat='member in team.appliedMembers')
     a(href='/userprofile/{{member._id.profile.slug}}')
       .col-md-1.col-xs-2.teamPhoto
-        img(src='images/lannister.png')
+        img(ng-src='{{member._id.profile.picture}}')
       .col-md-9.col-xs-8
         h4 {{member._id.profile.name}}
       .col-md-1.col-xs-1.approval
         btn.btn-sm.btn-success
-          img.approveMemberIcon(src='images/approve-member.svg')
+          img.approveMemberIcon(ng-src='images/approve-member.svg')
       .col-md-1.col-xs-1.approval
         btn.btn-sm.btn-danger
-          img.disproveMemberIcon(src='images/disprove-member.svg')
+          img.disproveMemberIcon(ng-src='images/disprove-member.svg')
       br
   
