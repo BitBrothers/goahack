@@ -21,16 +21,19 @@ include partials/progress-bar.jade
           br
           h6 {{member._id.profile.nameFull}}
           small {{member._id.profile.occupation}}
+          p(ng-click='removeMember(member._id.profile.slug)') X
       .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img.addMemberImage(ng-src='images/add-member.svg', ng-click="addMember()", ng-show='userId == admin')
-        img.addMemberImage(ng-src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
-        img.addMemberImage(ng-src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
-        p(ng-show='userId == admin') Add member
-        p(ng-show='joinButton') Apply
+        img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug')
+        img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
+        img.addMemberImage(src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
         p(ng-show='acceptButton') Accept Invitation
+        img.addMemberImage(src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
+        p(ng-show='acceptButton') Reject Invitation
+        p(ng-show='currentUser.profile.slug == admin.profile.slug') Add member
+        p(ng-show='joinButton') Apply
         br
         
-.row(ng-show='userId == admin')
+.row(ng-show='currentUser.profile.slug == admin.profile.slug')
   .col-md-10.col-md-offset-1
     div.teamPageTabs(bs-active-pane='tabs.activeTab', bs-tabs='')
       div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')

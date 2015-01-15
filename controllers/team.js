@@ -180,9 +180,6 @@ exports.createTeam = function(req, res) {
   });
 };
 
-
-
-
 exports.getallTeams = function(req, res) {
 
   Team.find({
@@ -205,8 +202,6 @@ exports.getallTeams = function(req, res) {
   });
 };
 
-
-
 exports.searchTeamSlug = function(req, res) {
 
 
@@ -215,7 +210,7 @@ exports.searchTeamSlug = function(req, res) {
       slug: req.params.tslug
     })
     .populate({
-      path: 'members._id appliedMembers._id inviteMembers._id ',
+      path: 'members._id appliedMembers._id inviteMembers._id admin',
       select: 'profile'
     })
     .populate({
@@ -245,8 +240,6 @@ exports.deleteTeam = function(req, res, next) {
   Event.findOne({
     slug: req.params.eslug
   }, function(err, event) {
-
-
     if (err) {
       res.send(err);
 
@@ -314,7 +307,6 @@ exports.deleteTeam = function(req, res, next) {
   });
 };
 
-
 exports.applyTeam = function(req, res) {
   Team.findOne({
     eventSlug: req.params.eslug,
@@ -380,7 +372,6 @@ exports.applyTeam = function(req, res) {
   });
 };
 
-
 exports.postUpdate = function(req, res, next) {
   Event.findOne({
     slug: req.params.eslug
@@ -411,7 +402,6 @@ exports.postUpdate = function(req, res, next) {
           } else {
             res.status(500).send('Not a member');
           }
-
         }
 
       });
@@ -453,8 +443,6 @@ exports.updateTeam = function(req, res) {
     });
 };
 
-
-
 exports.approveMember = function(req, res) {
 
   Team.findOne({
@@ -464,8 +452,8 @@ exports.approveMember = function(req, res) {
     if (err) {
       res.send(err);
     } else {
-
-      User.findById(req.body.approval, function(err, user) {
+          
+      User.findOne({ 'profile.slug' :req.body.approval}, function(err, user) {
         if (err) res.send(err);
         else {
           if (user.events.id(req.eventId).team) {
@@ -551,7 +539,6 @@ exports.approveMember = function(req, res) {
   });
 };
 
-
 exports.inviteMember = function(req, res) {
 
   Team.findOne({
@@ -626,7 +613,7 @@ exports.acceptInvite = function(req, res) {
         function(err, user) {
           if (err) res.send(err);
           else {
-            if (team.inviteMembers(user._id)) {
+            if (team.inviteMembers.id(user._id)) {
               team.inviteMembers.pull({
                 _id: user._id
               });
@@ -843,7 +830,7 @@ exports.removeMember = function(req, res) {
   }, function(err, team) {
     if (err) res.send(err);
     else {
-      User.findById(req.body.remove, function(err, user) {
+      User.findOne({'profile.slug': req.body.remove}, function(err, user) {
         if (err) res.send(err);
         else {
           if (team.members.id(user._id)) {
@@ -855,8 +842,8 @@ exports.removeMember = function(req, res) {
             } else {
               team.member_status = false;
             }
-            user.events.id(eventId).team = null;
-            user.events.id(eventId).team_status = false;
+            user.events.id(req.eventId).team = null;
+            user.events.id(req.eventId).team_status = false;
 
             team.save(function(err, updatedTeam) {
               if (err) res.send(err);

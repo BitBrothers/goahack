@@ -3,8 +3,6 @@ angular.module('GoaHack')
   $scope.ready;
   Progress.get(function(data){
     $scope.status = data;
-    console.log(data);
-    console.log(data);
     if($scope.status.team_status && $scope.status.ps_status && $scope.status.payment_status && $scope.status.member_status)
     $scope.ready = true;
   });
