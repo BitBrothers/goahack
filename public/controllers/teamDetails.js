@@ -27,40 +27,30 @@ angular.module('GoaHack')
         $scope.joinButton = true;
         console.log($scope.team);
 
-
-        // for(var i=0; i<team.members.length; i++)
-        // {
-        //   if($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
-        //     $scope.joinButton = false;
-        //   console.log($rootScope.currentUser.profile.slug);
-        //   console.log(team.members[i]._id);
-
-        // }
-
         for(var i=0; i<team.members.length; i++)
         {
           if($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
             $scope.joinButton = false;
         }
 
-        // for(var i=0; i<team.appliedMembers.length; i++)
-        // {
-        //   if($scope.$rootScope.currentUser.profile.slug == team.appliedMembers[i]._id.profile.slug)
-        //     $scope.joinButton = false;
-        // }
+        for(var i=0; i<team.appliedMembers.length; i++)
+        {
+          if($scope.$rootScope.currentUser.profile.slug == team.appliedMembers[i]._id.profile.slug)
+            $scope.joinButton = false;
+        }
 
-        // for(var i=0; i<team.inviteMembers.length; i++)
-        // {
-        //   if($rootScope.currentUser.profile.slug == team.inviteMembers[i]._id.profile.slug){
-        //     $scope.joinButton = false;
-        //     $scope.acceptButton = true;
-        //   }
-        // }
+        for(var i=0; i<team.inviteMembers.length; i++)
+        {
+          if($rootScope.currentUser.profile.slug == team.inviteMembers[i]._id.profile.slug){
+            $scope.joinButton = false;
+            $scope.acceptButton = true;
+          }
+        }
 
-        // if($rootScope.currentUser.profile.slug == team.admin._id.profile.slug){
-        //       $scope.joinButton = false;
-        //       $scope.acceptButton = false;
-        // }
+        if($rootScope.currentUser.profile.slug == team.admin._id.profile.slug){
+              $scope.joinButton = false;
+              $scope.acceptButton = false;
+        }
       });
 
     User.get({

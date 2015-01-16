@@ -43,7 +43,7 @@ include partials/progress-bar.jade
   .col-md-10.col-md-offset-1.sec3
     h4(ng-show='!team.problemStatement.name') No Problem Statement / Description yet
     h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
-    img.editProblemStatementIcon(ng-src='images/edit-icon.svg', ng-show='userId == admin', ng-click='edit()')
+    img.editProblemStatementIcon(ng-src='images/edit-icon.svg', ng-show='currentUser.profile.slug == admin.profile.slug', ng-click='edit()')
     p#tpl-content(ng-show='team.ps_status', ng-bind-html='team.problemStatement.description') 
     p(ng-show='team.ps_status', ng-model='displayTags') Tags : 
       span.tagSpan(ng-repeat='tag in team.problemStatement.tags') {{tag}} 

@@ -64,7 +64,7 @@ $color_cinnabar_approx: #e74c3c;
 
 body {
   padding-bottom: 20px;
-  background-color: #fff;
+  background-color: #f6f6f6;
 }
 
 em {
@@ -526,10 +526,6 @@ section#contact {
 }
 
 
-body {
-  background: #f6f6f6;
-}
-
 @font-face {
   font-family: Humanist777BT;
     src: url('../fonts/humanist-777-bt-1361500798.ttf');
@@ -690,7 +686,6 @@ body {
 
 .progress-items .text-center {
   height: 150px;
-  background-color: #ffffff;
   margin-top: 10px;
   border: 5px solid #2b2b2b;
   padding-left: 0px;
@@ -882,13 +877,6 @@ body {
   font-family: Humanist777BT;
   font-size: 18px;
 }
-
-.create-button {
-  background-color: #333;
-  border: 1px solid #2b2b2b;
-  height: 50px;
-}
-
 
 .nav.navbar-nav{
   background: transparent !important;
@@ -1357,12 +1345,6 @@ body {
     font-size: 18px;
   }
 
-  .create-button {
-    /*background-image: radial-gradient(circle, #e8e8e8 80%, #646464 81%);*/
-    color: #2b2b2b;
-    border: 1px solid #2b2b2b;
-  }
-
   .custom_margin {
     margin-left: 0px;
     margin-right: 0px;
@@ -1528,11 +1510,11 @@ body {
 }
 
 .item-done {
-  background-color: #2ECC71 !important;
+  background-color: #2ECC71!important;
 }
 
 .item-pending {
-  background-color: #7d7d7d !important;
+  background-color: #e8e8e8!important;
 }
 
 @media screen and (max-width:768px) {
@@ -1641,11 +1623,6 @@ body {
     font-size: 18px;
   }
 
-  .create-button {
-    color: #2b2b2b;
-    border: 1px solid #2b2b2b;
-  }
-
   .custom_margin {
     margin-left: 0px;
     margin-right: 0px;
@@ -1683,3 +1660,230 @@ body {
     margin-top: 0px;
   }
 }
+
+/*Team list css start*/
+.team-list{
+  padding: 12px;
+  display: inline-block;
+  -moz-box-shadow: 0px 0px 5px 1px #eee;
+  -webkit-box-shadow: 0px 0px 5px 1px #eee;
+  box-shadow: 0px 0px 5px 1px #eee;
+  background-color: #2b2b2b;
+  height: 150px;
+  margin-bottom: 4px;
+}
+.team-list:hover{
+  box-shadow: 0px 0px 5px 1px #ccc;
+  background-color: #1B1B1B;
+}
+.repo{
+  list-style: none;
+  width: 100%;
+}
+.team-memb{
+  position: relative;
+  top: 9px;
+  z-index: 5;
+  float: right;
+  cursor: pointer;
+}
+.team-memb li {
+  float: left;
+  list-style: none;
+  position: absolute;
+  top: -21px;
+  right: -12px;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  line-height: 20px;
+  font-family: Humanist777BT;
+  color: #fff;
+}
+.team-memb li+li {
+  margin-left: 10px;
+  
+}
+.team-name {
+  font-size: 25px;
+  line-height: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+  white-space: nowrap;
+  max-width: 80%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+.team-name {
+  color: #fff;
+  padding-left: 5px;
+  font-family: Humanist777BT;
+}
+.team-body .prob-desc {
+  font-family: Humanist777BT;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 0px;
+}
+.team-body .prob-name {
+  font-family: Humanist777BT;
+  font-size: 17px;
+  margin-bottom: 0px;
+  color: #7d7d7d;
+}
+.team-body .updated-at {
+  font-size: 12px;
+  color: grey;
+}
+.team-body .tags .btn{
+  margin-right: 4px;
+}
+.team-img{
+  float: left;
+  height: 130px;
+  width: 130px;
+  overflow: hidden;
+}
+.team-img img{
+  max-width: 150px;
+  height: auto;
+  max-height: 130px;
+  width: auto;
+}
+.team-display{
+  padding: 0px 50px;
+}
+
+.team-display form button{
+  padding: 13px 16px;
+}
+.team-display .filter {
+  padding-bottom: 20px;
+  background-color: #e8e8e8;
+}
+.team-display .filter .form-group{
+  padding-top: 20px;
+}
+.team-display .filter .create-button{
+  padding-top: 20px;
+}
+.team-display .filter .clear-button {
+  cursor: pointer;
+}
+.team-body{
+  margin-left: 135px;
+}
+.team-members img{
+  height: 50px;
+  padding-right: 10px;
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  .team-img{
+    display: none;
+  }
+  .team-display{
+    padding: 0px 0px;
+  }
+  .team-body{
+    margin-left: 0px;
+  }
+  .team-list {
+    padding: 12px 24px;
+  }
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+  .team-img{
+    display: none;
+  }
+  .team-display{
+    padding: 0px 0px;
+  }
+  .team-body{
+    margin-left: 0px;
+  }
+  .team-list {
+    padding: 12px 24px;
+  }
+}
+
+@media only screen 
+and (max-width : 768px) {
+  .team-img{
+    display: none;
+  }
+  .team-display{
+    padding: 0px 0px;
+  }
+  .team-body{
+    margin-left: 0px;
+  }
+  .team-list {
+    padding: 12px 24px;
+  }
+}
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+  .team-img{
+    display: block;
+  }
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+  .team-img{
+    display: block;
+  }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+  .team-img{
+    display: block;
+  }
+}
+@media only screen 
+and (min-width : 600px) {
+  .team-img{
+    display: block;
+  }
+}
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+  .team-img{
+    display: block;
+  }
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+  .team-img{
+    display: block;
+  }
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+  .team-img{
+    display: block;
+  }
+}
+/*Team list css end*/

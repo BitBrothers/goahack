@@ -29,7 +29,7 @@ angular.module('GoaHack')
       },
       function(data){
         $alert({
-          content: "Your profile was successfuly updated.",
+          content: 'Your profile was successfuly updated.',
           placement: 'right',
           type: 'success',
           duration: 5
@@ -37,7 +37,7 @@ angular.module('GoaHack')
       },
       function(data){
         $alert({
-          content: "There was an error please try again later.",
+          content: 'There was an error please try again later.',
           placement: 'right',
           type: 'danger',
           duration: 5
@@ -79,15 +79,15 @@ angular.module('GoaHack')
           ngProgress.complete();
           console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
           $alert({
-            content: "Your image was successfuly updated.",
+            content: 'Your image was successfuly updated.',
             placement: 'right',
             type: 'success',
             duration: 5
           });
-        }).error(function(data, status, headers, config) {
+        }).error(function(data) {
           console.log(data);
           $alert({
-            content: "There was an error please try again later.",
+            content: 'There was an error please try again later.',
             placement: 'right',
             type: 'danger',
             duration: 5

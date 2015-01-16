@@ -10,8 +10,10 @@ angular.module('GoaHack')
 	          $scope.teams[key].searchTerm = fullName;
 	   });
 	});
-    //console.log($scope.teams);
-
+    console.log($scope.teams);
+  $scope.filterHtml = function(user) {
+   return /\<(.*?)\>/.test(user.type);
+  };
     $scope.modalShown = false;
   	$scope.toggleModal = function(members) {
     	$scope.modalShown = !$scope.modalShown;
@@ -73,4 +75,22 @@ angular.module('GoaHack')
               });
     });
   };
+  $scope.phoneNumberPattern = (function() {
+    var regexp = /\<(.*?)\>/;
+    return {
+        test: function(value) {
+            if( $scope.requireTel === false ) return true;
+            else return regexp.test(value);
+        }
+    };
+  })();
  });
+
+angular.module('GoaHack').filter('filterHtml', function() {
+  return function(input) {
+    console.log(input);
+    var regex = /\<(.*?)\>/ig
+    ,   result = input.replace(regex, "");
+    return result;
+  };
+});
