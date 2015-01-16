@@ -233,9 +233,6 @@ exports.searchTeamSlug = function(req, res) {
     });
 };
 
-
-
-
 exports.deleteTeam = function(req, res, next) {
   Event.findOne({
     slug: req.params.eslug
@@ -264,11 +261,13 @@ exports.deleteTeam = function(req, res, next) {
             event.save(function(err) {
               if (err) res.send(err);
               else {
+                console.log(team.problemStatement);
                 Project.remove({
                   _id: team.problemStatement
-                }, function(err, team) {
+                }, function(err) {
                   if (err) res.send(err);
                   else {
+                    console.log(team);
                     for (var i = team.members.length - 1; i >= 0; i--) {
 
                       User.findById(team.members[i]._id, function(err, user) {
@@ -308,6 +307,7 @@ exports.deleteTeam = function(req, res, next) {
 };
 
 exports.applyTeam = function(req, res) {
+  console.log("Apply reached");
   Team.findOne({
     eventSlug: req.params.eslug,
     slug: req.params.tslug
@@ -547,14 +547,16 @@ exports.inviteMember = function(req, res) {
   }, function(err, team) {
     if (err) res.send(err);
     else {
-      console.log(req.body.invite);
       User.findOne({
         email: req.body.invite
       }, function(err, user) {
         if (err) res.send(err);
         else {
-          console.log(user._id);
-          if (team.inviteMembers.id(user._id)) {
+          if(!user){
+            res.status(500).send(' user hasn\'t joined yet');
+            console.log("Hello from !user");
+          }
+          else if (team.inviteMembers.id(user._id)) {
             res.status(500).send('Already invited');
           } else {
             if (user.events.id(req.eventId)) {
@@ -853,7 +855,7 @@ exports.removeMember = function(req, res) {
                   else {
                     res.json({
                       team: updatedTeam,
-                      message: 'Memeber Deleted '
+                      message: 'Member Deleted '
                     });
                   }
                 });

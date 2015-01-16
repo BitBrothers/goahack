@@ -5,7 +5,7 @@ angular.module('GoaHack')
     $scope.team;
     $scope.teamSlug;
     //  $scope.joinButton = true;
-    //  $scope.acceptButton = false;
+    $scope.acceptButton = false;
     Team.get({
         tslug: $routeParams.tslug,
         eslug: 'goa-hack'
@@ -27,29 +27,26 @@ angular.module('GoaHack')
         $scope.joinButton = true;
         console.log($scope.team);
 
-        for(var i=0; i<team.members.length; i++)
-        {
-          if($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
+        for (var i = 0; i < team.members.length; i++) {
+          if ($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
             $scope.joinButton = false;
         }
 
-        for(var i=0; i<team.appliedMembers.length; i++)
-        {
-          if($scope.$rootScope.currentUser.profile.slug == team.appliedMembers[i]._id.profile.slug)
+        for (var i = 0; i < team.appliedMembers.length; i++) {
+          if ($rootScope.currentUser.profile.slug == team.appliedMembers[i]._id.profile.slug)
             $scope.joinButton = false;
         }
 
-        for(var i=0; i<team.inviteMembers.length; i++)
-        {
-          if($rootScope.currentUser.profile.slug == team.inviteMembers[i]._id.profile.slug){
+        for (var i = 0; i < team.inviteMembers.length; i++) {
+          if ($rootScope.currentUser.profile.slug == team.inviteMembers[i]._id.profile.slug) {
             $scope.joinButton = false;
             $scope.acceptButton = true;
           }
         }
-
-        if($rootScope.currentUser.profile.slug == team.admin._id.profile.slug){
-              $scope.joinButton = false;
-              $scope.acceptButton = false;
+        console.log($rootScope.currentUser.profile.slug);
+        if ($rootScope.currentUser.profile.slug == team.admin.profile.slug) {
+          $scope.joinButton = false;
+          $scope.acceptButton = false;
         }
       });
 
@@ -97,7 +94,7 @@ angular.module('GoaHack')
           $scope.displayTags = team.problemStatement.tags;
         });
 
-      }, function(data){
+      }, function(data) {
         $alert({
           content: "There was an error please try again later.",
           placement: 'right',
@@ -130,27 +127,29 @@ angular.module('GoaHack')
         tslug: $routeParams.tslug
       }, {
         invite: memberEmail
-      }, function(object){
-        if(object) {
+      }, function(object) {
+        if (object) {
           console.log(object);
           $alert({
-          content: 'Invited ' + memberEmail + ' to team.',
-          placement: 'right',
-          type: 'success',
-          duration: 5
+            content: 'Invited ' + memberEmail + ' to team.',
+            placement: 'right',
+            type: 'success',
+            duration: 5
           });
-        $scope.memberEmail = ' ';
-        }}, function(object){
-        if(Object) {
-        console.log(object);
+          $scope.memberEmail = ' ';
+        }
+      }, function(object) {
+        if (Object) {
+          console.log(object);
           $alert({
-          content: memberEmail + ' not invited because ' + object.data,
-          placement: 'right',
-          type: 'danger',
-          duration: 5
+            content: memberEmail + ' not invited because ' + object.data,
+            placement: 'right',
+            type: 'danger',
+            duration: 5
           });
-        $scope.memberEmail = ' ';
-        }});
+          $scope.memberEmail = ' ';
+        }
+      });
     }
 
     $scope.btn_add = function() {
@@ -184,7 +183,6 @@ angular.module('GoaHack')
 
       });
     };
-
 
     $scope.applyToTeam = function() {
       Apply.update({
@@ -256,41 +254,41 @@ angular.module('GoaHack')
         // $scope.upload = $upload.http({...})  // See 88#issuecomment-31366487 for sample code.
       };
     });
-   
-  $scope.acceptTeam = function(){
-        console.log("HEllo");
-        Accept.update({
-        tslug : $routeParams.tslug,
-        eslug : 'goa-hack'
-        },{
-        result : 'true'
-        }, function(object){
+
+    $scope.acceptTeam = function() {
+      console.log("HEllo");
+      Accept.update({
+        tslug: $routeParams.tslug,
+        eslug: 'goa-hack'
+      }, {
+        result: 'true'
+      }, function(object) {
         $scope.acceptButton = false;
         $alert({
           content: 'Joined team.',
           placement: 'right',
           type: 'success',
           duration: 5
-          });
-        }, function(object){
+        });
+      }, function(object) {
         $scope.acceptButton = false;
         $alert({
           content: 'Failed: ' + object.data,
           placement: 'right',
           type: 'danger',
           duration: 5
-          });
         });
-};
-    
-  $scope.rejectTeam = function(){
-        console.log('Reached Reject');
-        Accept.update({
-        tslug : $routeParams.tslug,
-        eslug : 'goa-hack'
-        },{
-        result : 'false'
-        }, function(object){
+      });
+    };
+
+    $scope.rejectTeam = function() {
+      console.log('Reached Reject');
+      Accept.update({
+        tslug: $routeParams.tslug,
+        eslug: 'goa-hack'
+      }, {
+        result: 'false'
+      }, function(object) {
         $scope.acceptButton = false;
         $scope.joinButton = true;
         $alert({
@@ -298,95 +296,159 @@ angular.module('GoaHack')
           placement: 'right',
           type: 'danger',
           duration: 5
-          });
-        }, function(object){
+        });
+      }, function(object) {
         $scope.acceptButton = false;
         $alert({
           content: 'Declined Team',
           placement: 'right',
           type: 'warning',
           duration: 5
+        });
+      });
+    };
+
+    $scope.approveMember = function(uslug) {
+      console.log(uslug);
+      Approve.update({
+          tslug: $routeParams.tslug,
+          eslug: 'goa-hack'
+        }, {
+          result: 'true',
+          approval: uslug
+        },
+        function(object) {
+          $alert({
+            content: 'Added to team.',
+            placement: 'right',
+            type: 'success',
+            duration: 5
+          });
+        },
+        function(object) {
+          $scope.acceptButton = false;
+          $alert({
+            content: 'Failed: ' + object.data,
+            placement: 'right',
+            type: 'danger',
+            duration: 5
           });
         });
-};
-    
-  $scope.approveMember = function(uslug){
-    console.log(uslug);
-    Approve.update({
-      tslug : $routeParams.tslug,
-      eslug : 'goa-hack'
-    }, {
-      result : 'true',
-      approval : uslug
-    },
-    function(object){
-      $alert({
-          content: 'Added to team.',
-          placement: 'right',
-          type: 'success',
-          duration: 5
-          });
-        }, function(object){
-        $scope.acceptButton = false;
-        $alert({
-          content: 'Failed: ' + object.data,
-          placement: 'right',
-          type: 'danger',
-          duration: 5
-          });
-    });
     };
-    
-  $scope.disproveMember = function(uslug){
-    Approve.update({
-      tslug : $routeParams.tslug,
-      eslug : 'goa-hack'
-    }, {
-      result : 'false',
-      approval : uslug
-    },
-    function(object){
-      $alert({
-          content: 'Added to team.',
-          placement: 'right',
-          type: 'success',
-          duration: 5
+
+    $scope.disproveMember = function(uslug) {
+      Approve.update({
+          tslug: $routeParams.tslug,
+          eslug: 'goa-hack'
+        }, {
+          result: 'false',
+          approval: uslug
+        },
+        function(object) {
+          $alert({
+            content: 'Added to team.',
+            placement: 'right',
+            type: 'success',
+            duration: 5
           });
-        }, function(object){
-        $scope.acceptButton = false;
-        $alert({
-          content: object.data,
-          placement: 'right',
-          type: 'danger',
-          duration: 5
+        },
+        function(object) {
+          $scope.acceptButton = false;
+          $alert({
+            content: object.data,
+            placement: 'right',
+            type: 'danger',
+            duration: 5
           });
-    });
+        });
     };
-    
-  $scope.removeMember = function(uslug){
-    console.log('Reached Remove');
-    console.log(uslug);
-    Remove.update({
-      eslug : 'goa-hack',
-      tslug : $routeParams.tslug
-    }, {
-      remove : uslug
-    },function(object){
-      $alert({
+
+    $scope.removeMemberModal = function(uslug) {
+      $scope.removeSlug = uslug;
+      $scope.removeModal = true
+    }
+
+    $scope.deleteTeamModal = function() {
+      $scope.deleteModal = true;
+    }
+
+    $scope.closeModal = function() {
+      $scope.removeModal = false;
+      $scope.deleteModal = false;
+    }
+
+
+    $scope.removeMember = function() {
+      console.log('Reached Remove');
+      Remove.update({
+        eslug: 'goa-hack',
+        tslug: $routeParams.tslug
+      }, {
+        remove: $scope.removeSlug
+      }, function(object) {
+        $alert({
           content: object.message,
           placement: 'right',
           type: 'success',
           duration: 5
-          });
-        }, function(object){
+        });
+      }, function(object) {
         $scope.acceptButton = false;
         $alert({
           content: object.data,
           placement: 'right',
           type: 'danger',
           duration: 5
-          });
-    });
+        });
+      });
     };
-});
 
+    $scope.leaveTeam = function() {
+      console.log('Reached Leave');
+      Unjoin.update({
+        eslug: 'goa-hack',
+        tslug: $routeParams.tslug
+      }, {
+        _id: $scope.userId
+      }, function(object) {
+        $alert({
+          content: object.message,
+          placement: 'right',
+          type: 'success',
+          duration: 5
+        });
+      }, function(object) {
+        $scope.acceptButton = false;
+        $alert({
+          content: object.data,
+          placement: 'right',
+          type: 'danger',
+          duration: 5
+        });
+      });
+    };
+
+    $scope.deleteTeam = function() {
+      Team.delete({
+        eslug: 'goa-hack',
+        tslug: $routeParams.tslug
+      }, {
+        _id: $scope.userId
+      }, function(object) {
+        $alert({
+          content: object.message,
+          placement: 'right',
+          type: 'success',
+          duration: 5
+        });
+      }, function(object) {
+        $scope.acceptButton = false;
+        $alert({
+          content: object.data,
+          placement: 'right',
+          type: 'danger',
+          duration: 5
+        });
+      });
+    };
+  });

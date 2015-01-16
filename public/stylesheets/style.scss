@@ -672,7 +672,7 @@ section#contact {
   cursor: default;
 }
 
-.progress {
+.progress-nav-bar {
   background-color: #2b2b2b;
   height: 350px;
   padding-top: 65px;
@@ -953,10 +953,11 @@ section#contact {
   color: black;
 }
 
-.progress {
+.progress-nav-bar {
   background-color: #2b2b2b;
   height: auto;
   padding-bottom: 20px;
+  overflow: hidden;
 }
 
 .progress-items {
