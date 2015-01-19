@@ -34,6 +34,8 @@ angular.module('GoaHack')
           type: 'success',
           duration: 5
         });
+        $location.path('/userprofile/'+$routeParams.slug);
+        console.log($routeParams.slug);
       },
       function(data){
         $alert({
@@ -84,6 +86,7 @@ angular.module('GoaHack')
             type: 'success',
             duration: 5
           });
+          $scope.user.profile.picture = data.user.profile.picture+'?decache='+Math.floor(Math.random()*1000);
         }).error(function(data) {
           console.log(data);
           $alert({

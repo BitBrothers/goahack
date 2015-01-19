@@ -101,6 +101,7 @@ exports.createTeam = function(req, res) {
   team.description = req.body.description;
   team.eventSlug = req.params.eslug;
   team.admin = req.user._id;
+  team.teamPic = 'https://s3-us-west-2.amazonaws.com/codejedi/events/goa-hack/goa-hackteam-image';
   team.slug = slugify(req.body.name);
 
   team.members.push({

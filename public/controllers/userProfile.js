@@ -11,7 +11,15 @@ angular.module('GoaHack')
           $scope.user = user;
           console.log(user);
 
+        }, function(err){
+          $location.path('/')
+          $alert({
+            content: 'No such User',
+            placement: 'right',
+            type: 'danger',
+            duration: 5
         });
+      });
     };
 
     init();

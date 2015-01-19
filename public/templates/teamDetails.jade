@@ -2,7 +2,8 @@ include partials/progress-bar.jade
 
 .col-md-10.col-md-offset-1.section2
   .row
-    div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-image: url({{team.teamPic}});background-size: cover;background-position-x: 33%;background-position-y: 33%;')
+    div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
+      img(ng-src='{{team.teamPic}}')
     br
     div(style='position: absolute;top: 280px;left: 170px;')
       button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
@@ -20,7 +21,7 @@ include partials/progress-bar.jade
         a(href='/userprofile/{{member._id.profile.slug}}')
           img(ng-src='{{member._id.profile.picture}}')
           br
-          h6 {{member._id.profile.nameFull}}
+          h6 {{member._id.profile.nameFull | characters:15 }}
           small {{member._id.profile.occupation}}
         h6.teamPageDeleteMemberButton(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug') x
       .col-md-2.col-sm-2.col-xs-6.teamMembers

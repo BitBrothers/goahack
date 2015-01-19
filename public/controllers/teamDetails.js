@@ -48,7 +48,15 @@ angular.module('GoaHack')
           $scope.joinButton = false;
           $scope.acceptButton = false;
         }
-      });
+      }, function(err){
+        $location.path('/teams')
+        $alert({
+          content: 'No such Team',
+          placement: 'right',
+          type: 'danger',
+          duration: 5
+        });
+    });
 
     User.get({
         uslug: $rootScope.currentUser.profile.slug
@@ -224,13 +232,16 @@ angular.module('GoaHack')
         }).success(function(data, status, headers, config) {
           // file is uploaded successfully
           ngProgress.complete();
-          console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
+          console.log('file ' + config.file.name + ' has uploaded successfully. Response: ' + data.message);
           $alert({
             content: "Your image was successfuly updated.",
             placement: 'right',
             type: 'success',
             duration: 5
           });
+//          $scope.team = data.team;
+          console.log(data.team.teamPic);
+          $scope.team.teamPic = data.team.teamPic + '?decache='+Math.floor(Math.random()*1000);
         }).error(function(data, status, headers, config) {
           console.log(data);
           $alert({
@@ -441,6 +452,7 @@ angular.module('GoaHack')
           type: 'success',
           duration: 5
         });
+        $location.path('/teams');
       }, function(object) {
         $scope.acceptButton = false;
         $alert({

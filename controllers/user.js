@@ -68,6 +68,7 @@ exports.signup = function(req, res, next) {
     });
     user.profile.email = req.body.email;
     user.profile.name = req.body.name;
+    user.profile.picture = 'https://s3-us-west-2.amazonaws.com/codejedi/users/llll96';
     user.save(function(err, user, numberAffected) {
         if (err) res.send(err);
         else {
