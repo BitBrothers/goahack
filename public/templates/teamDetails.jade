@@ -2,17 +2,17 @@ include partials/progress-bar.jade
 
 .col-md-10.col-md-offset-1.section2
   .row
-    .col-md-4.col-sm-6.col-xs-12.displayPic
-      img(ng-src='{{team.teamPic}}')
+    div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-image: url({{team.teamPic}});background-size: cover;background-position-x: 33%;background-position-y: 33%;')
+    br
+    div(style='position: absolute;top: 280px;left: 170px;')
       button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
       .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*', ng-show='currentUser.profile.slug == admin.profile.slug')
-        | Drop Images here
       div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
-    .col-md-6.col-sm-6.col-xs-12.teamName
+    .col-md-7.col-sm-6.col-xs-12.teamName
       h2 {{name}}
     .col-md-3.col-sm-2.col-xs-1.lock
       img(ng-src='images/Capture.svg')
-      img(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
+      img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
@@ -22,7 +22,7 @@ include partials/progress-bar.jade
           br
           h6 {{member._id.profile.nameFull}}
           small {{member._id.profile.occupation}}
-        p(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug') X
+        h6.teamPageDeleteMemberButton(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug') x
       .col-md-2.col-sm-2.col-xs-6.teamMembers
         img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug')
         img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
@@ -101,13 +101,13 @@ modal-dialog(show='showModal', dialog-title='Add Member', height='200px', width=
 modal-dialog(show='removeModal', dialog-title='Remove Member', height='200px', width='480px')
   div.addMemberModalDiv.col-md-12
     h3 Are you sure you want to remove this member?
-    div.col-md-3
-      button.btn.btn-md.addMemberModalButton(ng-click='removeMember()') Remove member
-      button.btn.btn-md.addMemberModalButton(ng-click='closeModal()') Cancel
+    div.col-md-12
+      button.btn.btn-md.removeMember(ng-click='removeMember()') Remove member
+      button.btn.btn-md.cancelAction(ng-click='closeModal()') Cancel
       
 modal-dialog(show='deleteModal', dialog-title='Delete Team', height='200px', width='480px')
   div.addMemberModalDiv.col-md-12
     h3 Are you sure you want to delete the team?
-    div.col-md-3
-      button.btn.btn-md.addMemberModalButton(ng-click='deleteTeam()') Delete Team
-      button.btn.btn-md.addMemberModalButton(ng-click='closeModal()') Cancel
+    div.col-md-12
+      button.btn.btn-md.removeMember(ng-click='deleteTeam()') Delete Team
+      button.btn.btn-md.cancelAction(ng-click='closeModal()') Cancel

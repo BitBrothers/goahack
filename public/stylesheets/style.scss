@@ -542,7 +542,18 @@ section#contact {
     src: url('../fonts/SF New Republic.ttf'); /*URL to font*/;
 }
 
-.userInfo, .userSkillSet {
+.userInfo{
+  text-align: center;
+  height: auto;
+  padding: 10px;
+  font-family: Raleway;
+  background-color: #e8e8e8;
+  //    border-radius: 5px;
+  margin-bottom: 10px;
+/*    margin-right: 10px;*/;
+}
+
+.userSkillSet {
   text-align: center;
   height: auto;
   padding: 10px;
@@ -554,16 +565,29 @@ section#contact {
 }
 
 .userInfo img {
-  border-radius: 50%;
+//  border-radius: 50%;
   border: 0px;
   width: 120px;
 }
 
-.userInfo h4, .userSkillSet h4 {
+.userInfo h4 {
+  color: #2b2b2b;
+}
+
+.userSkillSet h4 {
   color: #e8e8e8;
 }
 
-.userInfo p, .userSkillSet p {
+.userInfo p {
+  color: #2b2b2b;
+  margin-top: -10px;
+  text-align: left;
+  width: 85%;
+  margin: auto;
+  margin-top: 5px;
+}
+
+.userSkillSet p {
   color: #e8e8e8;
   margin-top: -10px;
   text-align: left;
@@ -609,14 +633,21 @@ section#contact {
   text-align: center;
 }
 
+.dashTabActive:hover{
+  background-color: #bf3431 !important;
+  color: #ffffff;
+  //    border-radius: 5px;
+  text-align: center;
+}
+
 .teamPhoto img {
   width: 50px;
+  height: 50px;
 }
 
 .dashContent {
-    margin-top: 5px;
     margin-bottom: 10px;
-    background-color: #2b2b2b;
+    background-color: #3f3f3f;
     padding: 15px;
 //    border-radius: 5px;
 }
@@ -632,10 +663,17 @@ section#contact {
 }
 
 .dashContentTeam:hover {
-  background-color: #646464;
+  background-color: #2b2b2b;
   //    border: solid 1px #e8e8e8;
   //    border-radius: 5px;
   //    padding: 2px;
+}
+.dashContentTeam h4:hover {
+//  background-color: #2b2b2b;
+  border-bottom: 0px !important;
+}
+.dashContentTeam{
+  margin-bottom: 5px;
 }
 
 .sidebar {
@@ -651,7 +689,7 @@ section#contact {
 }
 
 .nav li a {
-  background-color: #2b2b2b;
+  background-color: #717171;
   color: #e8e8e8;
 }
 
@@ -660,14 +698,21 @@ section#contact {
 }
 
 .nav li a:hover {
-  background-color: #bf3431;
+  background-color: #3f3f3f;
   color: #e8e8e8;
   cursor: pointer;
 }
 
 .nav-tabs li.active a, {
   color: #e8e8e8;
-  background-color: #bf3431;
+  background-color: #3f3f3f;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.nav-tabs li.active a:hover {
+  color: #e8e8e8;
+  background-color: #3f3f3f;
   border-bottom-color: transparent;
   cursor: default;
 }
@@ -841,6 +886,33 @@ section#contact {
   text-decoration: none;
 }
 
+.mainCreateTeamButton{
+  background: #2b2b2b;
+  border-color: #2b2b2b;
+}
+
+.mainCreateTeamButton:hover{
+  background: #000;
+  border-color: #000;
+}
+
+.createTeamModal h3
+{
+  text-align: center;
+}
+
+.createTeamButton
+{
+  background-color: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.createTeamButton:hover
+{
+  background-color: #000;
+  color: #e8e8e8;
+}
+
 .search-pane a {
   margin: 5px;
   margin-top: 0px;
@@ -996,10 +1068,18 @@ section#contact {
   padding: none;
 }
 
-.displayPic img {
+.displayPic
+{
+  height: 300px;
   width: 300px;
+  overflow: hidden;
+}
+
+.displayPic img {
+//  width: 300px;
+  height: 300px;
   border: 1px solid #e8e8e8;
-  padding: 20px;
+//  padding: 10px;
 }
 
 .section2 {
@@ -1017,7 +1097,6 @@ section#contact {
   color: #2b2b2b;
   font: 100 40px / 61.727px Humanist777BT;
   line-height: 0;
-  padding-top: 200px;
   padding-right: 10px;
 }
 
@@ -1033,12 +1112,28 @@ section#contact {
   margin-left: 175px;
 }
 
+.deleteTeamIcon{
+  width: 25px !important;
+  padding-top: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
 .sec2 {
   background: #fff;
 }
 
 .sec2 img {
   height: 125px;
+  width: 125px;
+}
+
+.teamPageDeleteMemberButton
+{
+  position: absolute;
+  right: 7px;
+  bottom: 18px;
+  cursor: pointer;
 }
 
 .teamMembers {
@@ -1059,6 +1154,33 @@ section#contact {
   font: 11px Humanist777BT;
 }
 
+.removeMember
+{
+  float: left;
+  background: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.cancelAction
+{
+  float: right;
+  background: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.removeMember:hover
+{
+  float: left;
+  background: #000;
+  color: #e8e8e8;
+}
+
+.cancelAction:hover
+{
+  float: right;
+  background: #000;
+  color: #e8e8e8;
+}
 
 @media screen and (max-width:420px)
 {
@@ -1068,11 +1190,7 @@ section#contact {
          padding-left:10px;
     }
 }
-    @media screen and (min-width:481px) and (max-width:1125px) {
-  .teamName h2 {
-    padding-top: 100px;
-  }
-}
+
 
 @media screen and (max-width:991px) {
   .section2 {
@@ -1427,15 +1545,29 @@ section#contact {
 }
 
 .approval {
-  padding-top: 13px;
+  padding: 13px;
+  background: #2ECC71;
+  text-align: center;
+  margin-left: 20px;
+  cursor: pointer;
+  width: 55px;
+}
+
+.disproval {
+  padding: 13px;
+  background: #bf3431;
+  text-align: center;
+  margin-left: 20px;
+  cursor: pointer;
+  width: 55px;
 }
 
 .approveMemberIcon {
-  width: 17px;
+  width: 25px;
 }
 
 .disproveMemberIcon {
-  width: 17px;
+  width: 25px;
 }
 
 .buttons {
@@ -1501,7 +1633,6 @@ section#contact {
 }
 
 .tagSpan {
-  border: 1px solid #e8e8e8;
   padding: 5px;
   border-radius: 5px;
   background-color: #B3B3B3;
@@ -1776,8 +1907,45 @@ section#contact {
   margin-left: 135px;
 }
 .team-members img{
-  height: 50px;
+  width: 50px;
   padding-right: 10px;
+}
+.team-members{
+  padding-top: 15px;
+}
+.team-members-modal-image {
+  width: 75px;
+  padding: 5px;
+}
+
+.teamMembersModal{
+  padding-top: 20px;
+}
+
+.modalTeamMembersContent
+{
+  background: #2b2b2b;
+  color: #e8e8e8;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+  height: 60px;
+}
+
+.modalTeamMembersContent h5
+{
+  color: #e8e8e8;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.modalTeamMembersContent:hover
+{
+  background: #000;
+  color: #e8e8e8;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 5px;
 }
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen 
@@ -1888,3 +2056,5 @@ only screen and (min-device-pixel-ratio : 1.5) {
   }
 }
 /*Team list css end*/
+
+

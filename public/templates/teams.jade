@@ -11,21 +11,23 @@ div.team-display
             input#exampleInputAmount.form-control.input-lg(type='text', placeholder='Filter teams ...', ng-model='team')
             .input-group-addon.input-lg.clear-button(ng-click='team = ""') x
         .col-md-2.col-sm-2.col-xs-12.create-button
-          button.btn.btn-primary.btn-lg.btn-block(ng-click="toggleCreateModal()") Create Team
+          button.btn.btn-primary.btn-lg.btn-block.mainCreateTeamButton(ng-click="toggleCreateModal()") Create Team
   .row
     .team-list.col-md-12(ng-repeat='team in teams | filter: team')
       li.repo
         .team-img
-          img(ng-src='{{team.teamPic}}', alt='images/group.svg')
+          a(href='/team/{{team.slug}}')
+            img(ng-src='{{team.teamPic}}', alt='images/group.svg')
         ul.team-memb
           li.team-members(ng-click="toggleModal(team.members)")
             img(ng-src='images/group.svg')
             | {{team.members.length}}  Member(s)
-        h3.team-name {{team.name}}
+        a(href='/team/{{team.slug}}')
+          h3.team-name {{team.name}}
         div.team-body
           p.prob-name
             | {{team.problemStatement.name | characters:150 }}
-          p.prob-desc
+          p.prob-desc(ng-show='{{team.problemStatement.description}}')
             | {{team.problemStatement.description | characters:300 | filterHtml}}
           .tags
             .btn.btn-default(ng-repeat='tag in team.problemStatement.tags | limitTo:10', ng-click="filter(tag)") {{tag}}
@@ -53,14 +55,14 @@ div.team-display
             .btn.btn-default(ng-click="filter(tag)") {{tag}}
 
 
-modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='400px')
+modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='400px', background-color='#e8e8e8')
   div.teamMembersModal
     .row.modalTeamMembersContent(ng-repeat='member in teamMembers')
       .col-md-3.col-md-offset-1
         a(href='/userprofile/{{member._id.profile.slug}}')
-          img.team-members(ng-src='{{member._id.profile.picture}}')
+          img.team-members.team-members-modal-image(ng-src='{{member._id.profile.picture}}')
       .col-md-8  
-        p.modalMemberName {{member._id.profile.name}}
+        h5.modalMemberName {{member._id.profile.name}}
         
         
 modal-dialog(show='createModalShown', dialog-title='Create a Team', height='175px', width='400px')

@@ -6,7 +6,7 @@ include partials/progress-bar.jade
       // SIDEBAR
       .userInfo.col-md-12.col-sm-6
         a(href="{{path}}/edit")
-          img.editIcon(src='images/edit-icon.svg', ng-show='{{editIcon}}')
+          img.editIcon(src='images/edit-icon-dark.svg', ng-show='{{editIcon}}')
         br
         img(ng-src='{{user.profile.picture}}')
         br
@@ -43,9 +43,9 @@ include partials/progress-bar.jade
 modal-dialog(show='leaveModal', dialog-title='Leave Team', height='200px', width='480px')
   div.addMemberModalDiv.col-md-12
     h3 Are you sure you want to leave the team?
-    div.col-md-3
-      button.btn.btn-md.addMemberModalButton(ng-click='leaveTeam()') Leave Team
-      button.btn.btn-md.addMemberModalButton(ng-click='closeModal()') Cancel
+    div.col-md-12
+      button.btn.btn-md.removeMember(ng-click='leaveTeam()') Leave Team
+      button.btn.btn-md.cancelAction(ng-click='closeModal()') Cancel
       
 
 modal-dialog(show='progressModal', dialog-title='Complete Profile')

@@ -1,14 +1,13 @@
 .row.dashContent
-  .row.dashContentTeam
-    .col-md-10
-      a.col-md-1.teamPhoto(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
-        img(src='images/stark.png')
-      a.col-md-10(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
-        h4 {{user.events[0].team.name}}
-      .col-md-1(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
-        btn.btn-sm.btn-danger
-          img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)') 
-    a.col-md-12(href='/teams' ng-show='!user.events[0].team') You haven't joined any teams. Click here to find one now
+  div.row.dashContentTeam
+    a.col-md-1.teamPhoto(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
+      img(ng-src='{{user.events[0].team.teamPic}}')
+    a.col-md-9(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
+      h4 {{user.events[0].team.name}}
+    .col-md-1.disproval(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
+      img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)') 
+    a.col-md-12(href='/teams' ng-show='!user.events[0].team')
+      p You haven't joined any teams. Click here to find one now
 
   
   
