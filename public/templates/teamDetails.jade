@@ -30,7 +30,7 @@ include partials/progress-bar.jade
         p(ng-show='acceptButton') Accept Invitation
         img.addMemberImage(src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
         p(ng-show='acceptButton') Reject Invitation
-        p(ng-show='currentUser.profile.slug == admin.profile.slug') Add member
+        p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug') Add member
         p(ng-show='joinButton') Apply
         br
         

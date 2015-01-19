@@ -10,5 +10,5 @@
     .col-md-1.col-xs-1.disproval
       img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='approveMember(member._id.profile.slug)')
       br
-  div.col-md-12(ng-hide='{{member._id.profile.name}}') 
+  div.col-md-12(ng-hide='{{team.appliedMembers}}') 
     h4 No members have applied to your team yet.
