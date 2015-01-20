@@ -58,11 +58,11 @@ div.team-display
 modal-dialog(show='modalShown', dialog-title='Team Members', height='400px', width='400px', background-color='#e8e8e8')
   div.teamMembersModal
     .row.modalTeamMembersContent(ng-repeat='member in teamMembers')
-      .col-md-3.col-md-offset-1
-        a(href='/userprofile/{{member._id.profile.slug}}')
-          img.team-members.team-members-modal-image(ng-src='{{member._id.profile.picture}}')
-      .col-md-8  
-        h5.modalMemberName {{member._id.profile.name}}
+      a(href='/userprofile/{{member._id.profile.slug}}')
+        .col-md-3.col-sm-3.col-xs-3
+            img.team-members.team-members-modal-image(ng-src='{{member._id.profile.picture}}')
+        .col-md-9.col-sm-9.col-xs-9  
+          h5.modalMemberName {{member._id.profile.name}}
         
         
 modal-dialog(show='createModalShown', dialog-title='Create a Team', height='175px', width='400px')

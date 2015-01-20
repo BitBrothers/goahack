@@ -7,7 +7,7 @@
     .col-md-1.disproval(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
       img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)') 
     a.col-md-12(href='/teams' ng-show='!user.events[0].team')
-      p You haven't joined any teams. Click here to find one now
+      h4 You haven't joined any teams. Click here to find one now
 
   
   

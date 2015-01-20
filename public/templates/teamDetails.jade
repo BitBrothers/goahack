@@ -12,7 +12,7 @@ include partials/progress-bar.jade
     .col-md-7.col-sm-6.col-xs-12.teamName
       h2 {{name}}
     .col-md-3.col-sm-2.col-xs-1.lock
-      img(ng-src='images/Capture.svg')
+      img(ng-src='images/unlocked-team.svg')
       img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
 .row
   .col-md-10.col-md-offset-1.sec2
@@ -28,11 +28,11 @@ include partials/progress-bar.jade
         img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug')
         img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
         img.addMemberImage(src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
-        p(ng-show='acceptButton') Accept Invitation
+        p.addMemberText(ng-show='acceptButton') Accept Invitation
         img.addMemberImage(src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
-        p(ng-show='acceptButton') Reject Invitation
+        p.addMemberText(ng-show='acceptButton') Reject Invitation
         p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug') Add member
-        p(ng-show='joinButton') Apply
+        p.addMemberText(ng-show='joinButton') Apply
         br
         
 .row(ng-show='currentUser.profile.slug == admin.profile.slug')
