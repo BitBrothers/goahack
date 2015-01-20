@@ -23,6 +23,7 @@ angular.module('GoaHack')
 
         $scope.problem.name = team.problemStatement.name;
         $scope.problem.description = team.problemStatement.description;
+//        $scope.problem.tag = team.problemStatement.tags;
 
         $scope.joinButton = true;
         console.log($scope.team);

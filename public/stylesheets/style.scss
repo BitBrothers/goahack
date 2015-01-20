@@ -1143,6 +1143,12 @@ section#contact {
   padding-bottom: 20px;
 }
 
+.teamMembers p{
+/*    text-align: center;*/
+/*    margin-left: -33px;*/
+  cursor: default;
+}
+
 .teamMembers h6 {
   color: #7d7d7d;
   font: 300 14px / 61.727px Humanist777BT;
@@ -1884,9 +1890,10 @@ section#contact {
 }
 .team-img img{
   max-width: 150px;
-  height: auto;
+  height: 100%;
   max-height: 130px;
-  width: auto;
+  width: 100%;
+  padding-right: 5px;
 }
 .team-display{
   padding: 0px 50px;

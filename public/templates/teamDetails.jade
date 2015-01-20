@@ -1,19 +1,20 @@
 include partials/progress-bar.jade
 
-.col-md-10.col-md-offset-1.section2
-  .row
-    div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
-      img(ng-src='{{team.teamPic}}')
-    br
-    div(style='position: absolute;top: 280px;left: 170px;')
-      button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
-      .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*', ng-show='currentUser.profile.slug == admin.profile.slug')
-      div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
-    .col-md-7.col-sm-6.col-xs-12.teamName
-      h2 {{name}}
-    .col-md-3.col-sm-2.col-xs-1.lock
-      img(ng-src='images/unlocked-team.svg')
-      img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
+.row
+  .col-md-10.col-md-offset-1.section2
+    .row
+      div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
+        img(ng-src='{{team.teamPic}}')
+      br
+      div(style='position: absolute;top: 280px;left: 170px;')
+        button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
+        .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*', ng-show='currentUser.profile.slug == admin.profile.slug')
+        div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
+      .col-md-7.col-sm-6.col-xs-12.teamName
+        h2 {{name}}
+      .col-md-3.col-sm-2.col-xs-1.lock
+        img(ng-src='images/unlocked-team.svg')
+        img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
 .row
   .col-md-10.col-md-offset-1.sec2
     .row
@@ -27,8 +28,10 @@ include partials/progress-bar.jade
       .col-md-2.col-sm-2.col-xs-6.teamMembers
         img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug')
         img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()", ng-show='joinButton')
+      .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right')
         img.addMemberImage(src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
         p.addMemberText(ng-show='acceptButton') Accept Invitation
+      .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right')
         img.addMemberImage(src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
         p.addMemberText(ng-show='acceptButton') Reject Invitation
         p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug') Add member

@@ -13,19 +13,19 @@ include partials/progress-bar.jade
         h4 {{user.profile.nameFull}}
         
         p 
-          img.userInfoIcon(src='images/occupation-icon.svg', ng-show='user.profile.occupation')
+          i.fa.fa-user.userInfoIcon(ng-show='user.profile.occupation')
           | {{user.profile.occupation}}
         p 
-          img.userInfoIcon(src='images/location-icon.svg', ng-show='user.profile.location')
+          i.fa.fa-map-marker.userInfoIcon(ng-show='user.profile.location')
           | {{user.profile.location}}
         p 
-          img.userInfoIcon(src='images/website-icon.svg', ng-show='user.profile.website') 
+          i.fa.fa-link.userInfoIcon(ng-show='user.profile.website') 
           | {{user.profile.website}}
         p
-          img.userInfoIcon(src='images/company-icon.svg', ng-show='user.profile.employers')
+          i.fa.fa-building.userInfoIcon(ng-show='user.profile.employers')
           | {{user.profile.employers}}
         p 
-          img.userInfoIcon(src='images/experience-icon.svg', ng-show='user.profile.experience')
+          i.fa.fa-clock-o.userInfoIcon(ng-show='user.profile.experience')
           | {{user.profile.experience}}
       // </div>
       // <div class="row">

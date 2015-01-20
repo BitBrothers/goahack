@@ -15,7 +15,7 @@ div.team-display
   .row
     .team-list.col-md-12(ng-repeat='team in teams | filter: team')
       li.repo
-        .team-img(style='background:white')
+        .team-img
           a(href='/team/{{team.slug}}')
             img(ng-src='{{team.teamPic}}', alt='images/group.svg')
         ul.team-memb
