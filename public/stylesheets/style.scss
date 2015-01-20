@@ -567,7 +567,7 @@ section#contact {
 .userInfo img {
 //  border-radius: 50%;
   border: 0px;
-  width: 120px;
+  width: 200px;
 }
 
 .userInfo h4 {
@@ -1213,6 +1213,7 @@ section#contact {
   background: #2b2b2b;
   padding-left: 30px;
   padding-right: 30px;
+  padding-bottom: 20px;
 }
 
 .sec3 h4 {
@@ -1252,14 +1253,14 @@ section#contact {
 }
 
 .sec5 {
-  background: #2b2b2b;
+  background: #5c5c5c;
   padding: 15px;
-/*    padding-right: 30px;*/;
+  margin-top: 20px;
 }
 
 .chatWallHeader {
-  background: #5c5c5c;
-  color: #ffffff;
+  background: #2b2b2b;
+  color: #e8e8e8;
   font: 20px Humanist777BT;
   padding: 10px;
 }
@@ -1278,18 +1279,18 @@ section#contact {
 }
 
 .chatRow {
-  border-bottom: 1px solid #636363;
+  border-bottom: 1px solid #2b2b2b;
   padding-top: 10px;
 }
 
 .sec6 {
-  background: #e8e8e8;
+  background: #2b2b2b;
 }
 
 .sec6 h5 {
-  color: #2b2b2b;
+  color: #e8e8e8;
   font: 20px / 61.727px Humanist777BT;
-  padding-left: 15px;
+  padding: 10px;
   line-height: 1em;
 }
 
@@ -1606,7 +1607,7 @@ section#contact {
 }
 
 .chatRow small {
-  color: #646464;
+  color: #e8e8e8;
   float: right;
 }
 
@@ -1650,6 +1651,14 @@ section#contact {
   color: #2b2b2b;
   margin-left: 5px;
   cursor: default;
+  float: left;
+  margin-bottom: 10px;
+}
+
+.tagsHeader{
+  color: #e8e8e8;
+  font-size: 18px;
+  font-weight: 200;
 }
 
 .item-done {
