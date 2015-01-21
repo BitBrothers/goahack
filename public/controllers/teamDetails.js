@@ -20,6 +20,7 @@ angular.module('GoaHack')
         $scope.team.problemStatement.id = team.problemStatement._id;
         $scope.teamSlug = team.slug;
         $scope.eventSlug = team.eventSlug;
+        $scope.numberOfMembers = team.members.length;
 
         $scope.problem.name = team.problemStatement.name;
         $scope.problem.description = team.problemStatement.description;

@@ -6,14 +6,14 @@ include partials/progress-bar.jade
       div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
         img(ng-src='{{team.teamPic}}')
       br
-      div(style='position: absolute;top: 280px;left: 170px;')
+      div(style='position: absolute;top: 270px;left: 170px;')
         button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
         .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*', ng-show='currentUser.profile.slug == admin.profile.slug')
         div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
       .col-md-7.col-sm-6.col-xs-12.teamName
         h2 {{name}}
       .col-md-3.col-sm-2.col-xs-1.lock
-        img(ng-src='images/unlocked-team.svg')
+        img.lock-icon(ng-src='images/unlocked-team.svg')
         img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
 .row
   .col-md-10.col-md-offset-1.sec2
@@ -23,11 +23,12 @@ include partials/progress-bar.jade
           img(ng-src='{{member._id.profile.picture}}')
           br
           h6 {{member._id.profile.nameFull | characters:15 }}
+          h6(ng-hide='member._id.profile.nameFull') {{member._id.profile.name | characters:15 }}
           small {{member._id.profile.occupation}}
-        h6.teamPageDeleteMemberButton(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug') x
+        img.teamPageDeleteMemberButton(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug' ng-src='images/disprove-member.svg')
       .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug')
-        p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug') Add member
+        img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug && numberOfMembers <= 5')
+        p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug && numberOfMembers <= 5') Add member
       .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right', ng-show='joinButton')
         img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()")
         p.addMemberText(ng-show='joinButton') Apply
@@ -46,7 +47,7 @@ include partials/progress-bar.jade
       div(ng-include='', src='tabs[tabs.activeTab].page')
 
 .row
-  .col-md-10.col-md-offset-1.sec3
+  .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.sec3
     h4(ng-show='!team.problemStatement.name') No Problem Statement / Description yet
     h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
     img.editProblemStatementIcon(ng-src='images/edit-icon.svg', ng-show='currentUser.profile.slug == admin.profile.slug', ng-click='edit()')
@@ -89,7 +90,7 @@ include partials/progress-bar.jade
         p No comments yet. Be the first to post one!
 
 .row
-  .col-md-10.col-md-offset-1.sec6
+  .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.sec6
     h5  Comment on the wall 
     form
       textarea(ng-model='txtcomment', placeholder='Post a comment...', style='width:100%')

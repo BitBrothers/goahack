@@ -1,12 +1,12 @@
 .row.dashContent
   div.row.dashContentTeam(ng-repeat='applied in user.events[0].appliedTeams')
     a(href='/team/{{applied._id.slug}}')
-      .col-md-1.col-xs-2.teamPhoto
-        img(src='images/lannister.png')
-      .col-md-10.col-xs-8
+      .col-md-1.col-sm-2.col-xs-2.teamPhoto
+        img(ng-src='{{applied._id.teamPic}}')
+      .col-md-9.col-sm-8.col-xs-7
         h4 {{applied._id.name}}
-      .col-md-1.col-xs-2
-        h4 x
+      .col-md-1.col-sm-1.col-xs-1.disproval(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
+        img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)')
       br
   div.col-md-12(ng-hide='user.events[0].appliedTeams') 
     h4 You have not applied to any team yet.  

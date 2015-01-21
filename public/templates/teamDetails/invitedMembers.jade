@@ -1,11 +1,11 @@
 .row.dashContent
   div.row.dashContentTeam(ng-repeat='member in team.inviteMembers')
     a(href='/userprofile/{{member._id.profile.slug}}')
-      .col-md-1.col-xs-2.teamPhoto
+      .col-md-1.col-sm-2.col-xs-2.teamPhoto
         img(ng-src='{{member._id.profile.picture}}')
-      .col-md-10.col-xs-8
+      .col-md-9.col-sm-8.col-xs-7
         h4 {{member._id.profile.name}}
-    .col-md-1.col-xs-1.disproval
+     .col-md-1.col-sm-1.col-xs-1.disproval
       img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='')
       br
   div.col-md-12(ng-hide='{{team.inviteMembers}}') 

@@ -3,5 +3,4 @@ angular.module('GoaHack')
     $scope.logout = function() {
       Auth.logout();
     };
-    console.log($rootScope.currentUser);
   });

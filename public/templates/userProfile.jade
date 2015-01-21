@@ -4,13 +4,15 @@ include partials/progress-bar.jade
   .row
     .col-md-3.sidebar
       // SIDEBAR
-      .userInfo.col-md-12.col-sm-6
+      .userInfo.col-md-12.col-sm-6.column
         a(href="{{path}}/edit")
           img.editIcon(src='images/edit-icon-dark.svg', ng-show='{{editIcon}}')
         br
-        img(ng-src='{{user.profile.picture}}')
+        div(style='max-height:200px; overflow:hidden')
+          img(ng-src='{{user.profile.picture}}')
         br
         h4 {{user.profile.nameFull}}
+        h4(ng-hide='user.profile.nameFull') {{user.profile.name}}
         
         p 
           i.fa.fa-user.userInfoIcon(ng-show='user.profile.occupation')
@@ -29,7 +31,7 @@ include partials/progress-bar.jade
           | {{user.profile.experience}}
       // </div>
       // <div class="row">
-      .userSkillSet.col-md-12.col-sm-6
+      .userSkillSet.col-md-12.col-sm-6.column(ng-show='displaySkill')
         h4  Skills 
         p(ng-repeat='skill in user.profile.skills')  - {{skill}}
 

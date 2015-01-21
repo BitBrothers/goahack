@@ -9,7 +9,13 @@ angular.module('GoaHack')
         },
         function(user) {
           $scope.user = user;
-          console.log(user);
+        $scope.skillLength=user.profile.skills.length;
+        $scope.displaySkill=false;
+          if($scope.skillLength != 0)
+          {
+            $scope.displaySkill = true;
+          }
+        
 
         }, function(err){
           $location.path('/')
