@@ -101,11 +101,11 @@ angular.module('GoaHack')
 
 
     User.get({
-        uslug: $routeParams.slug
+        uslug: $rootScope.currentUser.profile.slug
       },
       function(user) {
         $scope.user = user;
-        $scope.progressData = 1;
+        $scope.progressData = 2;
         if ($scope.user.profile.picture)
           $scope.progressData++;
         if ($scope.user.profile.nameFull)
@@ -123,8 +123,8 @@ angular.module('GoaHack')
         if ($scope.user.profile.skills)
           $scope.progressData++;
 
-        $scope.progressData = $scope.progressData * 100 / 9;
-        console.log($scope.progressData);
+        $scope.progressData = $scope.progressData * 10;
+        console.log($rootScope.currentUser);
         console.log($scope.user);
         if ($scope.progressData == 100)
           $scope.progressModal = false;

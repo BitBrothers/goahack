@@ -201,6 +201,19 @@ angular.module('GoaHack')
         _id: $scope.userId
       }, function(object) {
         $scope.joinButton = false;
+        $alert({
+          content: 'Successfully applied',
+          placement: 'right',
+          type: 'success',
+          duration: 5
+        });
+      }, function(object){
+          $alert({
+          content: 'Already part of team',
+          placement: 'right',
+          type: 'danger',
+          duration: 5
+        });
       });
     };
 
