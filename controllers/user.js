@@ -216,11 +216,11 @@ exports.getUserBySlug = function(req, res) {
             })
             .populate({
                 path: 'events.team',
-                select: 'slug name'
+                select: 'slug name teamPic'
             })
             .populate({
                 path: 'events.appliedTeams._id events.teamInvites._id',
-                select: 'slug name'
+                select: 'slug name teamPic'
             })
             .exec(function(err, user) {
 
@@ -248,7 +248,7 @@ exports.getUserBySlug = function(req, res) {
             })
             .populate({
                 path: 'events.team',
-                select: 'slug name'
+                select: 'slug name teamPic'
             })
             .exec(function(err, user) {
 

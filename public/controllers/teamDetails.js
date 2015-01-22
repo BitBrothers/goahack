@@ -6,7 +6,8 @@ angular.module('GoaHack')
     $scope.teamSlug;
     //  $scope.joinButton = true;
     $scope.acceptButton = false;
-    Team.get({
+  var refresh = function(){  
+  Team.get({
         tslug: $routeParams.tslug,
         eslug: 'goa-hack'
       },
@@ -59,7 +60,8 @@ angular.module('GoaHack')
           duration: 5
         });
     });
-
+}
+  refresh();
     User.get({
         uslug: $rootScope.currentUser.profile.slug
       },
@@ -146,7 +148,8 @@ angular.module('GoaHack')
             type: 'success',
             duration: 5
           });
-          $scope.memberEmail = ' ';
+          $scope.memberEmail = '';
+          refresh();
         }
       }, function(object) {
         if (Object) {
@@ -296,8 +299,11 @@ angular.module('GoaHack')
           type: 'success',
           duration: 5
         });
+        console.log("Hello, accepted");
+        refresh();
+        console.log('I ran');
       }, function(object) {
-        $scope.acceptButton = false;
+//        $scope.acceptButton = false;
         $alert({
           content: 'Failed: ' + object.data,
           placement: 'right',
@@ -323,10 +329,11 @@ angular.module('GoaHack')
           type: 'danger',
           duration: 5
         });
+        console.log("Hello, rejected");
       }, function(object) {
         $scope.acceptButton = false;
         $alert({
-          content: 'Declined Team',
+          content: object.data,
           placement: 'right',
           type: 'warning',
           duration: 5
@@ -350,6 +357,7 @@ angular.module('GoaHack')
             type: 'success',
             duration: 5
           });
+        refresh();
         },
         function(object) {
           $scope.acceptButton = false;
@@ -377,6 +385,7 @@ angular.module('GoaHack')
             type: 'success',
             duration: 5
           });
+        refresh();
         },
         function(object) {
           $scope.acceptButton = false;
@@ -386,6 +395,7 @@ angular.module('GoaHack')
             type: 'danger',
             duration: 5
           });
+        refresh();
         });
     };
 
@@ -403,7 +413,6 @@ angular.module('GoaHack')
       $scope.deleteModal = false;
     }
 
-
     $scope.removeMember = function() {
       console.log('Reached Remove');
       Remove.update({
@@ -418,6 +427,7 @@ angular.module('GoaHack')
           type: 'success',
           duration: 5
         });
+        refresh();
       }, function(object) {
         $scope.acceptButton = false;
         $alert({

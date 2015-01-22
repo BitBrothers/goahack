@@ -79,15 +79,6 @@ angular.module('GoaHack')
         });
       });
     };
-    $scope.phoneNumberPattern = (function() {
-      var regexp = /\<(.*?)\>/;
-      return {
-        test: function(value) {
-          if ($scope.requireTel === false) return true;
-          else return regexp.test(value);
-        }
-      };
-    })();
   });
 
 angular.module('GoaHack').filter('filterHtml', function() {

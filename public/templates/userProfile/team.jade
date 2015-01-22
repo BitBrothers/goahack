@@ -1,13 +1,15 @@
 .row.dashContent
   div.row.dashContentTeam
     a.col-md-1.col-sm-2.col-xs-2.teamPhoto(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
-      img(ng-src='user.events[0].team.teamPic')
+      img(ng-src='{{user.events[0].team.teamPic}}')
     a.col-md-9.col-sm-8.col-xs-7(href='/team/{{user.events[0].team.slug}}' ng-show='user.events[0].team')
       h4 {{user.events[0].team.name}}
     .col-md-1.col-sm-1.col-xs-1.disproval(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
       img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)') 
     a.col-md-12(href='/teams' ng-show='!user.events[0].team')
-      h4 You haven't joined any teams. Click here to find one now
+      h4(ng-show='user.profile.slug == user1.profile.slug') You haven't joined any teams. Click here to find one now
+    .col-md-12(ng-show='!user.events[0].team')
+      h4(ng-show='user.profile.slug != user1.profile.slug') {{user.profile.name}} is not a part of any team yet.
 
   
   

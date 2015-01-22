@@ -1,7 +1,6 @@
 angular.module('GoaHack')
   .controller('UserProfileCtrl', function($scope, $routeParams, $rootScope, User, $alert, $location, $window, $http, Unjoin) {
 
-    //  $scope.user=User.get(uslug='fonz1419948971335');
 
     var init = function() {
       User.get({
@@ -112,6 +111,7 @@ angular.module('GoaHack')
           type: 'success',
           duration: 5
         });
+        init();
       }, function(object) {
         $scope.acceptButton = false;
         $alert({

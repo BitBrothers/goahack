@@ -660,7 +660,7 @@ exports.acceptInvite = function(req, res) {
 
 
               } else if (req.body.result == 'false') {
-
+                console.log('Reached Reject');
                 team.save(function(err) {
                   if (err) res.send(err);
                   else {
