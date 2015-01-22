@@ -3,12 +3,12 @@
     a(href='/userprofile/{{member._id.profile.slug}}')
       .col-md-1.col-sm-1.col-xs-2.teamPhoto
         img(ng-src='{{member._id.profile.picture}}')
-      .col-md-9.col-sm-9.col-xs-9
+      .col-md-9.col-sm-8.col-xs-5
         h4 {{member._id.profile.name}}
-    .col-md-2.col-sm-2.col-xs.2
-      .col-md-6.col-sm-6.col-xs-6.approval.approvalUserProfile
+    .col-md-2.col-sm-3.col-xs-5
+      .col-md-1.col-sm-1.col-xs-1.approval.approvalUserProfile
         img.approveMemberIcon(ng-src='images/approve-member.svg', ng-click='approveMember(member._id.profile.slug)')
-      .col-md-6.col-sm-6.col-xs-6.disproval.disprovalUserProfile
+      .col-md-1.col-sm-1.col-xs-1.disproval.disprovalUserProfile
         img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='disproveMember(member._id.profile.slug)')
       br
   div.noMembersYet.col-md-12(ng-hide='{{team.appliedMembers[0]}}') 

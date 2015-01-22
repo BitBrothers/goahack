@@ -3,10 +3,8 @@
     a(href='/team/{{invited._id.slug}}')
       .col-md-1.col-sm-2.col-xs-2.teamPhoto
         img(src='images/lannister.png')
-      .col-md-9.col-sm-8.col-xs-7
+      .col-md-10.col-sm-9.col-xs-8
         h4 {{invited._id.name}}
-      .col-md-1.col-sm-1.col-xs-1.disproval(ng-show='user.events[0].team && user.profile.slug == currentUser.profile.slug')
-        img.disproveMemberIcon(ng-src='images/disprove-member.svg', ng-click='leaveTeamModal(user.events[0].team.slug)')
       br
   div.col-md-12(ng-hide='displayTeamInvites') 
     h4 You have not been invited to any team yet. :(    

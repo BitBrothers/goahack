@@ -1,6 +1,6 @@
 angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
                            'mgcrea.ngStrap','ngTagsInput','textAngular','truncate',
-                           'angularFileUpload', 'ngProgress'])
+                           'angularFileUpload', 'ngProgress', '720kb.socialshare'])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 

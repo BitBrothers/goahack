@@ -1588,14 +1588,13 @@ section#contact {
   padding: 13px;
   background: #2ECC71;
   text-align: center;
-  margin-left: 20px;
+  margin-left: 10px;
   cursor: pointer;
   width: 55px;
 }
 
 .approvalUserProfile, .disprovalUserProfile {
-  margin: 0px;
-  margin-left: 10px;
+  margin: 0 0 0 10px !important;
 }
 
 .disproval {

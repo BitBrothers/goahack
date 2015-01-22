@@ -292,14 +292,15 @@ angular.module('GoaHack')
       }, {
         result: 'true'
       }, function(object) {
-        $scope.acceptButton = false;
         $alert({
           content: 'Joined team.',
           placement: 'right',
           type: 'success',
           duration: 5
         });
+        $scope.acceptButton = false;
         console.log("Hello, accepted");
+        console.log($scope.acceptButton);
         refresh();
         console.log('I ran');
       }, function(object) {
