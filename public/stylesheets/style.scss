@@ -1130,8 +1130,14 @@ section#contact {
 }
 
 .sec2 img {
-  height: 125px;
+  min-height: 125px;
   width: 125px;
+}
+
+.teamMemberDisplayPictureThumbnail {
+  max-height: 125px;
+  max-width: 125px;
+  overflow: hidden;
 }
 
 .teamPageDeleteMemberButton
@@ -1221,6 +1227,7 @@ section#contact {
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .sec3 h4 {

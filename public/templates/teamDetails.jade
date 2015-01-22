@@ -20,7 +20,8 @@ include partials/progress-bar.jade
     .row
       .col-md-2.col-sm-2.col-xs-6.teamMembers(ng-repeat='member in team.members')
         a(href='/userprofile/{{member._id.profile.slug}}')
-          img(ng-src='{{member._id.profile.picture}}')
+          div.teamMemberDisplayPictureThumbnail
+            img(ng-src='{{member._id.profile.picture}}')
           br
           h6 {{member._id.profile.nameFull | characters:15 }}
           h6(ng-hide='member._id.profile.nameFull') {{member._id.profile.name | characters:15 }}

@@ -9,12 +9,30 @@ angular.module('GoaHack')
         },
         function(user) {
           $scope.user = user;
+        
         $scope.skillLength=user.profile.skills.length;
+        $scope.invitedTeamsLength=user.events[0].teamInvites.length;
+        $scope.appliedTeamsLength=user.events[0].appliedTeams.length;
+        
+        console.log('invited length '+ $scope.invitedTeamsLength);
+        console.log('applied length '+ $scope.appliedTeamsLength);
+        
         $scope.displaySkill=false;
-          if($scope.skillLength != 0)
-          {
-            $scope.displaySkill = true;
-          }
+        $scope.displayAppliedTeams=false;
+        $scope.displayTeamInvites=false;
+        
+        if($scope.skillLength != 0)
+        {
+          $scope.displaySkill = true;
+        }
+        if($scope.appliedTeamsLength != 0)
+        {
+          $scope.displayAppliedTeams = true;
+        }
+        if($scope.invitedTeamsLength != 0)
+        {
+          $scope.displayTeamInvites = true;
+        }
         
 
         }, function(err){
