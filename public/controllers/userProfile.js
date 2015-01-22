@@ -128,31 +128,31 @@ angular.module('GoaHack')
         uslug: $rootScope.currentUser.profile.slug
       },
       function(user) {
-        $scope.user = user;
+        $scope.user1 = user;
         $scope.progressData = 2;
-        if ($scope.user.profile.picture)
+        if ($scope.user1.profile.picture)
           $scope.progressData++;
-        if ($scope.user.profile.nameFull)
+        if ($scope.user1.profile.nameFull)
           $scope.progressData++;
-        if ($scope.user.profile.occupation)
+        if ($scope.user1.profile.occupation)
           $scope.progressData++;
-        if ($scope.user.profile.location)
+        if ($scope.user1.profile.location)
           $scope.progressData++;
-        if ($scope.user.profile.website)
+        if ($scope.user1.profile.website)
           $scope.progressData++;
-        if ($scope.user.profile.employers)
+        if ($scope.user1.profile.employers)
           $scope.progressData++;
-        if ($scope.user.profile.experience)
+        if ($scope.user1.profile.experience)
           $scope.progressData++;
-        if ($scope.user.profile.skills)
+        if ($scope.user1.profile.skills)
           $scope.progressData++;
 
         $scope.progressData = $scope.progressData * 10;
         console.log($rootScope.currentUser);
-        console.log($scope.user);
+        console.log($scope.user1);
         if ($scope.progressData == 100)
           $scope.progressModal = false;
-        if ($routeParams.slug != $scope.user.profile.slug)
+        if ($routeParams.slug != $scope.user1.profile.slug)
           $scope.progressModal = false;
       });
 
