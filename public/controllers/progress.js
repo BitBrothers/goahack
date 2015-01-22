@@ -7,7 +7,7 @@ angular.module('GoaHack')
     $scope.ready = true;
   });
 
-  console.log($scope.status);
+//  console.log($scope.status);
   
 //  $scope.toggle = function () {
 //    $scope.status.team_status = true; 

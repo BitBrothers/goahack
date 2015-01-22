@@ -23,9 +23,9 @@ angular.module('GoaHack')
         $scope.eventSlug = team.eventSlug;
         $scope.numberOfMembers = team.members.length;
 
-        $scope.problem.name = team.problemStatement.name;
-        $scope.problem.description = team.problemStatement.description;
-//        $scope.problem.tag = team.problemStatement.tags;
+        $scope.problemName = team.problemStatement.name;
+        $scope.problemDescription = team.problemStatement.description;
+        $scope.problemTag = team.problemStatement.tags;
 
         $scope.joinButton = true;
         console.log($scope.team);
@@ -85,9 +85,9 @@ angular.module('GoaHack')
         tslug: $routeParams.tslug,
         eslug: 'goa-hack'
       }, {
-        name: $scope.problem.name,
-        description: $scope.problem.description,
-        tags: $scope.problem.tag,
+        name: $scope.problemName,
+        description: $scope.problemDescription,
+        tags: $scope.problemTag,
         id: $scope.team.problemStatement.id
       }, function(err, data) {
         $alert({

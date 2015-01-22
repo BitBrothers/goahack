@@ -17,6 +17,7 @@ angular.module('GoaHack')
     //$scope.employers=$scope.user.profile.employers;
 
     $scope.update = function() {
+      console.log($scope.user.profile.skills);
       User.update({
         name: $scope.user.profile.name,
         nameFull: $scope.user.profile.nameFull,

@@ -54,8 +54,9 @@ include partials/progress-bar.jade
     img.editProblemStatementIcon(ng-src='images/edit-icon.svg', ng-show='currentUser.profile.slug == admin.profile.slug', ng-click='edit()')
     p#tpl-content(ng-show='team.ps_status', ng-bind-html='team.problemStatement.description') 
     span 
-      h5.tagsHeader(ng-show='team.ps_status', ng-model='displayTags') Tags : 
-    span.tagSpan(ng-repeat='tag in team.problemStatement.tags') {{tag}} 
+      h5.tagsHeader(ng-show='team.ps_status' ng-model='displayTags') Tags : 
+    span.tagSpan(ng-repeat='tag in team.problemStatement.tags' ng-show='tag.text') {{tag.text}}
+    span.tagSpan(ng-repeat='tag in team.problemStatement.tags' ng-hide='tag.text') {{tag}}    
 
 .row(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
@@ -63,11 +64,11 @@ include partials/progress-bar.jade
       .form-group
         label.col-sm-3.control-label.ps Problem Statement:
         .col-sm-9
-          input.form-control(type='text' ng-model='problem.name')
+          input.form-control(type='text' ng-model='problemName')
       .form-group
         label.col-sm-2.control-label.desc Description: 
         .col-md-12.col-sm-12.col-xs-12
-          text-angular(ng-model='problem.description', ta-toolbar='[["h3"],["bold","italics","underline"]]')
+          text-angular(ng-model='problemDescription', ta-toolbar='[["h3"],["bold","italics","underline"]]')
 
 .row(ng-show='editStatus')
   .col-md-10.col-md-offset-1.custom-remove-padding
@@ -75,7 +76,7 @@ include partials/progress-bar.jade
       .form-group
         label.col-sm-3.control-label.tag1(for='inputEmail3') Tags :
         .col-sm-9
-          tags-input(ng-model='problem.tag')
+          tags-input(ng-model='problemTag')
             auto-complete(source='loadTags($query)')    
     button.btn.btn-default.tag(ng-click='update()') Update
 .row
