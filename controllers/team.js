@@ -83,7 +83,7 @@ exports.postCreate = function(req, res, next) {
   });
 };
 
-exports.createTeam = function(req, res) {
+exports.createTeam = function(req, res, next) {
 
 
   function slugify(text) {
@@ -121,7 +121,7 @@ exports.createTeam = function(req, res) {
       user.events.id(req.eveId).team_status = true;
 
 
-      user.save(function(err) {
+      user.save(function(err,newUser) {
         if (err) return res.send(err);
         else {
           Event.findOne({
@@ -147,10 +147,13 @@ exports.createTeam = function(req, res) {
                           console.log(err);
                           return res.send(err);
                         } else {
-                          res.json({
-                            team: newTeam,
-                            message: 'project and team created and user plus event data saved'
-                          });
+                            req.create = true;
+                            req.to = newUser.email;
+                            req.subject = 'Goa-Hack Team Created';
+                            req.email = 'You have succesfully created the team in Goa-Hack.   Team name:'+ newTeam.name;
+                            req.team = newTeam;
+                            next();
+                          
                         }
 
 
@@ -444,7 +447,7 @@ exports.updateTeam = function(req, res) {
     });
 };
 
-exports.approveMember = function(req, res) {
+exports.approveMember = function(req, res, next) {
 
   Team.findOne({
     eventSlug: req.params.eslug,
@@ -493,13 +496,16 @@ exports.approveMember = function(req, res) {
                 team.save(function(err, updatedTeam) {
                   if (err) res.send(err);
                   else {
-                    user.save(function(err) {
+                    user.save(function(err, updatedUser) {
                       if (err) res.send(err);
                       else {
-                        res.json({
-                          team: updatedTeam,
-                          message: 'Member Approved and Added'
-                        });
+                        req.approve = true;
+                        req.to = updatedUser.email;
+                        req.subject = 'Goa-Hack Team Approval';
+                        req.email = 'You have been succesfully approved to Goa-Hack Team:'+ updatedTeam.name;
+                        req.team = updatedTeam;
+                        next();
+
                       }
                     });
 
@@ -540,7 +546,7 @@ exports.approveMember = function(req, res) {
   });
 };
 
-exports.inviteMember = function(req, res) {
+exports.inviteMember = function(req, res, next) {
 
   Team.findOne({
     eventSlug: req.params.eslug,
@@ -571,13 +577,16 @@ exports.inviteMember = function(req, res) {
               team.save(function(err, updatedTeam) {
                 if (err) res.send(err);
                 else {
-                  user.save(function(err) {
+                  user.save(function(err, updatedUser) {
                     if (err) res.send(err);
                     else {
-                      res.json({
-                        team: updatedTeam,
-                        message: 'User invited....awaiting confirmation'
-                      });
+                        req.invite = true;
+                        req.to = updatedUser.email;
+                        req.subject = 'Goa-Hack Team Invitation';
+                        req.email = 'You have recieved a Goa-Hack Team Invitation from Team:'+ updatedTeam.name;
+                        req.team = updatedTeam;
+                        next();
+
                     }
                   });
 
@@ -601,9 +610,8 @@ exports.inviteMember = function(req, res) {
   });
 };
 
-exports.acceptInvite = function(req, res) {
-
-  Team.findOne({
+exports.postAcceptInvite = function(req, res, next){
+    Team.findOne({
     eventSlug: req.params.eslug,
     slug: req.params.tslug
   }, function(err, team) {
@@ -616,50 +624,18 @@ exports.acceptInvite = function(req, res) {
         function(err, user) {
           if (err) res.send(err);
           else {
-            if (team.inviteMembers.id(user._id)) {
+            Event.findOne({slug:req.params.eslug},function(err,event){
+                if(err)
+                    res.send(err);
+                else{
+                if (team.inviteMembers.id(user._id)) {
               team.inviteMembers.pull({
                 _id: user._id
               });
-              user.events.id(req.eveId).teamInvites.pull({
+              user.events.id(event._id).teamInvites.pull({
                 _id: team._id
               });
-              if (req.body.result == 'true') {
-                if (team.members.length >= 5) {
-                  res.status(500).send('Team full');
-                }
-                team.members.push({
-                  _id: user._id
-                });
-
-                if (team.members.length >= 3) {
-                  team.member_status = true;
-                } else {
-                  team.member_status = false;
-                }
-
-                user.events.id(req.eveId).team = team._id;
-                user.events.id(req.eveId).team_status = true;
-
-
-                team.save(function(err) {
-                  if (err) res.send(err);
-                  else {
-                    user.save(function(err, updatedUser) {
-                      if (err) res.send(err);
-                      else {
-                        res.json({
-                          user: updatedUser,
-                          message: 'Team joined'
-                        });
-                      }
-                    });
-                  }
-                });
-
-
-
-
-              } else if (req.body.result == 'false') {
+              if (req.body.result == 'false') {
                 console.log('Reached Reject');
                 team.save(function(err) {
                   if (err) res.send(err);
@@ -679,14 +655,75 @@ exports.acceptInvite = function(req, res) {
                     });
                   }
                 });
-
-
-
-
+              }
+              else{
+                next();
               }
             } else {
               res.status(500).send('Not invited to team');
             }
+                }
+            });
+
+
+          }
+
+        });
+    }
+  });
+};
+
+exports.acceptInvite = function(req, res, next) {
+
+  Team.findOne({
+    eventSlug: req.params.eslug,
+    slug: req.params.tslug
+  }, function(err, team) {
+    if (err) res.send(err);
+    else if (!team) {
+      res.status(404).send('Team not found');
+    } else {
+      User.findById(
+        req.user._id,
+        function(err, user) {
+          if (err) res.send(err);
+          else {
+              if (req.body.result == 'true') {
+                if (team.members.length >= 5) {
+                  res.status(500).send('Team full');
+                }
+                team.members.push({
+                  _id: user._id
+                });
+
+                if (team.members.length >= 3) {
+                  team.member_status = true;
+                } else {
+                  team.member_status = false;
+                }
+
+                user.events.id(req.eveId).team = team._id;
+                user.events.id(req.eveId).team_status = true;
+
+
+                team.save(function(err,updatedTeam) {
+                  if (err) res.send(err);
+                  else {
+                    user.save(function(err, updatedUser) {
+                      if (err) res.send(err);
+                      else {
+                        req.accept = true;
+                        req.subject = 'Goa-Hack Team Invite Accepted';
+                        req.to = updatedUser.email;
+                        req.user = updatedUser;
+                        req.email ='You have succesfully accepted the Invitation to Goa-Hack team '+ updatedTeam.name; 
+                        next();
+                      }
+                    });
+                  }
+                });
+              }
+            
 
           }
 

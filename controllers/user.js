@@ -44,7 +44,6 @@ exports.isLogin = function(req, res, next) {
 
     if (req.headers.authorization) {
         var token = req.headers.authorization;
-        //.split(' ')[1];
         try {
             var decoded = jwt.decode(token, tokenSecret);
             if (decoded.exp <= Date.now()) {
@@ -72,9 +71,12 @@ exports.signup = function(req, res, next) {
     user.save(function(err, user, numberAffected) {
         if (err) res.send(err);
         else {
-          /*added by warren to store user before join event */
           req._id = user._id;
-            next();
+          req.subject = 'Welcome to Goahack';
+          req.email = 'Congratulations!!!....You have succesfully signed-up for goahack';
+          req.to = req.body.email;
+          req.signup = true;
+          next();
         }
 
     });
@@ -86,7 +88,7 @@ exports.login = function(req, res, next) {
     }, function(err, user) {
         if (!user) return res.status(401).send('User does not exist');
         user.comparePassword(req.body.password, function(err, isMatch) {
-            if (!isMatch) return res.send(401, 'Invalid email and/or password');
+            if (!isMatch) return res.status(401).send('Invalid email and/or password');
             var token = createJwtToken(user);
             var tempy = {
                 profile: user.profile
@@ -141,6 +143,10 @@ exports.facebookAuth = function(req, res, next) {
                 req._id = user._id;
                 req.user = tempy;
                 req.token = token;
+                req.subject = 'Welcome to Goahack';
+                req.email = 'Congratulations!!!....You have succesfully signed-up for goahack';
+                req.to = profile.email;
+                req.signup = true;
                 next();
             }
             
@@ -180,6 +186,10 @@ exports.googleAuth = function(req, res, next) {
                 req._id = user._id;
                 req.user = tempy;
                 req.token = token;
+                req.subject = 'Welcome to Goahack';
+                req.email = 'Congratulations!!!....You have succesfully signed-up for goahack';
+                req.to = profile.emails[0].value;
+                req.signup = true;
                 next();
             }
             

@@ -40,7 +40,7 @@ exports.postEvent = function(req, res) {
     });
 };
 
-exports.postEventRegister = function(req, res) {
+exports.postEventRegister = function(req, res, next) {
     Event.findOne({
         slug: 'goa-hack'
     }, function(err, event) {
@@ -63,14 +63,8 @@ exports.postEventRegister = function(req, res) {
                         else {
                             event.save(function(err) {
                                 if (err) res.send(err);
-                                else if(req.user && req.token){
-                                    res.json({
-                                        user: req.user,
-                                        token: req.token
-                                    });
-                                }
                                 else {
-                                    res.sendStatus(200);
+                                   next();
                                 }
 
                             });

@@ -104,11 +104,12 @@ var userController = require('./controllers/user');
 var eventController = require('./controllers/event');
 var teamController = require('./controllers/team');
 var projectController = require('./controllers/project');
-
-app.post('/api/auth/signup', userController.signup,eventController.postEventRegister);
+var emailController = require('./controllers/email');
+app.put('/api/email', emailController.sendEmail);
+app.post('/api/auth/signup', userController.signup,eventController.postEventRegister,emailController.sendEmail);
 app.post('/api/auth/login', userController.login);
-app.post('/api/auth/facebook', userController.facebookAuth,eventController.postEventRegister);
-app.post('/api/auth/google', userController.googleAuth,eventController.postEventRegister);
+app.post('/api/auth/facebook', userController.facebookAuth,eventController.postEventRegister,emailController.sendEmail);
+app.post('/api/auth/google', userController.googleAuth,eventController.postEventRegister,emailController.sendEmail);
 app.get('/api/users', userController.hasEmail);
 
 app.get('/api/events', eventController.getEvents);
@@ -122,10 +123,10 @@ app.post('/api/events', eventController.postEvent);
 //if these api calls give 400 then there is a problem in their positioning....if then jus change name to check functionality
 
 
-app.put('/api/event/:eslug/team/:tslug/apply', userController.isLogin, teamController.postCreate,teamController.applyTeam);
-app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamController.postUpdate,teamController.approveMember);//send member to be approved in req.body.approval
-app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember);
-app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin, teamController.postCreate, teamController.acceptInvite);
+app.put('/api/event/:eslug/team/:tslug/apply', userController.isLogin, teamController.postCreate, teamController.applyTeam);
+app.put('/api/event/:eslug/team/:tslug/approval', userController.isLogin, teamController.postUpdate, teamController.approveMember, emailController.sendEmail);
+app.put('/api/event/:eslug/team/:tslug/invite', userController.isLogin, teamController.postUpdate,teamController.inviteMember, emailController.sendEmail);
+app.put('/api/event/:eslug/team/:tslug/accept', userController.isLogin,  teamController.postAcceptInvite,teamController.postCreate, teamController.acceptInvite, emailController.sendEmail);
 app.put('/api/event/:eslug/team/:tslug/unjoin', userController.isLogin, teamController.unjoinTeam);
 app.put('/api/event/:eslug/team/:tslug/remove', userController.isLogin, teamController.postUpdate, teamController.removeMember);
 app.put('/api/event/:eslug/team/:tslug/upload', userController.isLogin, multipartMiddleWare, teamController.deleteImagesS3, teamController.uploadImagesS3);
@@ -134,7 +135,7 @@ app.put('/api/event/:eslug/team/:tslug/upload', userController.isLogin, multipar
 
 
 app.get('/api/event/:eslug/teams', teamController.getallTeams);
-app.post('/api/event/:eslug/team', userController.isLogin, teamController.postCreate, teamController.createTeam);
+app.post('/api/event/:eslug/team', userController.isLogin, teamController.postCreate, teamController.createTeam, emailController.sendEmail);
 app.get('/api/event/:eslug/teamsearch',teamController.getTeams);
 app.put('/api/event/:eslug/team/:tslug', userController.isLogin, teamController.postUpdate, teamController.updateTeam);
 app.get('/api/event/:eslug/team/:tslug', teamController.searchTeamSlug);
