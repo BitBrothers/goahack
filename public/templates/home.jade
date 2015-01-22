@@ -3,6 +3,14 @@ header
     .intro-text
       .intro-lead-in Presenting India's!
       .intro-heading Largest Hackathon
+    .row(ng-show='!currentUser.profile.slug')
+      .col-md-6.col-sm-6.col-xs-12.joinButtons
+        button.btn.btn-lg.regButton(ng-click='register()') Register
+      .col-md-6.col-sm-6.col-xs-12.joinButtons
+        button.btn.btn-lg.createJoinButton(ng-click='teams()') Create/Join Team
+    .row(ng-show='currentUser.profile.slug')
+      .col-md-12.col-sm-12.col-xs-12.joinButtons
+        button.btn.btn-lg.createJoinButton(ng-click='teams()') Create/Join Team
 // About Section
 section#schedule
   .container
@@ -35,16 +43,16 @@ section#schedule
 
 //Join a team Section
 
-section#joinNow
-  .container
-    .row
-      .col-lg.text-center
-        h2.section-heading Become a part of the winning team now!
-    .row.text-center
-      .col-md-6
-        button.btn.btn-md(ng-click='register()') Register
-      .col-md-6
-        button.btn.btn-md(ng-click='teams()') Create/Join Team
+//section#joinNow
+//  .container
+//    .row
+//      .col-lg.text-center
+//        h2.section-heading Become a part of the winning team now!
+//    .row.text-center
+//      .col-md-6
+//        button.btn.btn-md(ng-click='register()') Register
+//      .col-md-6
+//        button.btn.btn-md(ng-click='teams()') Create/Join Team
 
 // Schedule Section
 section#schedule
