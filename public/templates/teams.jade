@@ -16,13 +16,13 @@ div.team-display
     .team-list.col-md-12(ng-repeat='team in teams | filter: team')
       li.repo
         .team-img
-          a(href='/team/{{team.slug}}')
+          a(ng-click='teamNavigate(team.slug)')
             img(ng-src='{{team.teamPic}}', alt='images/group.svg')
         ul.team-memb
           li.team-members(ng-click="toggleModal(team.members)")
             img(ng-src='images/group.svg')
             | {{team.members.length}}  Member(s)
-        a(href='/team/{{team.slug}}')
+        a(ng-click='teamNavigate(team.slug)')
           h3.team-name {{team.name}}
         div.team-body
           p.prob-name
@@ -58,7 +58,7 @@ div.team-display
 modal-dialog(show='modalShown', dialog-title='Team Members', height='auto', width='400px', background-color='#e8e8e8')
   div.teamMembersModal
     .row.modalTeamMembersContent(ng-repeat='member in teamMembers')
-      a(href='/userprofile/{{member._id.profile.slug}}')
+      a(ng-click='memberNavigate(member._id.profile.slug)')
         .col-md-3.col-sm-3.col-xs-3(style='max-height:63px; padding-left:5px; overflow:hidden')
             img.team-members.team-members-modal-image(ng-src='{{member._id.profile.picture}}')
         .col-md-9.col-sm-9.col-xs-9  

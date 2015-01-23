@@ -43,6 +43,7 @@ function createJwtToken(user) {
 exports.isLogin = function(req, res, next) {
 
     if (req.headers.authorization) {
+      console.log('if isLogin');
         var token = req.headers.authorization;
         try {
             var decoded = jwt.decode(token, tokenSecret);
@@ -56,7 +57,8 @@ exports.isLogin = function(req, res, next) {
             return res.status(500).send('Error parsing token');
         }
     } else {
-        return res.status(401);
+        console.log('isLogin is false');
+        res.status(401).send('Login to perform this action');
     }
 };
 

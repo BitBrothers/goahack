@@ -1,5 +1,5 @@
 .progress-nav-bar(ng-controller="ProgressCtrl")
-    .progress-items
+    .progress-items(ng-show='currentUser.profile.slug')
         .col-md-2.col-sm-2.col-xs-2.text-center.item-done                     
           div
             div(style='position: absolute;top: -12px;left: 43%;height: 41px;')

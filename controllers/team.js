@@ -185,7 +185,7 @@ exports.createTeam = function(req, res, next) {
 };
 
 exports.getallTeams = function(req, res) {
-
+  console.log('Get all teams');
   Team.find({
     eventSlug: req.params.eslug,
     status: 'Un-approved' /*member count search filter???maybe hide in angular*/
@@ -208,7 +208,7 @@ exports.getallTeams = function(req, res) {
 
 exports.searchTeamSlug = function(req, res) {
 
-
+console.log('Reached get team by slug');
   Team.findOne({
       eventSlug: req.params.eslug,
       slug: req.params.tslug

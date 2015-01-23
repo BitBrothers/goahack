@@ -1,7 +1,15 @@
 angular.module('GoaHack')
   .controller('UserProfileCtrl', function($scope, $routeParams, $rootScope, User, $alert, $location, $window, $http, Unjoin) {
 
-
+  if(!$rootScope.currentUser){
+      $alert({
+        content: "You need to login to view this user",
+        placement: 'right',
+        type: 'warning',
+        duration: 5
+      });
+      $location.path('/login');
+    }else{
     var init = function() {
       User.get({
           uslug: $routeParams.slug
@@ -86,7 +94,7 @@ angular.module('GoaHack')
 
     }
 
-    $scope.progressModal = true;
+    $scope.progressModal = false;
 
     $scope.leaveTeamModal = function(abc) {
       $scope.leaveModal = true;
@@ -150,11 +158,13 @@ angular.module('GoaHack')
         $scope.progressData = $scope.progressData * 10;
         console.log($rootScope.currentUser);
         console.log($scope.user1);
+        if($scope.progressData != 100)
+          $scope.progressModal = true;
         if ($scope.progressData == 100)
           $scope.progressModal = false;
         if ($routeParams.slug != $scope.user1.profile.slug)
           $scope.progressModal = false;
       });
 
-
+    }
   });

@@ -1,5 +1,5 @@
 angular.module('GoaHack')
-  .controller('TeamsCtrl', function($scope, Teams, Team, $alert, $location, $http, $routeParams, $window) {
+  .controller('TeamsCtrl', function($scope, Teams, Team, $alert, $location, $http, $routeParams, $window, $rootScope) {
     $scope.teams = Teams.query({
         eslug: "goa-hack"
       },
@@ -29,7 +29,15 @@ angular.module('GoaHack')
 
     $scope.createModalShown = false;
     $scope.toggleCreateModal = function() {
-      $scope.createModalShown = !$scope.createModalShown;
+      if($rootScope.currentUser)
+        $scope.createModalShown = !$scope.createModalShown;
+      else
+        $alert({
+          content: "You need to login to create a team",
+          placement: 'right',
+          type: 'warning',
+          duration: 5
+        });
       //    console.log(teamName);
     };
 
@@ -79,8 +87,35 @@ angular.module('GoaHack')
         });
       });
     };
-  });
-
+  
+    $scope.memberNavigate = function(uslug){
+      if($rootScope.currentUser){
+        $location.path('/userprofile/' + uslug);
+      }
+      else
+        $alert({
+          content: "You need to login to view users",
+          placement: 'right',
+          type: 'warning',
+          duration: 5
+        });
+    };
+  
+    $scope.teamNavigate = function(tslug){
+      if($rootScope.currentUser){
+        $location.path('/team/' + tslug);
+      }
+      else
+        $alert({
+          content: "You need to login to view this team",
+          placement: 'right',
+          type: 'warning',
+          duration: 5
+        });
+    };
+  
+});
+    
 angular.module('GoaHack').filter('filterHtml', function() {
   return function(input) {
     if (!input) {

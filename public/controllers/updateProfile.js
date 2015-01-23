@@ -2,6 +2,24 @@ angular.module('GoaHack')
   .controller('UpdateProfileCtrl', function($scope, $rootScope, User, $alert, $location, $routeParams, 
     FileUploader, ngProgress, $window) {
 
+  var uploader = $scope.uploader = new FileUploader({
+      url: '/api/user/upload',
+      method: 'PUT',
+      headers: {
+        Authorization:$window.localStorage.token 
+      }
+  });
+  
+  if(!$rootScope.currentUser){
+      $alert({
+        content: "You need to login to view this user",
+        placement: 'right',
+        type: 'warning',
+        duration: 5
+      });
+      $location.path('/login');
+    }else{
+  
     $scope.skill = [String];
     User.get({
         uslug: $routeParams.slug
@@ -115,13 +133,6 @@ angular.module('GoaHack')
     /*angular-file-upload start*/
     $scope.imageCrop = false;
     $scope.item 
-    var uploader = $scope.uploader = new FileUploader({
-        url: '/api/user/upload',
-        method: 'PUT',
-        headers: {
-          Authorization:$window.localStorage.token 
-        }
-    });
  
     // FILTERS
  
@@ -245,5 +256,5 @@ angular.module('GoaHack')
  
 
 /*angular-file-upload end*/
-
+    }
   });
