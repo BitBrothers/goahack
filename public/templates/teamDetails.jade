@@ -6,10 +6,8 @@ include partials/progress-bar.jade
       div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
         img(ng-src='{{team.teamPic}}')
       br
-      div(style='position: absolute;top: 270px;left: 170px;')
-        button(ng-file-select='', ng-model='files', multiple='true', ng-show='currentUser.profile.slug == admin.profile.slug') Select an Image
-        .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*', ng-show='currentUser.profile.slug == admin.profile.slug')
-        div(ng-no-file-drop='') File Farg/Drop is not supported for this browser
+      div(style='position: absolute;top: 280px;left: 170px;')
+        input(type='file', nv-file-select="", uploader="uploader", multiple)
       .col-md-7.col-sm-6.col-xs-12.teamName
         h2 {{name}}
       .col-md-3.col-sm-2.col-xs-1.lock
@@ -28,16 +26,16 @@ include partials/progress-bar.jade
           small {{member._id.profile.occupation}}
         img.teamPageDeleteMemberButton(ng-click='removeMemberModal(member._id.profile.slug)', ng-show='currentUser.profile.slug == admin.profile.slug && admin.profile.slug != member._id.profile.slug' ng-src='images/disprove-member.svg')
       .col-md-2.col-sm-2.col-xs-6.teamMembers
-        img.addMemberImage(src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug && numberOfMembers <= 5')
+        img.addMemberImage(ng-src='images/add-member.svg', ng-click="addMember()", ng-show='currentUser.profile.slug == admin.profile.slug && numberOfMembers <= 5')
         p.addMemberText(ng-show='currentUser.profile.slug == admin.profile.slug && numberOfMembers <= 5') Add member
       .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right', ng-show='joinButton')
-        img.addMemberImage(src='images/add-member.svg', ng-click="applyToTeam()")
+        img.addMemberImage(ng-src='images/add-member.svg', ng-click="applyToTeam()")
         p.addMemberText(ng-show='joinButton') Apply
       .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right')
-        img.addMemberImage(src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
+        img.addMemberImage(ng-src='images/add-member.svg', ng-click="rejectTeam()", ng-show='acceptButton')
         p.addMemberText(ng-show='acceptButton') Reject Invitation
       .col-md-2.col-sm-2.col-xs-6.teamMembers(style='float:right')
-        img.addMemberImage(src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
+        img.addMemberImage(ng-src='images/add-member.svg', ng-click="acceptTeam()", ng-show='acceptButton')
         p.addMemberText(ng-show='acceptButton') Accept Invitation
         br
         
@@ -120,3 +118,14 @@ modal-dialog(show='deleteModal', dialog-title='Delete Team', height='200px', wid
     div.col-md-12
       button.btn.btn-md.removeMember(ng-click='deleteTeam()') Delete Team
       button.btn.btn-md.cancelAction(ng-click='closeModal()') Cancel
+
+modal-dialog(show='imageCrop', dialog-title='Crop Image', height='90vh', width='90vw')
+  div.addMemberModalDiv.col-md-12
+    div(ng-repeat="item in uploader.queue")
+      .cropArea
+          img-crop(image="item.image", result-image="item.croppedImage", area-type="square", result-image-size="300")
+        img(ng-src="{{item.croppedImage}}")
+      .progress
+        .progress-bar(role='progressbar', ng-style="{ 'width': uploader.progress + '%' }")
+      button.btn.btn-md.addMemberModalButton(ng-click="item.upload()") Upload Image
+      button.btn.btn-md.addMemberModalButton(ng-click='imageCrop = !imageCrop') Cancel

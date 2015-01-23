@@ -83,7 +83,9 @@ angular.module('GoaHack')
 
 angular.module('GoaHack').filter('filterHtml', function() {
   return function(input) {
-    console.log(input);
+    if (!input) {
+      return input;
+    };
     var regex = /\<(.*?)\>/ig,
       result = input.replace(regex, "");
     return result;

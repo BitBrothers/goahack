@@ -953,7 +953,7 @@ exports.uploadImagesS3 = function(req, res) {
     var data2 = _.pick(req.body, 'type'),
       uploadPath = path.normalize('/uploads'),
       file = req.files.file;
-    console.log(uploadPath);
+    console.log(req.files);
 
     var s3Bucket = new AWS.S3({
       params: {

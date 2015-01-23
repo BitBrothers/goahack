@@ -763,7 +763,7 @@ section#contact {
 .progress-items .text-center svg {
   padding-top: 20px;
   margin-top: 10px;
-  height: 80px;
+  height: 60px;
 /*        width: 80px;*/;
 }
 
@@ -791,6 +791,7 @@ section#contact {
   font-family: Humanist777BT;
   font-size: 15px;
   text-align: center;
+  font-weight: 900;
 }
 
 .progress-items .text-center img {
@@ -2025,6 +2026,12 @@ section#contact {
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 5px;
+}
+.cropArea{
+  background: #E4E4E4;
+  overflow: hidden;
+  width:500px;
+  height:350px;
 }
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen 
