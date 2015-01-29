@@ -150,7 +150,8 @@ exports.createTeam = function(req, res, next) {
                             req.create = true;
                             req.to = newUser.email;
                             req.subject = 'Goa-Hack Team Created';
-                            req.email = 'You have succesfully created the team in Goa-Hack.   Team name:'+ newTeam.name;
+                            req.email = 'You have succesfully created the team in Goa-Hack.   \nTeam name:'+ newTeam.name+
+                            '\n Link to team page : http://goahack.com/team/'+ newTeam.slug;
                             req.team = newTeam;
                             next();
                           
@@ -502,7 +503,8 @@ exports.approveMember = function(req, res, next) {
                         req.approve = true;
                         req.to = updatedUser.email;
                         req.subject = 'Goa-Hack Team Approval';
-                        req.email = 'You have been succesfully approved to Goa-Hack Team:'+ updatedTeam.name;
+                        req.email = 'You have been succesfully approved to Goa-Hack Team:'+ updatedTeam.name+
+                        '\n Link to team page : http://goahack.com/team/'+ updatedTeam.slug;
                         req.team = updatedTeam;
                         next();
 
@@ -560,8 +562,39 @@ exports.inviteMember = function(req, res, next) {
         if (err) res.send(err);
         else {
           if(!user){
-            res.status(500).send(' user hasn\'t joined yet');
-            console.log("Hello from !user");
+            console.log('!usr');
+            if(team.emails.length >= 3){
+              res.status(500).send('Cant send more email invites');
+            }
+            else{
+              var status = false;
+              for (var i = team.emails.length - 1; i >= 0; i--) {
+                if(team.emails[i] == req.body.invite){
+                  status = true;
+                }
+              };
+              if(status){
+                res.status(500).send('invite has already been sent');
+              }
+              else{
+                team.emails.push(req.body.invite);
+                team.save(function(err){
+                  if(err)
+                    res.send(err);
+                  else{
+                    req.invite2 = true;
+                    req.to = req.body.invite;
+                    req.subject = 'Goa-Hack Team Invitation';
+                    req.email = 'You have recieved a Goa-Hack Team Invitation from Team:'+ team.name +
+                    '\n Link to team page : http://goahack.com/team/'+ team.slug;
+                    req.team = team;
+                    next();
+                  }
+                });
+              }
+            }
+            
+
           }
           else if (team.inviteMembers.id(user._id)) {
             res.status(500).send('Already invited');
@@ -583,7 +616,8 @@ exports.inviteMember = function(req, res, next) {
                         req.invite = true;
                         req.to = updatedUser.email;
                         req.subject = 'Goa-Hack Team Invitation';
-                        req.email = 'You have recieved a Goa-Hack Team Invitation from Team:'+ updatedTeam.name;
+                        req.email = 'You have recieved a Goa-Hack Team Invitation from Team:'+ updatedTeam.name +
+                       '\n Link to team page : http://goahack.com/team/'+ updatedTeam.slug;
                         req.team = updatedTeam;
                         next();
 
@@ -716,7 +750,8 @@ exports.acceptInvite = function(req, res, next) {
                         req.subject = 'Goa-Hack Team Invite Accepted';
                         req.to = updatedUser.email;
                         req.user = updatedUser;
-                        req.email ='You have succesfully accepted the Invitation to Goa-Hack team '+ updatedTeam.name; 
+                        req.email ='You have succesfully accepted the Invitation to Goa-Hack team '+ updatedTeam.name+
+                        '\n Link to team page : http://goahack.com/team/'+ updatedTeam.slug; 
                         next();
                       }
                     });

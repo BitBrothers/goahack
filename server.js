@@ -104,7 +104,7 @@ var eventController = require('./controllers/event');
 var teamController = require('./controllers/team');
 var projectController = require('./controllers/project');
 var emailController = require('./controllers/email');
-app.put('/api/email', emailController.sendEmail);
+app.put('/api/email', emailController.contactUs, emailController.sendEmail);
 app.post('/api/auth/signup', userController.signup,eventController.postEventRegister,emailController.sendEmail);
 app.post('/api/auth/login', userController.login);
 app.post('/api/auth/facebook', userController.facebookAuth,eventController.postEventRegister,emailController.sendEmail);

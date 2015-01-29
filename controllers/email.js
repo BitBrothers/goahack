@@ -19,10 +19,17 @@ var transporter = nodemailer.createTransport({
  * @param name
  * @param message
  */
+exports.contactUs = function(req, res, next){
+  req.to = 'mail@bbitbrothers.in';
+  req.subject = req.body.subject;
+  req.email = 'Name: ' + req.body.name + '\nEmail: ' + req.body.email + '\nMessage ' + req.body.message;
+  console.log(req.email);
+  next();
+};
 
 exports.sendEmail = function(req, res) {
   console.log("EMAIL EMAIL EMAIL EMAIL");
-  var from = 'mail@bitbrothers.in';
+  var from = 'mail@goahack.com';
 
   var mailOptions = {
     to: req.to,
@@ -60,6 +67,9 @@ exports.sendEmail = function(req, res) {
             message: 'User invited....awaiting confirmation'
         });        
       }
+      else if(req.invite2){
+        res.status(500).send('User not joined goahack....Email has been sent to notify him');
+      }
       else if(req.accept){
         res.json({
           user: req.user,
@@ -70,6 +80,11 @@ exports.sendEmail = function(req, res) {
         res.json({
           team: req.team,
           message: 'Member Approved and Added'
+        });
+      }
+      else{
+        res.json({
+          message:'Mail Sent'
         });
       }
     };
