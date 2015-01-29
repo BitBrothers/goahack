@@ -31,28 +31,6 @@ div.team-display
             | {{team.problemStatement.description | characters:300 | filterHtml}}
           .tags
             .btn.btn-default(ng-repeat='tag in team.problemStatement.tags | limitTo:10', ng-click="filter(tag)") {{tag}}
-//  
-  .row.team-block
-    a.col-md-2.col-sm-2(href='/team/{{team.slug}}')
-      img.teamPic(src='{{team.teamPic}}')  
-    .col-md-10.col-sm-10.team-details
-      .row
-        a.col-md-8.col-sm-8.title(href='/team/{{team.slug}}')
-          | {{team.name}}
-        .col-md-4.col-sm-4.members-button
-          button(ng-click="toggleModal(team.members)")
-            img(src='images/group.svg')
-            | {{team.members.length}}  Member(s)
-      .row
-        .col-md-12.col-sm-12.desc
-          h4 {{team.problemStatement.name | characters:150 }}
-      .row
-        .col-md-12.col-sm-12.desc
-          | {{team.problemStatement.description | characters:150 }}
-      .row
-        .col-md-12.col-sm-12.tags
-          .tags.col-md-1(ng-repeat='tag in team.problemStatement.tags')
-            .btn.btn-default(ng-click="filter(tag)") {{tag}}
 
 
 modal-dialog(show='modalShown', dialog-title='Team Members', height='auto', width='400px', background-color='#e8e8e8')

@@ -18,16 +18,26 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
         controller: 'SignupCtrl'
       }) 
       .when('/team/:tslug', {
+        resolve: {
+          factory: checkRouting
+        },
         templateUrl: 'views/teamDetails.html',
         controller: 'TeamDetailsCtrl'
+        
       })
       .when('/userprofile/:slug/edit', {
         templateUrl: 'views/updateProfile.html',
-        controller: 'UpdateProfileCtrl'
+        controller: 'UpdateProfileCtrl',
+        resolve: {
+          factory: checkRouting
+        }
       })
       .when('/userprofile/:slug', {
         templateUrl: 'views/userProfile.html',
-        controller: 'UserProfileCtrl'
+        controller: 'UserProfileCtrl',
+        resolve: {
+          factory: checkRouting
+        }
       })
       .when('/teams', {
         templateUrl: 'views/teams.html',
@@ -55,3 +65,18 @@ angular.module('GoaHack', ['ngResource', 'ngMessages', 'ngRoute', 'ngAnimate',
       }
     });
   });
+
+var checkRouting= function ($q, $rootScope, $location, $alert) {
+  if ($rootScope.currentUser) {
+      return true;
+  } else {
+    $alert({
+        content: 'You need to login to view that page.',
+        placement: 'right',
+        type: 'warning',
+        duration: 5
+      });
+    $location.path("/login");
+  }
+  return null;
+};

@@ -232,6 +232,7 @@ angular.module('GoaHack')
       });
       $scope.imageCrop = !$scope.imageCrop;
       $scope.user.profile.picture = response.user.profile.picture + '?decache='+Math.floor(Math.random()*1000);
+      uploader.clearQueue();
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
       console.info('onErrorItem', fileItem, response, status, headers);
@@ -241,6 +242,7 @@ angular.module('GoaHack')
         type: 'danger',
         duration: 5
       });
+      uploader.clearQueue();
     };
     uploader.onCancelItem = function(fileItem, response, status, headers) {
         console.info('onCancelItem', fileItem, response, status, headers);

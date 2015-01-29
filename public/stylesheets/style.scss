@@ -745,11 +745,6 @@ section#contact {
   padding-right: 0px;
 }
 
-.progress-items .text-center img {
-  padding-top: 20px;
-  width: 130px;
-}
-
 .progress-items .text-center .progress-stat-done {
   height: 6px;
   background-color: #bf3431;
@@ -792,10 +787,6 @@ section#contact {
   font-size: 15px;
   text-align: center;
   font-weight: 900;
-}
-
-.progress-items .text-center img {
-  padding-top: 10px;
 }
 
 .navbar {
@@ -1054,10 +1045,6 @@ section#contact {
   border: 5px solid #2b2b2b;
   padding-left: 0px;
   padding-right: 0px;
-}
-
-.progress-items .text-center img {
-  padding-top: 20px;
 }
 
 .progress-items .text-center .progress-stat-done {
@@ -1385,10 +1372,6 @@ section#contact {
     vertical-align: middle;
   }
 
-  .progress-items .text-center img {
-    padding-top: 10px;
-  }
-
   .navbar {
     margin-bottom: 0px !important;
     padding-left: 5px;
@@ -1702,6 +1685,20 @@ section#contact {
   background-color: #e8e8e8!important;
 }
 
+.progress-ind {
+  position: absolute;
+  top: -12px;left: 43%;
+  height: 41px;
+}
+
+.progress-ind .indicator{
+  width: 20px;
+  border: 1px white solid;
+  background: white;
+  border-radius:4px;
+  padding: 2px;
+}
+
 @media screen and (max-width:768px) {
   .text-center p {
     display: none;
@@ -1715,10 +1712,6 @@ section#contact {
   .progress-items {
     padding-right: 5px;
     padding-left: 5px;
-    padding-top: 10px;
-  }
-
-  .progress-items .text-center img {
     padding-top: 10px;
   }
 
@@ -1885,6 +1878,24 @@ section#contact {
   box-shadow: 0px 0px 5px 1px #ccc;
   background-color: #1B1B1B;
 }
+.team-list>li>a{
+  cursor: pointer;
+}
+.team-list.ng-enter,
+.team-list.ng-leave{
+  transition: 0.5s linear all;
+}
+.team-list.ng-enter {
+  max-height: 0%;
+}
+.team-list.ng-enter.ng-enter-active {
+  max-height: 100%;
+}
+.team-list.ng-leave.ng-leave-active {
+  height: 0%;
+  opacity: 0;
+}
+
 .repo{
   list-style: none;
   width: 100%;
@@ -1954,6 +1965,7 @@ section#contact {
   height: 130px;
   width: 130px;
   overflow: hidden;
+  cursor: pointer;
 }
 .team-img img{
   max-width: 150px;
