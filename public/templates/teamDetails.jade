@@ -1,19 +1,19 @@
 include partials/progress-bar.jade
 
-.row
+.row.customRemoveMargin
   .col-md-10.col-md-offset-1.section2
     .row
-      div.col-md-3.col-sm-6.col-xs-12.displayPic(style='background-size: cover;background-position-x: 33%;background-position-y: 33%;')
+      .col-md-3.col-sm-6.col-xs-12.displayPic
         img(ng-src='{{team.teamPic}}')
       br
-      div(style='position: absolute;top: 280px;left: 170px;')
-        input(type='file', nv-file-select="", uploader="uploader", multiple)
+      div.chooseFilesButton
+        input#chooseFilesButtons(type='file', nv-file-select="", uploader="uploader", multiple)
       .col-md-7.col-sm-6.col-xs-12.teamName
         h2 {{name}}
       .col-md-3.col-sm-2.col-xs-1.lock
         img.lock-icon(ng-src='images/unlocked-team.svg')
         img.deleteTeamIcon(ng-src='images/delete.svg', ng-click='deleteTeamModal()', ng-show='currentUser.profile.slug == admin.profile.slug')
-.row
+.row.customRemoveMargin
   .col-md-10.col-md-offset-1.sec2
     .row
       .col-md-2.col-sm-2.col-xs-6.teamMembers(ng-repeat='member in team.members')
@@ -39,13 +39,13 @@ include partials/progress-bar.jade
         p.addMemberText(ng-show='acceptButton') Accept Invitation
         br
         
-.row(ng-show='currentUser.profile.slug == admin.profile.slug')
+.row.customRemoveMargin(ng-show='currentUser.profile.slug == admin.profile.slug')
   .col-md-10.col-md-offset-1
     div.teamPageTabs(bs-active-pane='tabs.activeTab', bs-tabs='')
       div(ng-repeat='tab in tabs', title='{{ tab.title }}', ng-bind='tab.content', bs-pane='')
       div(ng-include='', src='tabs[tabs.activeTab].page')
 
-.row
+.row.customRemoveMargin
   .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.sec3
     h4(ng-show='!team.problemStatement.name') No Problem Statement / Description yet
     h4(ng-show='team.ps_status', ng-model='displayName') {{team.problemStatement.name}}
@@ -56,7 +56,7 @@ include partials/progress-bar.jade
     span.tagSpan(ng-repeat='tag in team.problemStatement.tags' ng-show='tag.text') {{tag.text}}
     span.tagSpan(ng-repeat='tag in team.problemStatement.tags' ng-hide='tag.text') {{tag}}    
 
-.row(ng-show='editStatus')
+.row.customRemoveMargin(ng-show='editStatus')
   div(column='col-md-10 col-md-offset-1')
     form.form-horizontal.col-md-10.col-md-offset-1
       .form-group
@@ -68,16 +68,17 @@ include partials/progress-bar.jade
         .col-md-12.col-sm-12.col-xs-12
           text-angular(ng-model='problemDescription', ta-toolbar='[["h3"],["bold","italics","underline"]]')
 
-.row(ng-show='editStatus')
+.row.customRemoveMargin(ng-show='editStatus')
   .col-md-10.col-md-offset-1.custom-remove-padding
     form.form-horizontal.col-md-12
       .form-group
         label.col-sm-3.control-label.tag1(for='inputEmail3') Tags :
-        .col-sm-9
-          tags-input(ng-model='problemTag')
-            auto-complete(source='loadTags($query)')    
-    button.btn.btn-default.tag(ng-click='update()') Update
-.row
+        .row.customRemoveMargin
+          .col-md-12.col-sm-12.col-xs-12
+            tags-input(ng-model='problemTag')
+              auto-complete(source='loadTags($query)')    
+    button.btn.btn-default.tag.updateProblemStatementButton(ng-click='update()') Update
+.row.customRemoveMargin
   .col-md-10.col-md-offset-1.sec5
     .col-md-12.chatWallHeader
       | {{name}} chat wall
@@ -89,7 +90,7 @@ include partials/progress-bar.jade
       .chatRow(ng-hide = 'team.chat')
         p No comments yet. Be the first to post one!
 
-.row
+.row.customRemoveMargin
   .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.sec6
     h5  Comment on the wall 
     form
@@ -119,7 +120,7 @@ modal-dialog(show='deleteModal', dialog-title='Delete Team', height='200px', wid
       button.btn.btn-md.removeMember(ng-click='deleteTeam()') Delete Team
       button.btn.btn-md.cancelAction(ng-click='closeModal()') Cancel
 
-modal-dialog(show='imageCrop', dialog-title='Crop Image', height='90vh', width='90vw')
+modal-dialog(show='imageCrop', dialog-title='Crop Image', height='auto', width='auto')
   div.addMemberModalDiv.col-md-12
     div(ng-repeat="item in uploader.queue")
       .cropArea

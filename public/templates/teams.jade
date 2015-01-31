@@ -29,7 +29,7 @@ div.team-display
             | {{team.problemStatement.name | characters:150 }}
           p.prob-desc(ng-show='{{team.problemStatement.description}}')
             | {{team.problemStatement.description | characters:300 | filterHtml}}
-          .tags
+          .teamsPageTags
             .btn.btn-default(ng-repeat='tag in team.problemStatement.tags | limitTo:10', ng-click="filter(tag)") {{tag}}
 
 

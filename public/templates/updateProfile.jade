@@ -1,11 +1,11 @@
 include partials/progress-bar.jade
 .container.updateProfileContainer
   .row.first
-    p Profile Picture
+    h4 Profile Picture
     img.col-md-4.updateProfileDisplayPic(ng-src='{{user.profile.picture}}')
     br
-    .col-md-12
-      input(type='file', nv-file-select="", uploader="uploader")
+    .col-md-12.fileSelectButton
+      input#chooseFilesButtons(type='file', nv-file-select="", uploader="uploader")
       //
         button(ng-file-select='', ng-model='files', multiple='true') Attach Any File
           .drop-box(ng-file-drop='', ng-model='files', drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}", accept='image/*')
@@ -48,12 +48,14 @@ include partials/progress-bar.jade
           .col-sm-10
             tags-input(ng-model='user.profile.skills', placeholder='Enter your Skills here')
           button.btn.btn-default.tag(ng-click='update()') Update Profile
-modal-dialog(show='imageCrop', dialog-title='Crop Image', height='90vh', width='90vw')
+          
+//crop image modal
+modal-dialog(show='imageCrop', dialog-title='Crop Image', height='auto', width='auto')
   div.addMemberModalDiv.col-md-12
     div(ng-repeat="item in uploader.queue")
       .cropArea
           img-crop(image="item.image", result-image="item.croppedImage", area-type="square", result-image-size="300")
-        img(ng-src="{{item.croppedImage}}")
+        img.croppedImage(ng-src="{{item.croppedImage}}")
       .progress
         .progress-bar(role='progressbar', ng-style="{ 'width': uploader.progress + '%' }")
       button.btn.btn-md.addMemberModalButton(ng-click="item.upload()") Upload Image

@@ -1068,7 +1068,7 @@ section#contact {
 {
   height: 300px;
   width: 300px;
-  overflow: hidden;
+  margin-right: 10px;
 }
 
 .displayPic img {
@@ -1076,6 +1076,12 @@ section#contact {
   height: 300px;
   border: 1px solid #e8e8e8;
 //  padding: 10px;
+}
+
+.chooseFilesButton{
+  position: absolute;
+  top: 280px;
+  left: 170px !important;
 }
 
 .section2 {
@@ -1099,12 +1105,17 @@ section#contact {
 .lock {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 0px;
+  padding-right: 0px;
 }
 
 .lock-icon{
   margin-right: 10px;
   margin-bottom: 10px;
+  background: #2b2b2b;
+  width: 50px !important;
+  height: 50px;
+  padding: 8px;
 }
 
 .lock img {
@@ -1114,10 +1125,17 @@ section#contact {
 }
 
 .deleteTeamIcon{
-  width: 25px !important;
+  width: 50px !important;
   padding-top: 10px;
   margin-right: 10px;
   cursor: pointer;
+  height: 50px;
+  background: #2b2b2b;
+  padding-bottom: 8px;
+}
+
+.customRemoveMargin{
+  margin: 0px !important;
 }
 
 .sec2 {
@@ -1132,7 +1150,7 @@ section#contact {
 .teamMemberDisplayPictureThumbnail {
   max-height: 125px;
   max-width: 125px;
-  overflow: hidden;
+//  overflow: hidden;
 }
 
 .teamPageDeleteMemberButton
@@ -1214,6 +1232,12 @@ section#contact {
 @media screen and (max-width:991px) {
   .section2 {
     padding-top: 0px;
+  }
+  
+  .chooseFilesButton{
+    position: absolute;
+    left: 219px !important;
+    top: 271px  !important;
   }
 }
 
@@ -1319,6 +1343,12 @@ section#contact {
   }
 }
 
+.chooseFilesButton{
+    position: absolute;
+    left: 220px !important;
+    top: 281px;
+  }
+
 .control-label {
   text-align: left !important;
 }
@@ -1331,6 +1361,7 @@ section#contact {
 .form-horizontal {
   background: #e8e8e8;
   padding-top: 20px;
+  padding-bottom: 1px;
   margin-bottom: 0px;
   text-align: left !important;
 }
@@ -1339,13 +1370,26 @@ section#contact {
   .teamName {
     margin-left: 10px !important;
     //        margin-top: -100px;
-    
   }
 
   .displayPic img {
 //    width: 200px;
 //    padding-left: 10px;
       padding-top: 10px;
+  }
+  
+  .chooseFilesButton{
+    position: absolute;
+    left: 209px  !important;
+    top: 271px;
+  }
+}
+
+@media screen and (min-width:0px) and (max-width:481px) {
+  .chooseFilesButton{
+    position: absolute;
+    left: 229px  !important;
+    top: 271px;
   }
 }
 
@@ -1677,6 +1721,10 @@ section#contact {
   font-weight: 200;
 }
 
+.updateProblemStatementButton{
+  margin: 15px;
+}
+
 .item-done {
   background-color: #2ECC71!important;
 }
@@ -1830,7 +1878,7 @@ section#contact {
     height: 80px;
   }
 
-  .tags {
+  .teamsPageTags {
     display: none;
   }
 
@@ -2005,7 +2053,7 @@ section#contact {
   padding-top: 15px;
 }
 .team-members-modal-image {
-  width: 75px;
+  width: 63px;
   padding-top: 5px;
 //  height: 60px;
 }
@@ -2042,9 +2090,22 @@ section#contact {
 .cropArea{
   background: #E4E4E4;
   overflow: hidden;
-  width:500px;
-  height:350px;
+  width:300px;
+  height:200px;
+//  float: left;
+//  margin-right: 20px;
+
 }
+
+.croppedImage{
+//  float: left;
+}
+
+.sec3 h3{
+  color: #e8e8e8;
+}
+
+
 
 
  @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);

@@ -257,6 +257,11 @@ angular.module('GoaHack')
     console.info('uploader', uploader);
  
 
+    var root = document.querySelector('#chooseFilesButtons').createShadowRoot();
+root.innerHTML = '<style>button{ background: #2b2b2b;padding: 5px;color: #e8e8e8;font-family: Humanist777BT;border-radius: 5px 0px 0px 5px;border: 1px solid #2b2b2b; cursor: pointer;position: absolute;left: 105px;bottom: 11px }</style>' + 
+                 '<button>Choose File</button>';
 /*angular-file-upload end*/
     }
   });
+
+
