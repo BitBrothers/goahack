@@ -43,7 +43,6 @@ function createJwtToken(user) {
 exports.isLogin = function(req, res, next) {
 
     if (req.headers.authorization) {
-      console.log('if isLogin');
         var token = req.headers.authorization;
         try {
             var decoded = jwt.decode(token, tokenSecret);
@@ -57,7 +56,6 @@ exports.isLogin = function(req, res, next) {
             return res.status(500).send('Error parsing token');
         }
     } else {
-        console.log('isLogin is false');
         res.status(401).send('Login to perform this action');
     }
 };
@@ -108,7 +106,6 @@ exports.facebookAuth = function(req, res, next) {
     var signedRequest = req.body.signedRequest;
     var encodedSignature = signedRequest.split('.')[0];
     var payload = signedRequest.split('.')[1];
-
     var appSecret = 'fc5a36cb1fa441c60b629ee6bc65bc85';
 
     var expectedSignature = crypto.createHmac('sha256', appSecret).update(payload).digest('base64');
@@ -164,7 +161,6 @@ exports.googleAuth = function(req, res, next) {
         if (err) res.send(err);
 
         if (existingUser) {
-            console.log('heere');
             var token = createJwtToken(existingUser);
             var tempy = {
                 profile: existingUser.profile
@@ -210,7 +206,6 @@ exports.hasEmail = function(req, res, next) {
         email: req.query.email
     }, function(err, user) {
         if (err) return next(err);
-            console.log(user);
         res.send({
             available: !user
         });
@@ -285,7 +280,6 @@ exports.updateProfile = function(req, res) {
         if (err) res.send(err);
         
         else {
-          console.log(req.body);
             user.profile.name = req.body.name;
             user.profile.nameFull = req.body.nameFull;
             user.profile.location = req.body.location;
@@ -321,7 +315,6 @@ exports.deleteImagesS3 = function(req, res, next) {
             }
         });
         if (user.profile.picture) {
-            console.log(user.profile.slug);
             var params = {
                 Bucket: 'codejedi/users',
                 Key: user.profile.slug
@@ -347,7 +340,6 @@ exports.uploadImagesS3 = function(req, res) {
         var data2 = _.pick(req.body, 'type')
         , uploadPath = path.normalize('/uploads')
         , file = req.files.file;
-        console.log(uploadPath);
 
         var s3Bucket = new AWS.S3({
             params: {
@@ -364,13 +356,11 @@ exports.uploadImagesS3 = function(req, res) {
             ACL: 'public-read',
             ContentType: file.type
         };
-        console.log(data);
+
         s3Bucket.putObject(data, function(err) {
             if (err) {
-                console.log("ERRORRRRRR");
                 res.status(500).send(err);
             } else {
-                console.log('succesfully uploaded the image!');
                 user.profile.picture = "https://s3-us-west-2.amazonaws.com/"+ data.Bucket + "/" + user.profile.slug;
                 user.save(function(err,updatedUser) {
                     if (err) res.send(err);

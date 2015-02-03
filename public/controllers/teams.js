@@ -12,7 +12,6 @@ angular.module('GoaHack')
           $scope.teams[key].searchTerm = fullName;
         });
       });
-    console.log($scope.teams);
     $scope.filterHtml = function(user) {
       return /\<(.*?)\>/.test(user.type);
     };
@@ -38,11 +37,9 @@ angular.module('GoaHack')
           type: 'warning',
           duration: 5
         });
-      //    console.log(teamName);
     };
 
     $scope.createTeam = function(teamName) {
-      //console.log(teamName);
       //    Team.save({
       //      name: teamName,
       //      eslug: 'goa-hack'

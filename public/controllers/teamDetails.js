@@ -46,7 +46,6 @@ angular.module('GoaHack')
           $scope.problemTag = team.problemStatement.tags;
 
           $scope.joinButton = true;
-          console.log($scope.team);
 
           for (var i = 0; i < team.members.length; i++) {
             if ($rootScope.currentUser.profile.slug == team.members[i]._id.profile.slug)
@@ -158,7 +157,6 @@ angular.module('GoaHack')
           invite: memberEmail
         }, function(object) {
           if (object) {
-            console.log(object);
             $alert({
               content: 'Invited ' + memberEmail + ' to team.',
               placement: 'right',
@@ -170,7 +168,6 @@ angular.module('GoaHack')
           }
         }, function(object) {
           if (Object) {
-            console.log(object);
             $alert({
               content: memberEmail + ' not invited because ' + object.data,
               placement: 'right',
@@ -247,7 +244,6 @@ angular.module('GoaHack')
       uploader.filters.push({
           name: 'imageFilter',
           fn: function(item /*{File|FileLikeObject}*/, options) {
-            console.log(item);
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             if ('|jpg|png|jpeg|bmp|gif|'.indexOf(type) == -1) {
               $alert({
@@ -366,7 +362,6 @@ angular.module('GoaHack')
 
 
       $scope.acceptTeam = function() {
-        console.log("HEllo");
         Accept.update({
           tslug: $routeParams.tslug,
           eslug: 'goa-hack'
@@ -380,10 +375,7 @@ angular.module('GoaHack')
             duration: 5
           });
           $scope.acceptButton = false;
-          console.log("Hello, accepted");
-          console.log($scope.acceptButton);
           refresh();
-          console.log('I ran');
         }, function(object) {
   //        $scope.acceptButton = false;
           $alert({
@@ -396,7 +388,6 @@ angular.module('GoaHack')
       };
 
       $scope.rejectTeam = function() {
-        console.log('Reached Reject');
         Accept.update({
           tslug: $routeParams.tslug,
           eslug: 'goa-hack'
@@ -411,7 +402,6 @@ angular.module('GoaHack')
             type: 'danger',
             duration: 5
           });
-          console.log("Hello, rejected");
         }, function(object) {
           $scope.acceptButton = false;
           $alert({
@@ -424,7 +414,6 @@ angular.module('GoaHack')
       };
 
       $scope.approveMember = function(uslug) {
-        console.log(uslug);
         Approve.update({
             tslug: $routeParams.tslug,
             eslug: 'goa-hack'
@@ -496,7 +485,6 @@ angular.module('GoaHack')
       }
 
       $scope.removeMember = function() {
-        console.log('Reached Remove');
         Remove.update({
           eslug: 'goa-hack',
           tslug: $routeParams.tslug
@@ -522,7 +510,6 @@ angular.module('GoaHack')
       };
 
       $scope.leaveTeam = function() {
-        console.log('Reached Leave');
         Unjoin.update({
           eslug: 'goa-hack',
           tslug: $routeParams.tslug

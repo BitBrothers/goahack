@@ -23,12 +23,10 @@ exports.contactUs = function(req, res, next){
   req.to = 'mail@bbitbrothers.in';
   req.subject = req.body.subject;
   req.email = 'Name: ' + req.body.name + '\nEmail: ' + req.body.email + '\nMessage ' + req.body.message;
-  console.log(req.email);
   next();
 };
 
 exports.sendEmail = function(req, res) {
-  console.log("EMAIL EMAIL EMAIL EMAIL");
   var from = 'mail@goahack.com';
 
   var mailOptions = {
@@ -40,7 +38,6 @@ exports.sendEmail = function(req, res) {
 
   transporter.sendMail(mailOptions, function(err) {
     if (err) {
-      console.log(err);
       res.send(err);
     }
     else {

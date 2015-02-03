@@ -21,8 +21,6 @@ angular.module('GoaHack')
         $scope.invitedTeamsLength=user.events[0].teamInvites.length;
         $scope.appliedTeamsLength=user.events[0].appliedTeams.length;
         
-        console.log('invited length '+ $scope.invitedTeamsLength);
-        console.log('applied length '+ $scope.appliedTeamsLength);
         
         $scope.displaySkill=false;
         $scope.displayAppliedTeams=false;
@@ -57,7 +55,7 @@ angular.module('GoaHack')
 
     if ($rootScope.currentUser.profile.slug == $routeParams.slug) {
 
-      console.log("hELLO");
+
       $scope.tabs = [{
         title: 'Team',
         page: '../views/userProfile/team.html'
@@ -86,7 +84,7 @@ angular.module('GoaHack')
 
 
     $scope.path = $location.path();
-    console.log($scope.path);
+
 
     if ($rootScope.currentUser.slug == $routeParams.slug) {
 
@@ -106,7 +104,6 @@ angular.module('GoaHack')
     };
 
     $scope.leaveTeam = function() {
-      console.log('Reached Leave');
       Unjoin.update({
         eslug: 'goa-hack',
         tslug: $scope.leaveSlug
@@ -156,8 +153,6 @@ angular.module('GoaHack')
           $scope.progressData++;
 
         $scope.progressData = $scope.progressData * 10;
-        console.log($rootScope.currentUser);
-        console.log($scope.user1);
         if($scope.progressData != 100)
           $scope.progressModal = true;
         if ($scope.progressData == 100)

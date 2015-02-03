@@ -25,8 +25,7 @@ exports.updateProject = function(req,res){
                       function(err, team){
             if(err) res.send(err);
             else{
-              // console.log(req.params.tslug);
-           // console.log(req.params.eslug);
+
 		project.name = req.body.name;
 		if(req.body.description){
 			team.ps_status = true;
@@ -38,7 +37,7 @@ exports.updateProject = function(req,res){
             project.tags.push(req.body.tags[i].text);
         };
 		
-		//console.log(project);
+
 		project.save(function(err,updatedProject){
 			if(err) res.send(err);
 			else{

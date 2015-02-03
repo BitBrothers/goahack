@@ -47,10 +47,8 @@ angular.module('GoaHack')
               profile: profile
             };
             $http.post('/api/auth/facebook', data).success(function(data) {
-              console.log(data)
               // var payload = JSON.parse($window.atob(token.split('.')[1]));
               $window.localStorage.token = data.token;
-              //console.log(payload.user);
               $window.localStorage.user = JSON.stringify(data.user);
               $rootScope.currentUser = data.user;
               $location.path('/');
@@ -80,7 +78,6 @@ angular.module('GoaHack')
                 $window.localStorage.token = data.token;
                 $window.localStorage.user = JSON.stringify(data.user);
                 $rootScope.currentUser = data.user;
-                console.log($rootScope.currentUser);
                 $location.path('/');
                 $alert({
                   title: 'Cheers!',
@@ -98,7 +95,6 @@ angular.module('GoaHack')
         return $http.post('/api/auth/login', user)
           .success(function(data) {
             $window.localStorage.token = data.token;
-            console.log(data);
             $window.localStorage.user = JSON.stringify(data.user);
             $rootScope.currentUser = data.user;
             $location.path('/teams');

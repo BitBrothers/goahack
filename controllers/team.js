@@ -144,7 +144,6 @@ exports.createTeam = function(req, res, next) {
                     else {
                       project.save(function(err) {
                         if (err) {
-                          console.log(err);
                           return res.send(err);
                         } else {
                             req.create = true;
@@ -186,7 +185,6 @@ exports.createTeam = function(req, res, next) {
 };
 
 exports.getallTeams = function(req, res) {
-  console.log('Get all teams');
   Team.find({
     eventSlug: req.params.eslug,
     status: 'Un-approved' /*member count search filter???maybe hide in angular*/
@@ -208,8 +206,6 @@ exports.getallTeams = function(req, res) {
 };
 
 exports.searchTeamSlug = function(req, res) {
-
-console.log('Reached get team by slug');
   Team.findOne({
       eventSlug: req.params.eslug,
       slug: req.params.tslug
@@ -266,13 +262,11 @@ exports.deleteTeam = function(req, res, next) {
             event.save(function(err) {
               if (err) res.send(err);
               else {
-                console.log(team.problemStatement);
                 Project.remove({
                   _id: team.problemStatement
                 }, function(err) {
                   if (err) res.send(err);
                   else {
-                    console.log(team);
                     for (var i = team.members.length - 1; i >= 0; i--) {
 
                       User.findById(team.members[i]._id, function(err, user) {
@@ -312,7 +306,6 @@ exports.deleteTeam = function(req, res, next) {
 };
 
 exports.applyTeam = function(req, res) {
-  console.log("Apply reached");
   Team.findOne({
     eventSlug: req.params.eslug,
     slug: req.params.tslug
@@ -398,7 +391,6 @@ exports.postUpdate = function(req, res, next) {
         } else {
           if (team.members.id(req.user._id)) {
             if (team.admin.equals(req.user._id)) {
-              console.log(event._id);
               req.eventId = event._id;
               next();
             } else {
@@ -562,7 +554,6 @@ exports.inviteMember = function(req, res, next) {
         if (err) res.send(err);
         else {
           if(!user){
-            console.log('!usr');
             if(team.emails.length >= 3){
               res.status(500).send('Cant send more email invites');
             }
@@ -670,7 +661,6 @@ exports.postAcceptInvite = function(req, res, next){
                 _id: team._id
               });
               if (req.body.result == 'false') {
-                console.log('Reached Reject');
                 team.save(function(err) {
                   if (err) res.send(err);
                   else {
@@ -770,15 +760,12 @@ exports.acceptInvite = function(req, res, next) {
 exports.getTeams = function(req, res) {
   var query = Team.find();
   var key = "";
-  console.log(req.headers.keyword);
   if (req.query.keyword instanceof Array) {
     for (var i = 0; i < req.query.keyword.length; i++) {
       key = key + req.query.keyword[i] + " ";
-      console.log(key);
     };
   } else {
     key = req.headers.keyword;
-    console.log(key);
   }
 
   if (req.headers.keyword) {
@@ -792,13 +779,11 @@ exports.getTeams = function(req, res) {
     }, {
       'status': "Un-approved"
     });
-    console.log(query);
     // .skip(req.query.s)
     // .limit(req.query.l);
   };
   query.exec(function(err, teams) {
     if (err) res.send(err);
-    console.log(teams);
     res.json(teams);
   });
 };
@@ -867,7 +852,6 @@ exports.unjoinTeam = function(req, res) {
 };
 
 exports.postChat = function(req, res) {
-  console.log('hi');
   Team.findOne({
       eventSlug: req.params.eslug,
       slug: req.params.tslug
@@ -877,9 +861,6 @@ exports.postChat = function(req, res) {
       else if (!team) {
         res.status(404).send('Team not found');
       } else {
-        console.log(req.user._id);
-        console.log(req.params.description);
-        console.log(req.body.description);
         team.chat.push({
           _id: req.user._id,
           description: req.body.description
@@ -959,7 +940,6 @@ exports.deleteImagesS3 = function(req, res, next) {
         }
       });
       if (team.teamPic) {
-        console.log(team.teamPic);
         var params = {
           Bucket: 'codejedi',
           Key: team.eventSlug + team.slug
@@ -988,7 +968,7 @@ exports.uploadImagesS3 = function(req, res) {
     var data2 = _.pick(req.body, 'type'),
       uploadPath = path.normalize('/uploads'),
       file = req.files.file;
-    console.log(req.files);
+
 
     var s3Bucket = new AWS.S3({
       params: {
@@ -1005,12 +985,10 @@ exports.uploadImagesS3 = function(req, res) {
           ACL: 'public-read',
           ContentType: file.type
         };
-        console.log(data);
         s3Bucket.putObject(data, function(err) {
           if (err) {
             res.status(500).send(err);
           } else {
-            console.log('succesfully uploaded the image!');
             var urlParams = {
               Bucket: 'codejedi',
               Key: team.eventSlug + team.slug

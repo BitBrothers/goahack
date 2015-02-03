@@ -27,15 +27,12 @@ angular.module('GoaHack')
       function(user) {
 
         $scope.user = user;
-        console.log($scope.user);
       });
 
-    //  console.log($routeParams.slug);
-    //  console.log($scope.skill);
+
     //$scope.employers=$scope.user.profile.employers;
 
     $scope.update = function() {
-      console.log($scope.user.profile.skills);
       User.update({
         name: $scope.user.profile.name,
         nameFull: $scope.user.profile.nameFull,
@@ -54,7 +51,6 @@ angular.module('GoaHack')
           duration: 5
         });
         $location.path('/userprofile/'+$routeParams.slug);
-        console.log($routeParams.slug);
       },
       function(data){
         $alert({
@@ -139,7 +135,6 @@ angular.module('GoaHack')
     uploader.filters.push({
         name: 'imageFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
-          console.log(item);
           var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
           if ('|jpg|png|jpeg|bmp|gif|'.indexOf(type) == -1) {
             $alert({
