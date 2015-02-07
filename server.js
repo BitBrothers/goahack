@@ -11,13 +11,16 @@ var logger = require('morgan');
 var errorHandler = require('errorhandler');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
-
+var cheerio = require('cheerio');
+var request = require('request');
+var moment = require('moment');
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
+var crawler = require('./crawler.js');
 
 //TODO Create a config function in secrets.js
 //var secret = require('./config/secrets');
@@ -49,7 +52,7 @@ var csrfExclude = ['/url1', '/url2'];
  * Express configuration.
  */
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.use(compress());
 app.use(connectAssets({
   paths: [path.join(__dirname, 'public/css'), path.join(__dirname, 'public/js')]
@@ -145,8 +148,6 @@ app.get('/api/event/:eslug/status', userController.isLogin, eventController.getS
 app.put('/api/user', userController.isLogin,userController.updateProfile);
 app.get('/api/user/:uslug', userController.isLogin,userController.getUserBySlug);
 app.put('/api/user/upload', userController.isLogin, multipartMiddleWare, userController.deleteImagesS3, userController.uploadImagesS3);
-//
-
 
 app.put('/api/event/:eslug/team/:tslug/project',userController.isLogin, teamController.postUpdate, projectController.updateProject);
 app.get('/api/event/:eslug/team/:tslug/project',userController.isLogin, projectController.getProject);

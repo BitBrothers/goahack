@@ -5,10 +5,13 @@ var eventSchema = new mongoose.Schema({
   slug: String,
   tagline: String,
   description: String,
+  link: String,
+  pic: String,
   details: {
     schedule: String
   },
   date: {
+  stringDate: String,  
   start: Date,
   end: Date
   },
