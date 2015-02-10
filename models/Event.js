@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var eventSchema = new mongoose.Schema({
-  name:{type : String,unique: true,lowercase:true},
+  name:{type : String,unique: true},
   slug: String,
   tagline: String,
   description: String,
@@ -11,11 +11,13 @@ var eventSchema = new mongoose.Schema({
     schedule: String
   },
   date: {
+  registerEnd: Date,
   stringDate: String,  
   start: Date,
   end: Date
   },
   type: String,
+  subType: String,
   location: {
     address: String,
     lat: String,
@@ -29,7 +31,9 @@ var eventSchema = new mongoose.Schema({
     _id:false,
     name: String,
     description: String,
-    value: String
+    value: String,
+    reliabilityBonus: String,
+    digitalRunPoints: String,
   }],
   rules: String,
   city: String,

@@ -7,6 +7,93 @@ var mongoose = require('mongoose');
 
 
 var events =[];
+
+
+//Top coder
+// var topCoderLinks =[];
+// request.get('http://api.topcoder.com/rest/contests?user_key=3df32a8cce2160ccbf6d8c09af991e06&pageSize=100',function(err, request, body){
+//   if(err)
+//     console.log(err);
+//   try{
+//     var data = JSON.parse(body);
+//   }
+//   catch(e){
+//     console.log(e);
+//   }
+//   finally{
+//     for (var i = 0; i <= data.data.length -1; i++) {
+//     var event={};
+//     event.name = data.data[i].contestName;
+//     event.description = data.data[i].description;
+//     event.type = "Contest";
+//     event.subType = data.data[i].type;
+//     event.prizeName = "First Prize";
+//     event.prizeValue = data.data[i].firstPrize;
+//     event.prizeReliabilityBonus = data.data[i].reliabilityBonus;
+//     event.prizeDigitalRunPoints = data.data[i].digitalRunPoints;
+//     event.dateEnd = data.data[i].submissionEndDate;
+//     event.dateRegisterEnd = data.data[i].registrationEndDate;
+//     topCoderLinks[i] = event;
+//     try{
+      
+//     Event.findOne({name:topCoderLinks[i].name},function(err, event2){
+//       if(err)
+//         console.log(err);
+//       else if(event2){
+//         console.log('Already Added');
+//       }
+//       else{
+//           var eventdb = new Event({
+//                         name: topCoderLinks[i].name,
+//                         description: topCoderLinks[i].description,
+                        
+//                         date: {
+//                             end: topCoderLinks[i].dateEnd,
+//                             registerEnd: topCoderLinks[i].dateRegisterEnd
+//                         },
+//                         type: topCoderLinks[i].type,
+//                         subType: topCoderLinks[i].subType
+                        
+//     });
+//     eventdb.prizes.push({
+//       name: topCoderLinks[i].prizeName,
+//       value: topCoderLinks[i].prizeValue,
+//       reliabilityBonus: topCoderLinks[i].prizeReliabilityBonus,
+//       digitalRunPoints: topCoderLinks[i].prizeDigitalRunPoints
+//     });
+//             eventdb.save(function(err){
+//             if(err)
+//               console.log(err);
+//             else
+//               console.log('Added');
+//         });
+//       }
+//     });
+
+//     }
+//     catch(e){
+//       console.log(e);
+//     }
+  
+//   };
+// }
+// });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Challenge Post
 // request.get('http://challengepost.com/discover'
 //   , function(err, request, body) {
@@ -70,11 +157,58 @@ var events =[];
 //   });
 // });
 
+//Meetups(Tech meetups)
+// var meetTech = [];
+// request.get('http://newtech.meetup.com/all/',function(err, request, body){
+//   if(err)
+//     console.log(err);
+//   var $ = cheerio.load(body);
+//   $('.vcard').each(function(i, element){
+//     var event ={};
+//     var data = $(this);
+//     event.type = "Meetups";
+//     event.link = data.children().first().children().attr('href');
+//     event.name = data.children().first().children().text();
+//     event.locationLat = data.find('div.D_less span.geo span.latitude').text();
+//     event.locationLong = data.find('div.D_less span.geo span.longitude').text();
+//     meetTech[event.link] = event;
+//     require('request').get(event.link, function(err, request, body){
+//       if(err)
+//         console.log(err);
+//       var $ = cheerio.load(body);
+//       meetTech[event.link].location = $('span.locality').text() + "," + $('span.region').text();
+//       meetTech[event.link].description = $('div#groupDesc').find('p').text();
+
+//         var eventdb = new Event({
+//                name: meetTech[event.link].name,
+//                description: meetTech[event.link].description,         
+//                type: meetTech[event.link].type,
+//                location: {
+//                      address: meetTech[event.link].location,
+//                      lat: meetTech[event.link].locationLat,
+//                      long: meetTech[event.link].locationLong,
+
+//                 },
+//                 link: meetTech[event.link].link
+                        
+//         });
+//       eventdb.save(function(err){
+//         if(err)
+//           console.log(err);
+//         else{
+//           setTimeout(function() {
+//             console.log('Added');
+//           }, 500);
+//         }
+//       });
+//     });
+
+//   });
+// });
 
 
 
-
-//Meetups
+//Meetups(Hackathons)
 // request.get('http://www.meetup.com/find/?allMeetups=false&keywords=Hackathons&radius=Infinity&userFreeform=Mumbai%2C+India&mcName=Mumbai%2C+IN&lat=18.975006&lon=72.825806&sort=default'
 //   , function(err, request, body) {
 //   if(err)
@@ -84,8 +218,6 @@ var events =[];
 //     var event={};
 //     var data=$(this);
 //     event.type = "Meetups";
-//     // event.pic = data.children().children().first().children().children().attr('data-original');
-//     // event.date = data.children().children().last().text();
 //     event.link = data.children().children().first().attr('href');
 //     event.name = data.children().children().first().text();
 //     //console.log(event.link);
@@ -98,16 +230,13 @@ var events =[];
 //       //console.log(events[event.link].location);
 //       var eventdb = new Event({
 //                         name: events[event.link].name,
-//                         description: events[event.link].description,
-//                         // date: {
-//                         //     stringDate: events[event.link].date
-//                         // },
+//                         description: events[event.link].description,         
 //                         type: events[event.link].type,
 //                         location: {
 //                             address: events[event.link].location
 //                         },
 //                          link: events[event.link].link
-//                         // pic: events[event.link].pic
+//                         
 //         });
 //       eventdb.save(function(err){
 //         if(err)
